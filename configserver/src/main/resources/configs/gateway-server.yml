@@ -32,3 +32,14 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       defaultZone: ${eurekaHost}/eureka/
+
+# 액츄에이터 설정
+management:
+  endpoint:
+    gateway:
+      enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include: gateway
