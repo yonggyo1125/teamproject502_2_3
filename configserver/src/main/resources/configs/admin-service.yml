@@ -42,6 +42,12 @@ logging:
     org.hibernate.type: trace
     org.hibernate.orm.jdbc.bind: trace
 
+# 파일 업로드 경로 설정
+file:
+  upload:
+    path: ${file.path}
+    url: /upload/
+
 # 유레카 설정
 eureka:
   instance:
