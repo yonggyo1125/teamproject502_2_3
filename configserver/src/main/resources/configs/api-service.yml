@@ -43,7 +43,7 @@ eureka:
     serviceUrl:
       defaultZone: ${eurekaHost}/eureka/
 
-# 액츄에이터 설정
+# 액추에이터 설정
 management:
   endpoint:
     health:
@@ -53,4 +53,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health
+        include: health, refresh
