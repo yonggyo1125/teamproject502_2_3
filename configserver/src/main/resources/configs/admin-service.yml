@@ -31,6 +31,11 @@ spring:
     resources:
       staticLocations: classpath:/static/
 
+  # 타임리프 설정
+  thymeleaf:
+    cache: true
+    prefix: classpath:/templates/
+
 # 로거 설정
 logging:
   level:
