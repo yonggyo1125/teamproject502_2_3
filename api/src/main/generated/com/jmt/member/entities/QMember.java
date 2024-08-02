@@ -22,7 +22,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public final com.jmt.global.entities.QBaseEntity _super = new com.jmt.global.entities.QBaseEntity(this);
 
-    public final ListPath<Authorities, SimplePath<Authorities>> authorities = this.<Authorities, SimplePath<Authorities>>createList("authorities", Authorities.class, SimplePath.class, PathInits.DIRECT2);
+    public final ListPath<Authorities, QAuthorities> authorities = this.<Authorities, QAuthorities>createList("authorities", Authorities.class, QAuthorities.class, PathInits.DIRECT2);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
