@@ -2,6 +2,8 @@ package com.jmt.member.controllers;
 
 import com.jmt.global.Utils;
 import com.jmt.global.exceptions.BadRequestException;
+import com.jmt.global.rests.JSONData;
+import com.jmt.member.jwt.TokenProvider;
 import com.jmt.member.validators.JoinValidator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final JoinValidator joinValidator;
+    private final TokenProvider tokenProvider;
     private final Utils utils;
 
     @PostMapping
@@ -32,8 +35,14 @@ public class MemberController {
 
 
     @GetMapping("/token")
-    public String token() {
+    public JSONData token(@RequestBody @Valid RequestLogin form, Errors errors) {
 
-        return "token";
+        if (errors.hasErrors()) {
+           throw new BadRequestException(utils.getErrorMessages(errors));
+        }
+
+        String token = tokenProvider.createToken(form.getEmail(), form.getPassword());
+
+        return new JSONData(token);
     }
 }
