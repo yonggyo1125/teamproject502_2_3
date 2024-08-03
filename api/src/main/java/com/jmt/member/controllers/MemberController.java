@@ -34,7 +34,7 @@ public class MemberController {
     }
 
 
-    @GetMapping("/token")
+    @PostMapping("/token")
     public JSONData token(@RequestBody @Valid RequestLogin form, Errors errors) {
 
         if (errors.hasErrors()) {
