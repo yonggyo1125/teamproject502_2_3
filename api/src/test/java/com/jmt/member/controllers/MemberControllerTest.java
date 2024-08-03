@@ -70,7 +70,7 @@ public class MemberControllerTest {
     void tokenTest() throws Exception {
         RequestLogin loginForm = new RequestLogin();
         loginForm.setEmail(form.getEmail());
-        loginForm.setPassword(form.getPassword());
+        loginForm.setPassword(form.getPassword() + "****");
 
         String params = om.writeValueAsString(loginForm);
 
