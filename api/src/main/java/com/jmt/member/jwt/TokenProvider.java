@@ -1,7 +1,6 @@
 package com.jmt.member.jwt;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -53,8 +52,24 @@ public class TokenProvider {
         return null;
     }
 
+    /**
+     * 토큰 유효성 검사
+     *
+     * @param token
+     */
     public void validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(getKey()).build().parseClaimsJws(token).getPayload();
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            // 변조된 JWT 토큰
+        } catch (ExpiredJwtException e) {
+            // 유효시간이 만료된 JWT 토큰
+        } catch (UnsupportedJwtException e) {
+            // 지원되지 않는 형식의 JWT 토큰
 
+        } catch (Exception e) {
+
+        }
     }
 
     private Key getKey() {
