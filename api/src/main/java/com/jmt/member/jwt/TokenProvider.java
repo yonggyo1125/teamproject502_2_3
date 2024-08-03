@@ -1,6 +1,8 @@
 package com.jmt.member.jwt;
 
 import com.jmt.global.exceptions.UnAuthorizedException;
+import com.jmt.member.MemberInfo;
+import com.jmt.member.services.MemberInfoService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -22,6 +24,7 @@ public class TokenProvider {
 
     private final JwtProperties properties;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final MemberInfoService infoService;
 
     /**
      * JWT 토큰 생성
@@ -49,8 +52,27 @@ public class TokenProvider {
         return null;
     }
 
+    /**
+     * 토큰으로 회원 인증 객체 조회
+     *
+     * @param token
+     * @return
+     */
     public Authentication getAuthentication(String token) {
-        return null;
+        // 토큰 검증
+        validateToken(token);
+
+        Claims claims = Jwts.parser()
+                .setSigningKey(getKey())
+                .build()
+                .parseClaimsJws(token)
+                .getPayload();
+
+        String email = claims.getSubject();
+
+        MemberInfo memberInfo = (MemberInfo)infoService.loadUserByUsername(email);
+
+        return new UsernamePasswordAuthenticationToken(memberInfo, token, memberInfo.getAuthorities());
     }
 
     /**
