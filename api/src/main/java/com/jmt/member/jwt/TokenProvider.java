@@ -1,5 +1,6 @@
 package com.jmt.member.jwt;
 
+import com.jmt.global.exceptions.UnAuthorizedException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -58,17 +59,31 @@ public class TokenProvider {
      * @param token
      */
     public void validateToken(String token) {
+        String errorCode = null;
+
         try {
             Jwts.parser().setSigningKey(getKey()).build().parseClaimsJws(token).getPayload();
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             // 변조된 JWT 토큰
+            errorCode = "Malformed.jwt";
+            e.printStackTrace();
+
         } catch (ExpiredJwtException e) {
             // 유효시간이 만료된 JWT 토큰
+            errorCode = "Expired.jwt";
+            e.printStackTrace();
+
         } catch (UnsupportedJwtException e) {
             // 지원되지 않는 형식의 JWT 토큰
-
+            errorCode = "Unsupported.jwt";
+            e.printStackTrace();
         } catch (Exception e) {
+            errorCode = "Error.jwt";
+            e.printStackTrace();
+        }
 
+        if (errorCode != null) {
+            throw new UnAuthorizedException(errorCode);
         }
     }
 
