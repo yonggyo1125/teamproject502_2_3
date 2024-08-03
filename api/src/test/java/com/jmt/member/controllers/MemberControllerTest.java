@@ -23,7 +23,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-public class MemberControllerTest {
+public class
+
+MemberControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -73,7 +75,7 @@ public class MemberControllerTest {
     void tokenTest() throws Exception {
         RequestLogin loginForm = new RequestLogin();
         loginForm.setEmail(form.getEmail());
-        loginForm.setPassword(form.getPassword() + "****");
+        loginForm.setPassword(form.getPassword());
 
         String params = om.writeValueAsString(loginForm);
 
