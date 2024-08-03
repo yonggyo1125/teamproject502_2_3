@@ -3,3 +3,8 @@ file:
   upload:
     path: ${fileUpload.path}
     url: /upload/
+
+
+cors:
+  allow:
+    origins: *

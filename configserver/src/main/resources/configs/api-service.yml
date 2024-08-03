@@ -60,3 +60,7 @@ management:
 jwt:
   secret: ${jwtSecret}
   validSeconds: ${jwtValidSeconds}
+
+cors:
+  allow:
+    origins: http://joyfarm.xyz
