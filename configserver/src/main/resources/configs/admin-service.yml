@@ -51,7 +51,8 @@ file:
 # 유레카 설정
 eureka:
   instance:
-    preferIpAddress: true
+    hostname: ${hostname}
+    #preferIpAddress: true
   client:
     registerWithEureka: true
     fetchRegistry: true
