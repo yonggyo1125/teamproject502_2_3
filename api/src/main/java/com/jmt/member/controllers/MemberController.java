@@ -56,7 +56,7 @@ public class MemberController {
         return new JSONData(token);
     }
 
-    @GetMapping
+    @GetMapping("/info")
     public JSONData info(@AuthenticationPrincipal MemberInfo memberInfo) {
         Member member = memberInfo.getMember();
 
