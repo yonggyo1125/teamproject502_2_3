@@ -24,6 +24,11 @@ public class MemberController {
     private final TokenProvider tokenProvider;
     private final Utils utils;
 
+    @GetMapping
+    public void test() {
+
+    }
+
     @PostMapping
     public ResponseEntity join(@RequestBody @Valid RequestJoin form, Errors errors) {
 

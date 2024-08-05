@@ -4,6 +4,19 @@ server:
 spring:
   cloud:
     gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - 'http://joyfarm.xyz'
+              - 'http://www.joyfarm.xyz'
+              - 'http://joyfarm.xyz:4000'
+              - 'http://www.joyfarm.xyz:4000'
+            allowCredentials: true # 요청시 인증 정보 전송 허가
+            allowedHeaders: '*'
+            allowedMethods: '*'
       discovery.locator:
         enabled: true
         lowerCaseServiceId: true

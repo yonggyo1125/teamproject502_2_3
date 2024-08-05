@@ -7,4 +7,4 @@ file:
 
 cors:
   allow:
-    origins: '*'
+    origins: 'http://localhost:4000'
