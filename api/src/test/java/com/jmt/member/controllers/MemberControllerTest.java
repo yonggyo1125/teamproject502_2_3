@@ -90,7 +90,7 @@ MemberControllerTest {
         JSONData data = om.readValue(body, JSONData.class);
         String token = (String)data.getData();
 
-        mockMvc.perform(get("/account/test1")
+        mockMvc.perform(get("/account/test2")
                         .header("Authorization", "Bearer " + token))
                 .andDo(print());
 
