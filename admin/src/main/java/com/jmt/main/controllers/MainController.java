@@ -28,7 +28,7 @@ public class MainController {
     @GetMapping("/main2")
     public String index2() {
 
-        //return utils.redirectUrl("/test2");
+        return utils.redirectUrl("/test2");
     }
     */
     @ResponseBody
