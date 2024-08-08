@@ -23,6 +23,8 @@ public class QTourPlace extends EntityPathBase<TourPlace> {
 
     public final StringPath address = createString("address");
 
+    public final StringPath course = createString("course");
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
@@ -38,9 +40,15 @@ public class QTourPlace extends EntityPathBase<TourPlace> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
+    public final StringPath period = createString("period");
+
     public final StringPath photoUrl = createString("photoUrl");
 
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
+
+    public final StringPath sido = createString("sido");
+
+    public final StringPath sigungu = createString("sigungu");
 
     public final StringPath tel = createString("tel");
 
