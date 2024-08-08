@@ -28,7 +28,6 @@ public class DataTest {
         File file = new File("D:/data/data1.json");
         List<Map<String, String>> tmp = om.readValue(file, new TypeReference<>() {});
 
-
         List<TourPlace> items = tmp.stream()
                 .map(d -> TourPlace.builder()
                         .title(d.get("여행지명"))
@@ -42,5 +41,16 @@ public class DataTest {
                         .build()).toList();
 
         repository.saveAllAndFlush(items);
+    }
+
+    @Test
+    void test2() throws Exception {
+        File file = new File("D:/data/data2.json");
+        List<Map<String, String>> tmp = om.readValue(file, new TypeReference<>() {});
+
+        List<TourPlace> items = tmp.stream()
+                .map(d -> TourPlace.builder()
+                        .title(d.get("주제"))
+                        )
     }
 }
