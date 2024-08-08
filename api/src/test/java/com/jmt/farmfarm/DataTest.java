@@ -3,6 +3,7 @@ package com.jmt.farmfarm;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmt.farmfarm.entities.TourPlace;
+import com.jmt.farmfarm.repositories.TourPlaceRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +19,9 @@ public class DataTest {
 
     @Autowired
     private ObjectMapper om;
+
+    @Autowired
+    private TourPlaceRepository repository;
 
     @Test
     void test1() throws Exception {
@@ -37,6 +41,6 @@ public class DataTest {
                         .tourDays(Integer.valueOf(d.get("여행일")))
                         .build()).toList();
 
-        items.forEach(System.out::println);
+        repository.saveAllAndFlush(items);
     }
 }
