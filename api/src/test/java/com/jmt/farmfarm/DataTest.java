@@ -2,6 +2,7 @@ package com.jmt.farmfarm;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jmt.farmfarm.entities.QTourPlace;
 import com.jmt.farmfarm.entities.TourPlace;
 import com.jmt.farmfarm.entities.TourPlaceTag;
 import com.jmt.farmfarm.repositories.TourPlaceRepository;
@@ -76,8 +77,60 @@ public class DataTest {
                            .course(d.get("코스정보")).build();
                     repository.saveAndFlush(item);
                  });
+    }
 
+    @Test
+    void test3() {
+        QTourPlace tourPlace = QTourPlace.tourPlace;
+        List<TourPlace> items = repository.findAll();
+        for (TourPlace item : items) {
+            String address = item.getAddress();
+            String sido = address.substring(0, 2);
 
+            String _sido = null;
+            if (sido.equals("충북")) {
+                _sido = "충청북도";
+            } else if (sido.equals("충남")) {
+                _sido = "충청남도";
+            } else if (sido.equals("전북")) {
+                _sido = "전라북도";
+            } else if (sido.equals("전남")) {
+                _sido = "전라남도";
+            } else if (sido.equals("경북")) {
+                _sido = "경상북도";
+            } else if (sido.equals("경남")) {
+                _sido = "경상남도";
+            }
 
+             if (_sido != null) {
+                item.setSido(_sido);
+                continue;
+            }
+
+            List<TourPlace> items2 = (List<TourPlace>)repository.findAll(tourPlace.sido.contains(sido));
+            if (items2 == null || items2.isEmpty()) continue;
+
+            TourPlace item2 = items2.get(0);
+
+            if (item2 != null) {
+                _sido = item2.getSido();
+
+                item.setSido(_sido);
+            }
+        }
+
+        repository.saveAllAndFlush(items);
+
+        for (TourPlace item : items) {
+            if (StringUtils.hasText(item.getSigungu())) continue;
+
+            String address = item.getAddress();
+
+            String sigungu = address.indexOf("경기도") > -1 ? address.substring(3, 6) : address.substring(2, 5);
+
+            item.setSigungu(sigungu);
+        }
+
+        repository.saveAllAndFlush(items);
     }
 }
