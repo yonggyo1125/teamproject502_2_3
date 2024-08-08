@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Entity
 @Builder
@@ -44,4 +46,7 @@ public class TourPlace extends BaseEntity {
     private String period; // 행사 기간
 
     private Integer tourDays; // 여행일
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<TourPlaceTag> tags;
 }

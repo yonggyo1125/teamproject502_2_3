@@ -51,6 +51,16 @@ public class DataTest {
         List<TourPlace> items = tmp.stream()
                 .map(d -> TourPlace.builder()
                         .title(d.get("주제"))
-                        )
+                        .sido(d.get("시도"))
+                        .sigungu(d.get("시군구"))
+                        .address(d.get("시도") + " " + d.get("시군구"))
+                        .description(d.get("요약"))
+                        .period(d.get("월"))
+                        .photoUrl(d.get("사진파일"))
+                        .course(d.get("코스정보")).build()
+                ).toList();
+
+        repository.saveAllAndFlush(items);
+
     }
 }
