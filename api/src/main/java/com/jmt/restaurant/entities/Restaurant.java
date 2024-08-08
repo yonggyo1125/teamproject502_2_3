@@ -1,13 +1,10 @@
 package com.jmt.restaurant.entities;
 
 import com.jmt.global.entities.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
 
 @Data
 @Entity
@@ -49,6 +46,8 @@ public class Restaurant extends BaseEntity {
     private Boolean mbPmamtYn; // 모바일페이먼트유무
     private Boolean smorderYn; // 스마트오더유무
     private String reprsntMenuNm; // 대표메뉴명
-    private String RSTR_IMG_URL;
 
+    @ToString.Exclude
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
+    private List<RestaurantImage> images;
 }
