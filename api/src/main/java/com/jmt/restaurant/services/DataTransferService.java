@@ -77,23 +77,29 @@ public class DataTransferService {
 
                         if (extra.get("PRDL_SEAT_CNT") != null) rest.setPrdlSeatCnt(Integer.valueOf(extra.get("PRDL_SEAT_CNT")));
                         if (extra.get("SEAT_CNT") != null) rest.setSeatCnt(Integer.valueOf(extra.get("SEAT_CNT")));
-                        rest.setPrkgPosYn(d.get("PRKG_POS_YN").equals("Y"));
-                        rest.setWifiOfrYn(d.get("WIFI_OFR_YN").equals("Y"));
-                        rest.setDcrnYn(d.get("DCRN_YN").equals("Y"));
-                        rest.setPetEntrnPosblYn(d.get("PET_ENTRN_POSBL_YN").equals("Y"));
-                        rest.setFgggMenuOfrYn(d.get("FGGG_MENU_OFR_YN").equals("Y"));
-                        rest.setTlromInfoCn(d.get("TLROM_INFO_CN"));
-                        rest.setRestdyInfoCn(d.get("RESTDY_INFO_CN"));
-                        rest.setBsnsTmCn(d.get("BSNS_TM_CN"));
-                        rest.setHmdlvSaleYn(d.get("HMDLV_SALE_YN").equals("Y"));
-                        rest.setDsbrCvntlYn(d.get("DSBR_CVNTL_YN").equals("Y"));
-                        rest.setDelvSrvicYn(d.get("DELV_SRVIC_YN").equals("Y"));
-                        rest.setRsrvMthdNm(d.get("RSRV_MTHD_NM"));
+                        rest.setPrkgPosYn(extra.get("PRKG_POS_YN").equals("Y"));
+                        rest.setWifiOfrYn(extra.get("WIFI_OFR_YN").equals("Y"));
+                        rest.setDcrnYn(extra.get("DCRN_YN").equals("Y"));
+                        rest.setPetEntrnPosblYn(extra.get("PET_ENTRN_POSBL_YN").equals("Y"));
+                        rest.setFgggMenuOfrYn(extra.get("FGGG_MENU_OFR_YN").equals("Y"));
+                        rest.setTlromInfoCn(extra.get("TLROM_INFO_CN"));
+                        rest.setRestdyInfoCn(extra.get("RESTDY_INFO_CN"));
+                        rest.setBsnsTmCn(extra.get("BSNS_TM_CN"));
+                        rest.setHmdlvSaleYn(extra.get("HMDLV_SALE_YN").equals("Y"));
+                        rest.setDsbrCvntlYn(extra.get("DSBR_CVNTL_YN").equals("Y"));
+                        rest.setDelvSrvicYn(extra.get("DELV_SRVIC_YN").equals("Y"));
+                        rest.setRsrvMthdNm(extra.get("RSRV_MTHD_NM"));
+                        rest.setOnlineRsrvInfoCn(extra.get("ONLINE_RSRV_INFO_CN"));
+                        rest.setHmpgUrl(extra.get("HMPG_URL"));
+                        rest.setKioskYn(extra.get("KIOSK_YN").equals("Y"));
+                        rest.setMbPmamtYn(extra.get("MB_PMAMT_YN").equals("Y"));
+                        rest.setSmorderYn(extra.get("SMORDER_YN").equals("Y"));
+                        rest.setReprsntMenuNm(extra.get("REPRSNT_MENU_NM"));
 
                         return rest;
                 }).toList();
 
-        //items.forEach(System.out::println);
+        items.forEach(System.out::println);
 
     }
 
