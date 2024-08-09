@@ -19,8 +19,13 @@ public class Utils {
     public String url(String url) {
         List<ServiceInstance> instances = discoveryClient.getInstances("admin-service");
 
-        return String.format("%s%s", instances.get(0).getUri().toString(), url);
+        try {
+            return String.format("%s%s", instances.get(0).getUri().toString(), url);
+        } catch (Exception e) {
+            return String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), url);
+        }
     }
+
     /*
     public String redirectUrl(String url) {
         List<ServiceInstance> instances = discoveryClient.getInstances("admin-service");
