@@ -24,6 +24,14 @@ public class DataTransfer {
     @Test
     @DisplayName("식당 이미지 정보")
     void update2() {
-        service.update2(1);
+        for (int i = 1; i < 10; i++) {
+            service.update2(i);
+        }
+    }
+    
+    @Test
+    @DisplayName("메뉴 기본 정보")
+    void update3() {
+        service.update3(1);
     }
 }
