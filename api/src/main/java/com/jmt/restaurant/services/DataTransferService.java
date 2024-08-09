@@ -68,10 +68,30 @@ public class DataTransferService {
                             .bsnsLcncNm(d.get("BSNS_LCNC_NM"))
                             .rstrIntrcnCont(d.get("RSTR_INTRCN_CONT"))
                             .build();
+
+                        if (extra == null) {
+                            return rest;
+                        }
+
+                        rest.setAreaNm(extra.get("AREA_NM"));
+
+                        if (extra.get("prdlSeatCnt") != null) rest.setPrdlSeatCnt(Integer.valueOf(extra.get("prdlSeatCnt")));
+                        if (extra.get("SEAT_CNT") != null) rest.setSeatCnt(Integer.valueOf(extra.get("SEAT_CNT")));
+                        rest.setPrkgPosYn(d.get("PRKG_POS_YN").equals("Y"));
+
+
                         return rest;
                 }).toList();
 
         //items.forEach(System.out::println);
 
+    }
+
+    private Map<String, String> getExtra(List<Map<String, String>> items, String rstrId) {
+        if (items == null || items.isEmpty()) return null;
+
+        return items.stream()
+                .filter(d -> d.get("RSTR_ID").equals(rstrId))
+                .findFirst().orElse(null);
     }
 }
