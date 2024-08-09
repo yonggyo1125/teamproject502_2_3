@@ -2,6 +2,7 @@ package com.jmt.restaurant.services;
 
 import com.jmt.global.rests.gov.api.ApiResult;
 import com.jmt.restaurant.entities.FoodMenu;
+import com.jmt.restaurant.entities.FoodMenuImage;
 import com.jmt.restaurant.entities.Restaurant;
 import com.jmt.restaurant.entities.RestaurantImage;
 import com.jmt.restaurant.repositories.FoodMenuImageRepository;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -20,6 +22,7 @@ import java.util.Map;
 
 @Lazy
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class DataTransferService {
     private final RestaurantRepository restaurantRepository;
@@ -144,6 +147,8 @@ public class DataTransferService {
                             .build();
                 }).toList();
 
+        if (items == null || items.isEmpty()) return;
+
         restaurantImageRepository.saveAllAndFlush(items);
     }
 
@@ -185,6 +190,7 @@ public class DataTransferService {
                             .menuPrice(Integer.valueOf(d.get("MENU_PRICE")))
                             .spcltMenuYn(d.get("SPCLT_MENU_YN").equals("Y"))
                             .spcltMenuOgnUrl(d.get("SPCLT_MENU_OGN_URL"))
+                            .spcltMenuNm(d.get("SPCLT_MENU_NM"))
                             .build();
 
                     Map<String, String> extra = getExtra(tmp2, d.get("RSTR_ID"));
@@ -197,7 +203,45 @@ public class DataTransferService {
                     return food;
                 }).toList();
 
-        items.forEach(System.out::println);
+        if (items == null || items.isEmpty()) return;
+
+        foodMenuRepository.saveAllAndFlush(items);
+    }
+
+    /**
+     * 메뉴 이미지 업데이트
+     *
+     */
+    public void update4(int pageNo) {
+        pageNo = Math.max(pageNo, 1);
+
+        String url = String.format("https://seoul.openapi.redtable.global/api/food/img?serviceKey=%s&pageNo=%d", serviceKey, pageNo);
+
+        ResponseEntity<ApiResult> response = restTemplate.getForEntity(URI.create(url), ApiResult.class);
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            return;
+        }
+
+        ApiResult result = response.getBody();
+        if (!result.getHeader().get("resultCode").equals("00")) {
+            return;
+        }
+
+        List<Map<String, String>> tmp = result.getBody();
+        if (tmp == null || tmp.isEmpty()) return;
+
+        List<FoodMenuImage> items = tmp.stream()
+                .map(d -> {
+                    FoodMenu foodMenu = foodMenuRepository.findById(Long.valueOf(d.get("MENU_ID"))).orElse(null);
+
+                    return FoodMenuImage.builder()
+                            .foodMenu(foodMenu)
+                            .foodImgUrl(d.get("FOOD_IMG_URL"))
+                            .build();
+                }).toList();
+
+            if (items == null || items.isEmpty()) return;
+            foodMenuImageRepository.saveAllAndFlush(items);
     }
 
     private Map<String, String> getExtra(List<Map<String, String>> items, String rstrId) {
