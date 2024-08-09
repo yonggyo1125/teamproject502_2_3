@@ -188,10 +188,16 @@ public class DataTransferService {
                             .build();
 
                     Map<String, String> extra = getExtra(tmp2, d.get("RSTR_ID"));
+                    if (extra != null) {
+                        food.setMenuDscrn(extra.get("MENU_DSCRN"));
+                        food.setMenuCtgryLclasNm(extra.get("MENU_CTGRY_LCLAS_NM"));
+                        food.setMenuCtgrySclasNm(extra.get("MENU_CTGRY_SCLAS_NM"));
+                    }
 
                     return food;
-                })
-                .toList();
+                }).toList();
+
+        items.forEach(System.out::println);
     }
 
     private Map<String, String> getExtra(List<Map<String, String>> items, String rstrId) {
