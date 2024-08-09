@@ -57,6 +57,9 @@ public class DataTransferService {
                         .rstrLo(Double.valueOf(d.get("RSTR_LO")))
                         .rstrTelNo(d.get("RSTR_TELNO"))
                         .dbsnsStatmBzcndNm(d.get("BSNS_STATM_BZCND_NM"))
+                        .bsnsLcncNm(d.get("BSNS_LCNC_NM"))
+                        .rstrIntrcnCont(d.get("RSTR_INTRCN_CONT"))
+                        .build()).toList();
 
     }
 }
