@@ -1,5 +1,6 @@
 package com.jmt.restaurant.services;
 
+import com.jmt.global.rests.gov.api.ApiResult;
 import com.jmt.restaurant.repositories.FoodMenuImageRepository;
 import com.jmt.restaurant.repositories.FoodMenuRepository;
 import com.jmt.restaurant.repositories.RestaurantImageRepository;
@@ -31,7 +32,7 @@ public class DataTransferService {
     public void update1() {
         String url = String.format("https://seoul.openapi.redtable.global/api/rstr?serviceKey=%s", serviceKey);
 
-        ResponseEntity<String> response = restTemplate.getForEntity(URI.create(url), String.class);
+        ResponseEntity<ApiResult> response = restTemplate.getForEntity(URI.create(url), ApiResult.class);
         System.out.println(response);
     }
 }
