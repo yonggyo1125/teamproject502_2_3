@@ -50,21 +50,28 @@ public class DataTransferService {
         String url2 = String.format("https://seoul.openapi.redtable.global/api/rstr/oprt?serviceKey=%s", serviceKey);
         ResponseEntity<ApiResult> result2 = restTemplate.getForEntity(URI.create(url2), ApiResult.class);
 
-        List<Restaurant> items = tmp.stream()
-                .map(d -> Restaurant.builder()
-                        .rstrId(Long.valueOf(d.get("RSTR_ID")))
-                        .rstrNm(d.get("RSTR_NM"))
-                        .rstrRdnmAdr(d.get("RSTR_RDNMADR"))
-                        .rstrLnnoAdres(d.get("RSTR_LNNO_ADRES"))
-                        .rstrLa(Double.valueOf(d.get("RSTR_LA")))
-                        .rstrLo(Double.valueOf(d.get("RSTR_LO")))
-                        .rstrTelNo(d.get("RSTR_TELNO"))
-                        .dbsnsStatmBzcndNm(d.get("BSNS_STATM_BZCND_NM"))
-                        .bsnsLcncNm(d.get("BSNS_LCNC_NM"))
-                        .rstrIntrcnCont(d.get("RSTR_INTRCN_CONT"))
-                        .build()).toList();
+        List<Map<String, String>> tmp2 = result2.getBody().getBody();
 
-        items.forEach(System.out::println);
+        List<Restaurant> items = tmp.stream()
+                .map(d -> {
+                        Map<String, String> extra = getExtra(tmp2, d.get("RSTR_ID"));
+
+                        Restaurant rest =  Restaurant.builder()
+                            .rstrId(Long.valueOf(d.get("RSTR_ID")))
+                            .rstrNm(d.get("RSTR_NM"))
+                            .rstrRdnmAdr(d.get("RSTR_RDNMADR"))
+                            .rstrLnnoAdres(d.get("RSTR_LNNO_ADRES"))
+                            .rstrLa(Double.valueOf(d.get("RSTR_LA")))
+                            .rstrLo(Double.valueOf(d.get("RSTR_LO")))
+                            .rstrTelNo(d.get("RSTR_TELNO"))
+                            .dbsnsStatmBzcndNm(d.get("BSNS_STATM_BZCND_NM"))
+                            .bsnsLcncNm(d.get("BSNS_LCNC_NM"))
+                            .rstrIntrcnCont(d.get("RSTR_INTRCN_CONT"))
+                            .build();
+                        return rest;
+                }).toList();
+
+        //items.forEach(System.out::println);
 
     }
 }
