@@ -53,6 +53,10 @@ public class DataTransferService {
                         .rstrNm(d.get("RSTR_NM"))
                         .rstrRdnmAdr(d.get("RSTR_RDNMADR"))
                         .rstrLnnoAdres(d.get("RSTR_LNNO_ADRES"))
+                        .rstrLa(Double.valueOf(d.get("RSTR_LA")))
+                        .rstrLo(Double.valueOf(d.get("RSTR_LO")))
+                        .rstrTelNo(d.get("RSTR_TELNO"))
+                        .dbsnsStatmBzcndNm(d.get("BSNS_STATM_BZCND_NM"))
 
     }
 }
