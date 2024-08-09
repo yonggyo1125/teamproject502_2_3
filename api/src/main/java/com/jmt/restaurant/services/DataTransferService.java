@@ -47,6 +47,9 @@ public class DataTransferService {
 
         List<Map<String, String>> tmp = result.getBody();
 
+        String url2 = String.format("https://seoul.openapi.redtable.global/api/rstr/oprt?serviceKey=%s", serviceKey);
+        ResponseEntity<ApiResult> result2 = restTemplate.getForEntity(URI.create(url2), ApiResult.class);
+
         List<Restaurant> items = tmp.stream()
                 .map(d -> Restaurant.builder()
                         .rstrId(Long.valueOf(d.get("RSTR_ID")))
@@ -60,6 +63,8 @@ public class DataTransferService {
                         .bsnsLcncNm(d.get("BSNS_LCNC_NM"))
                         .rstrIntrcnCont(d.get("RSTR_INTRCN_CONT"))
                         .build()).toList();
+
+        items.forEach(System.out::println);
 
     }
 }
