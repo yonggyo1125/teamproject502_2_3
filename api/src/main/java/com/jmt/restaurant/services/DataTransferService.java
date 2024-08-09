@@ -106,7 +106,6 @@ public class DataTransferService {
         }
 
         restaurantRepository.saveAllAndFlush(items);
-
     }
 
     private Map<String, String> getExtra(List<Map<String, String>> items, String rstrId) {
@@ -115,5 +114,28 @@ public class DataTransferService {
         return items.stream()
                 .filter(d -> d.get("RSTR_ID").equals(rstrId))
                 .findFirst().orElse(null);
+    }
+
+    /**
+     * 식당 이미지 업데이트
+     *
+     */
+    public void update2(int pageNo) {
+        pageNo = Math.max(pageNo, 1);
+
+        String url = String.format("https://seoul.openapi.redtable.global/api/rstr/img?serviceKey=%s&pageNo=%d", serviceKey, pageNo);
+
+        ResponseEntity<ApiResult> response = restTemplate.getForEntity(URI.create(url), ApiResult.class);
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            return;
+        }
+
+        ApiResult result = response.getBody();
+        if (!result.getHeader().get("resultCode").equals("00")) {
+            return;
+        }
+
+        List<Map<String, String>> tmp = result.getBody();
+        tmp.forEach(System.out::println);
     }
 }
