@@ -24,14 +24,14 @@ public class QRestaurant extends EntityPathBase<Restaurant> {
 
     public final StringPath areaNm = createString("areaNm");
 
-    public final NumberPath<Double> bsnsLcncNm = createNumber("bsnsLcncNm", Double.class);
+    public final StringPath bsnsLcncNm = createString("bsnsLcncNm");
 
     public final StringPath bsnsTmCn = createString("bsnsTmCn");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final NumberPath<Double> dbsnsStatmBzcndNm = createNumber("dbsnsStatmBzcndNm", Double.class);
+    public final StringPath dbsnsStatmBzcndNm = createString("dbsnsStatmBzcndNm");
 
     public final BooleanPath dcrnYn = createBoolean("dcrnYn");
 
@@ -85,7 +85,7 @@ public class QRestaurant extends EntityPathBase<Restaurant> {
 
     public final StringPath rstrRdnmAdr = createString("rstrRdnmAdr");
 
-    public final NumberPath<Double> rstrTelNo = createNumber("rstrTelNo", Double.class);
+    public final StringPath rstrTelNo = createString("rstrTelNo");
 
     public final NumberPath<Integer> seatCnt = createNumber("seatCnt", Integer.class);
 
