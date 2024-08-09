@@ -75,10 +75,17 @@ public class DataTransferService {
 
                         rest.setAreaNm(extra.get("AREA_NM"));
 
-                        if (extra.get("prdlSeatCnt") != null) rest.setPrdlSeatCnt(Integer.valueOf(extra.get("prdlSeatCnt")));
+                        if (extra.get("PRDL_SEAT_CNT") != null) rest.setPrdlSeatCnt(Integer.valueOf(extra.get("PRDL_SEAT_CNT")));
                         if (extra.get("SEAT_CNT") != null) rest.setSeatCnt(Integer.valueOf(extra.get("SEAT_CNT")));
                         rest.setPrkgPosYn(d.get("PRKG_POS_YN").equals("Y"));
-
+                        rest.setWifiOfrYn(d.get("WIFI_OFR_YN").equals("Y"));
+                        rest.setDcrnYn(d.get("DCRN_YN").equals("Y"));
+                        rest.setPetEntrnPosblYn(d.get("PET_ENTRN_POSBL_YN").equals("Y"));
+                        rest.setFgggMenuOfrYn(d.get("FGGG_MENU_OFR_YN").equals("Y"));
+                        rest.setTlromInfoCn(d.get("TLROM_INFO_CN"));
+                        rest.setRestdyInfoCn(d.get("RESTDY_INFO_CN"));
+                        rest.setBsnsTmCn(d.get("BSNS_TM_CN"));
+                        rest.setHmdlvSaleYn(d.get("HMDLV_SALE_YN").equals("Y"));
 
                         return rest;
                 }).toList();
