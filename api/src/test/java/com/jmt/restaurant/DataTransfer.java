@@ -20,4 +20,10 @@ public class DataTransfer {
             service.update1(i);
         }
     }
+
+    @Test
+    @DisplayName("식당 이미지 정보")
+    void update2() {
+        service.update2(1);
+    }
 }

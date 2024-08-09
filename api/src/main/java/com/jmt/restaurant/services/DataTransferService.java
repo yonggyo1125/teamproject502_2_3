@@ -2,6 +2,7 @@ package com.jmt.restaurant.services;
 
 import com.jmt.global.rests.gov.api.ApiResult;
 import com.jmt.restaurant.entities.Restaurant;
+import com.jmt.restaurant.entities.RestaurantImage;
 import com.jmt.restaurant.repositories.FoodMenuImageRepository;
 import com.jmt.restaurant.repositories.FoodMenuRepository;
 import com.jmt.restaurant.repositories.RestaurantImageRepository;
@@ -136,6 +137,16 @@ public class DataTransferService {
         }
 
         List<Map<String, String>> tmp = result.getBody();
-        tmp.forEach(System.out::println);
+        if (tmp == null || tmp.isEmpty()) return;
+
+        List<RestaurantImage> items = tmp.stream()
+                .map(d -> {
+                    Restaurant restaurant = restaurantRepository.findById(Long.valueOf(d.get("RSTR_ID"))).orElse(null);
+
+                    return RestaurantImage.builder()
+                            .restaurant(restaurant)
+                            .rstrImgUrl(d.get("RSTR_IMG_URL"))
+                            .build();
+                }).toList();
     }
 }
