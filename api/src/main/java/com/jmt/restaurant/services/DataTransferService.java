@@ -110,13 +110,7 @@ public class DataTransferService {
         restaurantRepository.saveAllAndFlush(items);
     }
 
-    private Map<String, String> getExtra(List<Map<String, String>> items, String rstrId) {
-        if (items == null || items.isEmpty()) return null;
 
-        return items.stream()
-                .filter(d -> d.get("RSTR_ID").equals(rstrId))
-                .findFirst().orElse(null);
-    }
 
     /**
      * 식당 이미지 업데이트
@@ -174,21 +168,37 @@ public class DataTransferService {
 
         List<Map<String, String>> tmp = result.getBody();
         if (tmp == null || tmp.isEmpty()) return;
-        tmp.forEach(System.out::println);
+
+        String url2 = String.format("https://seoul.openapi.redtable.global/api/menu-dscrn/korean?serviceKey=%s&pageNo=%d", serviceKey, pageNo);
+        ResponseEntity<ApiResult> result2 = restTemplate.getForEntity(URI.create(url2), ApiResult.class);
+
+        List<Map<String, String>> tmp2 = result2.getBody().getBody();
 
         List<FoodMenu> items = tmp.stream()
                 .map(d -> {
                     Restaurant restaurant = restaurantRepository.findById(Long.valueOf(d.get("RSTR_ID"))).orElse(null);
 
-                    return FoodMenu.builder()
+                    FoodMenu food =  FoodMenu.builder()
                             .restaurant(restaurant)
                             .menuId(Long.valueOf(d.get("MENU_ID")))
                             .menuNm(d.get("MENU_NM"))
                             .menuPrice(Integer.valueOf(d.get("MENU_PRICE")))
                             .spcltMenuYn(d.get("SPCLT_MENU_YN").equals("Y"))
+                            .spcltMenuOgnUrl(d.get("SPCLT_MENU_OGN_URL"))
+                            .build();
 
+                    Map<String, String> extra = getExtra(tmp2, d.get("RSTR_ID"));
 
+                    return food;
                 })
                 .toList();
+    }
+
+    private Map<String, String> getExtra(List<Map<String, String>> items, String rstrId) {
+        if (items == null || items.isEmpty()) return null;
+
+        return items.stream()
+                .filter(d -> d.get("RSTR_ID").equals(rstrId))
+                .findFirst().orElse(null);
     }
 }
