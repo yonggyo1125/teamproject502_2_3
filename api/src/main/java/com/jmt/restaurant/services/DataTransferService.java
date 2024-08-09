@@ -86,6 +86,9 @@ public class DataTransferService {
                         rest.setRestdyInfoCn(d.get("RESTDY_INFO_CN"));
                         rest.setBsnsTmCn(d.get("BSNS_TM_CN"));
                         rest.setHmdlvSaleYn(d.get("HMDLV_SALE_YN").equals("Y"));
+                        rest.setDsbrCvntlYn(d.get("DSBR_CVNTL_YN").equals("Y"));
+                        rest.setDelvSrvicYn(d.get("DELV_SRVIC_YN").equals("Y"));
+                        rest.setRsrvMthdNm(d.get("RSRV_MTHD_NM"));
 
                         return rest;
                 }).toList();
