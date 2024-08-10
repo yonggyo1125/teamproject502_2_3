@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: ai-service
+
+  cloud:
+    config:
+      uri: ${configServerUrl}
