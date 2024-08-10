@@ -1,2 +1,13 @@
 server:
   port: 3003
+
+# 유레카 설정
+eureka:
+  instance:
+    hostname: ${hostname}
+    #preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: ${eurekaHost}/eureka/
