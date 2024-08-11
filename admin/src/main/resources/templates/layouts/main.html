@@ -16,6 +16,7 @@
     <th:block layout:fragment="addCss"></th:block>
 
     <script th:src="${@utils.url('/js/common.js')}"></script>
+    <th:block layout:fragment="addScript"></th:block>
     <script th:if="${addScript != null}" th:each="jsFile : ${addScript}" th:src="${@utils.url(#strings.concat('/js/', jsFile, '.js'))}"></script>
     <th:block layout:fragment="addScript"></th:block>
 </head>
