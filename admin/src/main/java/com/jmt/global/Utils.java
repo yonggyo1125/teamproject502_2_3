@@ -39,7 +39,7 @@ public class Utils {
         String gatewayHost = Objects.requireNonNullElse(request.getHeader("gateway-host"), "");
         boolean fromGateway = _fromGateway.equals("true");
 
-        return fromGateway ? request.getScheme() + "//" + gatewayHost + "/admin" + url : request.getContextPath() + url;
+        return fromGateway ? request.getScheme() + "://" + gatewayHost + "/admin" + url : request.getContextPath() + url;
     }
 
     public Map<String, List<String>> getErrorMessages(Errors errors) {//JSON 받을 때는 에러를 직접 가공

@@ -33,7 +33,7 @@ public class BoardController implements ExceptionProcessor {
     private final BoardConfigDeleteService configDeleteService;
 
     private final BoardConfigValidator configValidator;
-    private Utils utils;
+    private final Utils utils;
 
     @ModelAttribute("menuCode")
     public String getMenuCode() { // 주 메뉴 코드
