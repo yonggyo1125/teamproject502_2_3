@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller("adminBoardController")
-@RequestMapping("/admin/board")
+@Controller
+@RequestMapping("/board")
 @RequiredArgsConstructor
 public class BoardController implements ExceptionProcessor {
 
