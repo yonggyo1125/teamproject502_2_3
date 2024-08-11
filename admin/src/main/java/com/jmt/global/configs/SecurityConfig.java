@@ -1,6 +1,9 @@
 package com.jmt.global.configs;
 
+import com.jmt.global.Utils;
 import com.jmt.global.filters.LoginFilter;
+import com.jmt.member.repositories.JwtTokenRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,13 +18,28 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final LoginFilter loginFilter;
+    private final JwtTokenRepository jwtTokenRepository;
+    private final Utils utils;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(c -> {
-                    c.anyRequest().authenticated();
+                    c.requestMatchers("/js/**", "/css/**", "/images/**").permitAll()
+                            .anyRequest().hasAnyAuthority("ADMIN");
                 });
+
+        http.logout(c -> {
+            c.logoutUrl("/logout")
+                    .logoutSuccessHandler((req, res, a) -> {
+                HttpSession session = req.getSession();
+                jwtTokenRepository.deleteById(session.getId());
+
+                res.sendRedirect(utils.redirectUrl("/"));
+            });
+        });
+
+        http.headers(h -> h.frameOptions(f -> f.sameOrigin()));
 
         return http.build();
     }

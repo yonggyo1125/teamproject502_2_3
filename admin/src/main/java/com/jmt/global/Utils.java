@@ -7,6 +7,7 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -24,6 +25,14 @@ public class Utils {
         } catch (Exception e) {
             return String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), url);
         }
+    }
+
+    public String redirectUrl(String url) {
+        String _fromGateway = Objects.requireNonNullElse(request.getHeader("from-gateway"), "false");
+        String gatewayHost = Objects.requireNonNullElse(request.getHeader("gateway-host"), "");
+        boolean fromGateway = _fromGateway.equals("true");
+
+        return fromGateway ? request.getScheme() + "//" + gatewayHost + "/admin" + url : request.getContextPath() + url;
     }
 
     /*

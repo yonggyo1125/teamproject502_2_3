@@ -8,13 +8,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @Order(1)
 @Component
 public class CommonFilter implements GlobalFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
-        String host = request.getRemoteAddress().getHostString();
+        List<String> hosts = request.getHeaders().get("Host");
+        String host = hosts == null || hosts.isEmpty() ? "" : hosts.get(0);
         ServerWebExchange ex = exchange.mutate().request(exchange.getRequest().mutate()
                 .header("from-gateway", "true")
                         .header("gateway-host", host)

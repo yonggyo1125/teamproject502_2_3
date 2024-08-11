@@ -60,6 +60,7 @@ public class LoginFilter extends GenericFilterBean {
      */
     private void loginProcess(String token) {
         JwtToken jwtToken = new JwtToken();
+        jwtToken.setSessionId(session.getId());
         jwtToken.setToken(token);
         repository.save(jwtToken);
 
@@ -77,7 +78,7 @@ public class LoginFilter extends GenericFilterBean {
             // 성공 응답인 경우 로그인 처리
             if (response.getStatusCode().is2xxSuccessful()) {
                 JSONData data = response.getBody();
-                if (data.isSuccess()) {
+                if (data != null && data.isSuccess()) {
                     String json = om.writeValueAsString(data.getData());
                     Member member = om.readValue(json, Member.class);
 

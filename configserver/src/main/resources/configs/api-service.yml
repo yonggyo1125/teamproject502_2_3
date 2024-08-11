@@ -4,8 +4,8 @@ server:
 spring:
   # 데이터베이스 설정
   datasource:
-    driverClassName: '{cipher}920de040b98d5170c36316dd674bb9822a4804f8153550d020220aaa0ede5f7bc05f86ed6b4d4ffdaa0eb4a554fd71ec'
-    url: '{cipher}91b9f5893f8e4217d9c6eed0f60c37376fe26f3097532b31801b834f04fbaa16a6144369e8f6cf0ab31751c2dd910d9e735b281341e48a7998ba5dbdcae6b1be'
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@${db.host}:${db.port}:XE
     username: ${db.username}
     password: ${db.password}
 
@@ -17,7 +17,7 @@ spring:
         format_sql: true
         use_sql_comments: true
     hibernate:
-      ddlAuto: update
+      ddlAuto: ${ddl.auto}
 
   # 파일 업로드 용량 설정
   servlet:
