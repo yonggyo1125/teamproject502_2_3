@@ -45,6 +45,7 @@ public class LoginFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+
         String token = getToken(request);
         if (StringUtils.hasText(token)) {
             loginProcess(token);
@@ -81,7 +82,6 @@ public class LoginFilter extends GenericFilterBean {
                 if (data != null && data.isSuccess()) {
                     String json = om.writeValueAsString(data.getData());
                     Member member = om.readValue(json, Member.class);
-
                     List<Authorities> tmp = member.getAuthorities();
                     if (tmp == null || tmp.isEmpty()) {
                         tmp = List.of(Authorities.builder().authority(Authority.USER).build());
