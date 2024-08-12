@@ -2,6 +2,7 @@ package com.jmt.farmfarm;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmt.farmfarm.entities.Festival;
+import com.jmt.farmfarm.repositories.FestivalRepository;
 import com.jmt.global.rests.gov.api.ApiResult2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ import java.util.Map;
 public class DataTest2 {
 
     @Autowired
+    private FestivalRepository repository;
+
+    @Autowired
     private RestTemplate restTemplate;
 
     @Autowired
@@ -37,11 +41,7 @@ public class DataTest2 {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         List<Festival> items = tmp.stream()
-                .map(d -> {
-
-
-
-                    return Festival.builder()
+                .map(d -> Festival.builder()
                             .seq(Long.valueOf(d.get("contentid")))
                             .cat1(d.get("cat1"))
                             .cat2(d.get("cat2"))
@@ -54,7 +54,9 @@ public class DataTest2 {
                             .photoUrl1(d.get("firstimage"))
                             .photoUrl2(d.get("firstimage2"))
                             .startDate(d.get("eventstartdate") == null ? null : LocalDate.parse(d.get("eventstartdate"), formatter))
-                            .endDate(d.get("eventenddate") == null ? null : LocalDate.parse(d.get("eventenddate"), formatter)).build();
-                }).toList();
+                            .endDate(d.get("eventenddate") == null ? null : LocalDate.parse(d.get("eventenddate"), formatter)).build()
+                ).toList();
+
+        repository.saveAllAndFlush(items);
     }
 }
