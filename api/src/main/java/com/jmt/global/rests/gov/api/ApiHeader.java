@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class ApiHeader {
-    private String resultCOde;
+    private String resultCode;
     private String resultMsg;
 }
