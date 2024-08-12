@@ -1,7 +1,7 @@
 package com.jmt.farmfarm;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jmt.global.rests.gov.api.ApiResult;
+import com.jmt.global.rests.gov.api.ApiResult2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,7 +27,7 @@ public class DataTest2 {
     void test1() {
         String url = String.format("https://apis.data.go.kr/B551011/KorService1/searchFestival1?MobileOS=AND&MobileApp=test&_type=json&eventStartDate=20240101&serviceKey=%s&pageNo=%d&numOfRows=1000", serviceKey, 1);
 
-        ResponseEntity<ApiResult> response = restTemplate.getForEntity(URI.create(url), ApiResult.class);
+        ResponseEntity<ApiResult2> response = restTemplate.getForEntity(URI.create(url), ApiResult2.class);
         System.out.println(response);
     }
 }
