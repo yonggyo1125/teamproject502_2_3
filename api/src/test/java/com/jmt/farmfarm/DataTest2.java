@@ -1,6 +1,5 @@
 package com.jmt.farmfarm;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmt.farmfarm.entities.Festival;
 import com.jmt.farmfarm.repositories.FestivalRepository;
@@ -11,10 +10,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -63,10 +68,32 @@ public class DataTest2 {
 
     @Test
     void test2() throws Exception {
-        File file = new File("D:/data/fest1.json");
-        Map<String, List<Map<String, String>>> data = om.readValue(file, new TypeReference<>() {});
+        File file = new File("D:/data/data.txt");
 
-        List<Map<String, String>> items = data.get("records");
-        items.forEach(System.out::println);
+        try (FileInputStream fis = new FileInputStream(file);
+             InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
+             BufferedReader br = new BufferedReader(isr)) {
+            String line = null;
+            List<Festival> items = new ArrayList<>();
+            while ((line = br.readLine()) != null) {
+                List<String> item = new ArrayList<>(Arrays.stream(line.split("__")).toList());
+
+                Long seq = Long.valueOf(item.get(0).trim());
+                Festival festival = repository.findById(seq).orElse(null);
+                if (festival == null) continue;
+
+                if (item.size() > 1) festival.setLocation(item.get(1).trim());
+                if (item.size() > 2) festival.setContent(item.get(2).trim());
+                if (item.size() > 3) festival.setHostMain(item.get(3).trim());
+                if (item.size() > 4) festival.setHostSub(item.get(4).trim());
+                if (item.size() > 5) festival.setPageLink(item.get(5).trim());
+
+                items.add(festival);
+            }
+
+            repository.saveAllAndFlush(items);
+        }
     }
+
+
 }
