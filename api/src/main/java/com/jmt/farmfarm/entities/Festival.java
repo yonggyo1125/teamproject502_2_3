@@ -33,7 +33,7 @@ public class Festival extends BaseEntity {
     private Double latitude; // 위도
     private Double longitude; // 경도
 
-    @Column(length=50)
+    @Column(length=200)
     private String tel; // 연락처
 
     @Column(length=150)

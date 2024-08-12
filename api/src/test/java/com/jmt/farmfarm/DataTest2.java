@@ -1,5 +1,6 @@
 package com.jmt.farmfarm;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmt.farmfarm.entities.Festival;
 import com.jmt.farmfarm.repositories.FestivalRepository;
@@ -8,9 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.File;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @SpringBootTest
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 public class DataTest2 {
 
     @Autowired
@@ -58,5 +59,14 @@ public class DataTest2 {
                 ).toList();
 
         repository.saveAllAndFlush(items);
+    }
+
+    @Test
+    void test2() throws Exception {
+        File file = new File("D:/data/fest1.json");
+        Map<String, List<Map<String, String>>> data = om.readValue(file, new TypeReference<>() {});
+
+        List<Map<String, String>> items = data.get("records");
+        items.forEach(System.out::println);
     }
 }
