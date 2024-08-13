@@ -5,6 +5,7 @@ import com.jmt.global.Pagination;
 import com.jmt.restaurant.controllers.RestaurantSearch;
 import com.jmt.restaurant.entities.QRestaurant;
 import com.jmt.restaurant.entities.Restaurant;
+import com.jmt.restaurant.exceptions.RestaurantNotFoundException;
 import com.jmt.restaurant.repositories.RestaurantRepository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -53,4 +54,17 @@ public class RestaurantInfoService {
         return new ListData<>(items, pagination);
     }
 
+    /**
+     * 식당 정보 조회
+     *
+     * @param rstrId
+     * @return
+     */
+    public Restaurant get(Long rstrId) {
+        Restaurant item = repository.findById(rstrId).orElseThrow(RestaurantNotFoundException::new);
+
+        // 추가 데이터 처리
+
+        return item;
+    }
 }
