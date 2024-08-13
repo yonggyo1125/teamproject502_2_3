@@ -43,6 +43,13 @@ spring:
           filters:
             - RewritePath=/api/ai/v1/?(?<path>.*),/$\{path}
 
+        - id: email-service
+          uri: lb://email-service
+          predicates:
+            - Path=/email/**
+          filters:
+            - RewritePath=/email/?(?<path>.*),/$\{path}
+
 # 유레카 설정
 eureka:
   instance:
