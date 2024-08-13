@@ -1,21 +1,25 @@
 package com.jmt.restaurant.services;
 
 import com.jmt.global.ListData;
+import com.jmt.global.Pagination;
 import com.jmt.restaurant.controllers.RestaurantSearch;
 import com.jmt.restaurant.entities.QRestaurant;
 import com.jmt.restaurant.entities.Restaurant;
 import com.jmt.restaurant.repositories.RestaurantRepository;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class RestaurantInfoService {
     private final RestaurantRepository repository;
-    private final RestaurantInfoService infoService;
+    private final JPAQueryFactory queryFactory;
 
     public ListData<Restaurant> getList(RestaurantSearch search) {
         int page = Math.max(search.getPage(), 1);
@@ -32,7 +36,21 @@ public class RestaurantInfoService {
 
         // 검색 처리 E
 
-        return null;
+        List<Restaurant> items = queryFactory.selectFrom(restaurant)
+                .leftJoin(restaurant.images)
+                .fetchJoin()
+                .where(andBuilder)
+                .offset(offset)
+                .limit(limit)
+                .orderBy(restaurant.createdAt.desc())
+                .fetch();
+
+
+        long total = repository.count(andBuilder); // 조회된 전체 갯수
+
+        Pagination pagination = new Pagination(page, (int)total, 10, limit);
+
+        return new ListData<>(items, pagination);
     }
 
 }
