@@ -65,6 +65,15 @@ public class TourPlaceInfoService {
             if (condition != null) andBuilder.and(condition);
         }
 
+        // 시도 검색
+        if (sido != null && StringUtils.hasText(sido.trim())) {
+            andBuilder.and(tourPlace.sido.eq(sido.trim()));
+
+            // 시군구 검색
+            if (sigungu != null && StringUtils.hasText(sigungu.trim())) {
+                andBuilder.and(tourPlace.sigungu.eq(sigungu.trim()));
+            }
+        } // endif - sido
 
         /* 검색 처리 E */
 
