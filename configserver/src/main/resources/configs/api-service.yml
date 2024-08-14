@@ -66,3 +66,9 @@ jwt:
 cors:
   allow:
     origins: http://joyfarm.xyz
+
+# 파일 업로드 경로 설정
+file:
+  upload:
+    path: ${fileUpload.path}
+    url: /upload/

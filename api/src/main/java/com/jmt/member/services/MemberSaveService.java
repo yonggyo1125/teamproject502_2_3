@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -45,6 +46,10 @@ public class MemberSaveService {
             mobile = mobile.replaceAll("\\D", "");
             member.setMobile(mobile);
         }
+
+        String gid = member.getGid();
+        gid = StringUtils.hasText(gid) ? gid : UUID.randomUUID().toString();
+        member.setGid(gid);
 
         memberRepository.saveAndFlush(member);
 

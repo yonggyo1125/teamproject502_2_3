@@ -2,7 +2,9 @@ package com.jmt.farmfarm;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jmt.farmfarm.entities.QTourPlace;
+import com.jmt.tour.entities.QTourPlace;
+import com.jmt.tour.entities.TourPlace;
+import com.jmt.tour.entities.TourPlaceTag;
 import com.jmt.tour.repositories.TourPlaceRepository;
 import com.jmt.tour.repositories.TourPlaceTagRepository;
 import org.junit.jupiter.api.Test;
