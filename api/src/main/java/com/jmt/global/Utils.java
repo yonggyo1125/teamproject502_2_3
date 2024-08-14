@@ -2,6 +2,8 @@ package com.jmt.global;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
@@ -19,10 +21,8 @@ public class Utils { // 빈의 이름 - utils
 
     private final MessageSource messageSource;
     private final HttpServletRequest request;
+    private final DiscoveryClient discoveryClient;
 
-    public String toUpper(String str) {
-        return str.toUpperCase();
-    }
 
     public Map<String, List<String>> getErrorMessages(Errors errors) {
         // FieldErrors
@@ -68,4 +68,15 @@ public class Utils { // 빈의 이름 - utils
 
         return messages.isEmpty() ? code : messages.get(0);
     }
+
+    public String url(String url) {
+        List<ServiceInstance> instances = discoveryClient.getInstances("api-service");
+
+        try {
+            return String.format("%s%s", instances.get(0).getUri().toString(), url);
+        } catch (Exception e) {
+            return String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), url);
+        }
+    }
+
 }
