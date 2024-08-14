@@ -1,21 +1,33 @@
 package com.jmt.tour.services;
 
 import com.jmt.global.ListData;
+import com.jmt.global.Pagination;
 import com.jmt.tour.controllers.TourPlaceSearch;
 import com.jmt.tour.entities.QTourPlace;
 import com.jmt.tour.entities.TourPlace;
+import com.jmt.tour.exceptions.TourPlaceNotFoundException;
 import com.jmt.tour.repositories.TourPlaceRepository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
+
+import static org.springframework.data.domain.Sort.Order.desc;
 
 @Service
 @RequiredArgsConstructor
 public class TourPlaceInfoService {
 
     private final TourPlaceRepository repository;
+    private final HttpServletRequest request;
 
     public ListData<TourPlace> getList(TourPlaceSearch search) {
         int page = Math.max(search.getPage(), 1);
@@ -77,11 +89,31 @@ public class TourPlaceInfoService {
 
         /* 검색 처리 E */
 
-        return null;
+        // 페이징 및 정렬 처리
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
+
+        // 데이터 조회
+        Page<TourPlace> data = repository.findAll(andBuilder, pageable);
+
+        Pagination pagination = new Pagination(page, (int)data.getTotalElements(), 10, limit, request);
+
+        List<TourPlace> items = data.getContent();
+
+        return new ListData<>(items, pagination);
     }
 
+    /**
+     * 상세 조회
+     *
+     * @param seq
+     * @return
+     */
     public TourPlace get(Long seq) {
 
-        return null;
+        TourPlace item = repository.findById(seq).orElseThrow(TourPlaceNotFoundException::new);
+
+        // 추가 데이터 처리
+
+        return item;
     }
 }
