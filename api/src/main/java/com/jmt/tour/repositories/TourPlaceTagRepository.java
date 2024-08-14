@@ -1,6 +1,6 @@
-package com.jmt.farmfarm.repositories;
+package com.jmt.tour.repositories;
 
-import com.jmt.farmfarm.entities.TourPlaceTag;
+import com.jmt.tour.entities.TourPlaceTag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TourPlaceTagRepository extends JpaRepository<TourPlaceTag, String> {

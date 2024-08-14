@@ -1,6 +1,6 @@
-package com.jmt.farmfarm.repositories;
+package com.jmt.tour.repositories;
 
-import com.jmt.farmfarm.entities.TourPlace;
+import com.jmt.tour.entities.TourPlace;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 

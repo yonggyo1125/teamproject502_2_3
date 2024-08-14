@@ -1,4 +1,4 @@
-package com.jmt.farmfarm.entities;
+package com.jmt.tour.entities;
 
 import com.jmt.global.entities.BaseEntity;
 import jakarta.persistence.*;
