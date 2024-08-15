@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97af08b2-7a4d-4e45-b9d4-7f6b641662b6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/PROFILE_IMAGE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/com/jmt/member/controllers/RequestJoin.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/com/jmt/member/controllers/RequestJoin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/com/jmt/member/entities/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/com/jmt/member/entities/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/com/jmt/member/services/MemberInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/com/jmt/member/services/MemberInfoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/com/jmt/member/services/MemberSaveService.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/com/jmt/member/services/MemberSaveService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,21 +21,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2kX4OcZWb5McgPO8v5N6wjFBpiV" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/포트폴리오(p-4)/3조"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/포트폴리오(p-4)/3조&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

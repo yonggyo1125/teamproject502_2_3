@@ -1,5 +1,6 @@
 package com.jmt.member.entities;
 
+import com.jmt.file.entities.FileInfo;
 import com.jmt.global.entities.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,4 +35,7 @@ public class Member extends BaseEntity {
     @ToString.Exclude
     @OneToMany(mappedBy = "member")
     private List<Authorities> authorities;
+
+    @Transient
+    private FileInfo profile;
 }

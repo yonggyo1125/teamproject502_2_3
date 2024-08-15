@@ -1,5 +1,7 @@
 package com.jmt.member.services;
 
+import com.jmt.file.entities.FileInfo;
+import com.jmt.file.services.FileInfoService;
 import com.jmt.member.MemberInfo;
 import com.jmt.member.constants.Authority;
 import com.jmt.member.entities.Authorities;
@@ -19,6 +21,7 @@ import java.util.List;
 public class MemberInfoService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
+    private final FileInfoService fileInfoService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -33,6 +36,10 @@ public class MemberInfoService implements UserDetailsService {
         List<SimpleGrantedAuthority> authorities = tmp.stream()
                 .map(a -> new SimpleGrantedAuthority(a.getAuthority().name()))
                 .toList();
+
+        // 프로필 이미지 처리
+        List<FileInfo> files = fileInfoService.getList(member.getGid());
+        if (files != null && !files.isEmpty()) member.setProfile(files.get(0));
 
         return MemberInfo.builder()
                 .email(member.getEmail())

@@ -1,5 +1,6 @@
 package com.jmt.member.services;
 
+import com.jmt.file.services.FileUploadDoneService;
 import com.jmt.member.constants.Authority;
 import com.jmt.member.controllers.RequestJoin;
 import com.jmt.member.entities.Authorities;
@@ -23,6 +24,7 @@ public class MemberSaveService {
     private final MemberRepository memberRepository;
     private final AuthoritiesRepository authoritiesRepository;
     private final PasswordEncoder passwordEncoder;
+    private final FileUploadDoneService doneService;
 
     /**
      * 회원 가입 처리
@@ -52,6 +54,8 @@ public class MemberSaveService {
         member.setGid(gid);
 
         memberRepository.saveAndFlush(member);
+
+        doneService.process(gid); // 파일 업로드 완료 처리
 
         // 권한 추가, 수정 S
         if (authorities != null) {
