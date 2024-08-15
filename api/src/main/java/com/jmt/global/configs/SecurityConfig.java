@@ -39,6 +39,8 @@ public class SecurityConfig {
                     c.requestMatchers(
                             "/account",
                             "/account/token",
+                            "/file/**",
+                            "/upload/**",
                             "/restaurant/**",
                             "/tour/**"
                             ).permitAll() // 회원가입, 로그인(토큰)은 모든 접근 가능
