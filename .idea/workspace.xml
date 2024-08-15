@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="97af08b2-7a4d-4e45-b9d4-7f6b641662b6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/PROFILE_IMAGE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/main/java/com/jmt/member/controllers/RequestJoin.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/com/jmt/member/controllers/RequestJoin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/main/java/com/jmt/member/entities/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/com/jmt/member/entities/Member.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/main/java/com/jmt/member/services/MemberInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/com/jmt/member/services/MemberInfoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/main/java/com/jmt/member/services/MemberSaveService.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/com/jmt/member/services/MemberSaveService.java" afterDir="false" />
-    </list>
+    <list default="true" id="97af08b2-7a4d-4e45-b9d4-7f6b641662b6" name="Changes" comment="프로필 이미지 업로드 처리" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,6 +37,19 @@
       <option name="presentableId" value="Default" />
       <updated>1723416556510</updated>
     </task>
+    <task id="LOCAL-00001" summary="프로필 이미지 업로드 처리">
+      <option name="closed" value="true" />
+      <created>1723764511551</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1723764511551</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="프로필 이미지 업로드 처리" />
+    <option name="LAST_COMMIT_MESSAGE" value="프로필 이미지 업로드 처리" />
   </component>
 </project>
