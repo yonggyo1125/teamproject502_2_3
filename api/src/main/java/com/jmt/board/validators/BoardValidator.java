@@ -24,6 +24,12 @@ public class BoardValidator implements Validator, PasswordValidator {
     public void validate(Object target, Errors errors) {
         RequestBoard form = (RequestBoard) target;
 
+        String bid = form.getBid();
+        Long seq = form.getSeq();
+        if (seq == null && !StringUtils.hasText(bid)) {
+            errors.rejectValue("bid", "NotBlank");
+        }
+
         // 비회원 비밀번호 유효성 검사
         if (!memberUtil.isLogin()) {
             String guestPw = form.getGuestPw();

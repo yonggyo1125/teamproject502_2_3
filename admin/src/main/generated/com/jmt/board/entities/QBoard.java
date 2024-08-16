@@ -32,7 +32,13 @@ public class QBoard extends EntityPathBase<Board> {
     public final EnumPath<com.jmt.member.constants.Authority> commentAccessType = createEnum("commentAccessType", com.jmt.member.constants.Authority.class);
 
     //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+
+    //inherited
     public final StringPath createdBy = _super.createdBy;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> deletedAt = _super.deletedAt;
 
     public final StringPath gid = createString("gid");
 
@@ -45,6 +51,9 @@ public class QBoard extends EntityPathBase<Board> {
     public final NumberPath<Integer> listOrder = createNumber("listOrder", Integer.class);
 
     public final StringPath locationAfterWriting = createString("locationAfterWriting");
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
     //inherited
     public final StringPath modifiedBy = _super.modifiedBy;
