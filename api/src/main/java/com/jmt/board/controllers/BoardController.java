@@ -8,6 +8,7 @@ import com.jmt.board.services.BoardDeleteService;
 import com.jmt.board.services.BoardInfoService;
 import com.jmt.board.services.BoardSaveService;
 import com.jmt.board.validators.BoardValidator;
+import com.jmt.global.ListData;
 import com.jmt.global.Utils;
 import com.jmt.global.exceptions.BadRequestException;
 import com.jmt.global.rests.JSONData;
@@ -74,4 +75,24 @@ public class BoardController {
         return ResponseEntity.status(status).body(jsonData);
     }
 
+    @GetMapping("/info/{seq}")
+    public JSONData info(@PathVariable("seq") Long seq) {
+        BoardData item = infoService.get(seq);
+
+        return new JSONData(item);
+    }
+
+    @GetMapping("/list/{bid}")
+    public JSONData list(@PathVariable("bid") String bid, @ModelAttribute BoardDataSearch search) {
+        ListData<BoardData> data = infoService.getList(bid, search);
+
+        return new JSONData(data);
+    }
+
+    @DeleteMapping("/delete/{seq}")
+    public JSONData delete(@PathVariable("seq") Long seq) {
+        BoardData item = deleteService.delete(seq);
+
+        return new JSONData(item);
+    }
 }
