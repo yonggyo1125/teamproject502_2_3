@@ -1,31 +1,27 @@
 package com.jmt.board.controllers;
 
+import com.jmt.board.entities.Board;
+import com.jmt.board.entities.BoardData;
+import com.jmt.board.exceptions.BoardNotFoundException;
+import com.jmt.board.services.BoardConfigInfoService;
+import com.jmt.board.services.BoardDeleteService;
+import com.jmt.board.services.BoardInfoService;
+import com.jmt.board.services.BoardSaveService;
+import com.jmt.board.validators.BoardValidator;
+import com.jmt.global.ListData;
+import com.jmt.global.Utils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.g9project4.board.entities.Board;
-import org.g9project4.board.entities.BoardData;
-import org.g9project4.board.exceptions.BoardNotFoundException;
-import org.g9project4.board.services.BoardConfigInfoService;
-import org.g9project4.board.services.BoardDeleteService;
-import org.g9project4.board.services.BoardInfoService;
-import org.g9project4.board.services.BoardSaveService;
-import org.g9project4.board.validators.BoardValidator;
-import org.g9project4.global.ListData;
-import org.g9project4.global.Utils;
-import org.g9project4.global.exceptions.ExceptionProcessor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/board")
 @RequiredArgsConstructor
-public class BoardController implements ExceptionProcessor {
+public class BoardController {
     private final BoardConfigInfoService configInfoService;
     private final BoardInfoService infoService;
     private final BoardSaveService saveService;
@@ -114,54 +110,12 @@ public class BoardController implements ExceptionProcessor {
      *
      * @param bid : 게시판 아이디
      * @param mode
-     * @param model
      */
-    private void commonProcess(String bid, String mode, Model model) {
+    private void commonProcess(String bid, String mode) {
         board = configInfoService.get(bid).orElseThrow(BoardNotFoundException::new); // 게시판 설정
-
-        List<String> addCss = new ArrayList<>();
-        List<String> addCommonScript = new ArrayList<>();
-        List<String> addScript = new ArrayList<>();
-
-        String pageTitle = board.getBName(); // 게시판명 - title 태그 제목
 
         mode = mode == null || !StringUtils.hasText(mode.trim()) ? "write" : mode.trim();
 
-        String skin = board.getSkin(); // 스킨
-
-        // 게시판 공통 CSS
-        addCss.add("board/style");
-
-        // 스킨별 공통 CSS
-        addCss.add("board/" + skin + "/style");
-
-        if (mode.equals("write") || mode.equals("update")) {
-            // 글쓰기, 수정
-            // 파일 업로드, 에디터 - 공통
-            // form.js
-            // 파일 첨부, 에디터 이미지 첨부를 사용하는 경우
-            if (board.isUseUploadFile() || board.isUseUploadImage()) {
-                addCommonScript.add("fileManager");
-            }
-
-            // 에디터 사용의 경우
-            if (board.isUseEditor()) {
-                addCommonScript.add("ckeditor5/ckeditor");
-            }
-
-            addScript.add("board/" + skin + "/form");
-        }
-
-        // 게시글 제목으로 title을 표시 하는 경우
-        if (List.of("view", "update", "delete").contains(mode)) {
-            pageTitle = boardData.getSubject();
-        }
-
-        model.addAttribute("addCss", addCss);
-        model.addAttribute("addCommonScript", addCommonScript);
-        model.addAttribute("addScript", addScript);
-        model.addAttribute("board", board); // 게시판 설정
-        model.addAttribute("pageTitle", pageTitle);
     }
 
     /**
@@ -170,13 +124,10 @@ public class BoardController implements ExceptionProcessor {
      *
      * @param seq
      * @param mode
-     * @param model
      */
-    private void commonProcess(Long seq, String mode, Model model) {
+    private void commonProcess(Long seq, String mode) {
         boardData = infoService.get(seq);
 
-        model.addAttribute("boardData", boardData);
-
-        commonProcess(boardData.getBoard().getBid(), mode, model);
+        commonProcess(boardData.getBoard().getBid(), mode);
     }
 }

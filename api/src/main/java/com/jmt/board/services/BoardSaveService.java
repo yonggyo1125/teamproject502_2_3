@@ -1,16 +1,15 @@
 package com.jmt.board.services;
 
+import com.jmt.board.controllers.RequestBoard;
+import com.jmt.board.entities.Board;
+import com.jmt.board.entities.BoardData;
+import com.jmt.board.exceptions.BoardDataNotFoundException;
+import com.jmt.board.exceptions.BoardNotFoundException;
+import com.jmt.board.repositories.BoardDataRepository;
+import com.jmt.file.services.FileUploadDoneService;
+import com.jmt.member.MemberUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.g9project4.board.controllers.RequestBoard;
-import org.g9project4.board.entities.Board;
-import org.g9project4.board.entities.BoardData;
-import org.g9project4.board.exceptions.BoardDataNotFoundException;
-import org.g9project4.board.exceptions.BoardNotFoundException;
-import org.g9project4.board.repositories.BoardDataRepository;
-import org.g9project4.board.repositories.BoardRepository;
-import org.g9project4.file.services.FileUploadDoneService;
-import org.g9project4.member.MemberUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +22,7 @@ public class BoardSaveService {
 
     private final HttpServletRequest request;
     private final PasswordEncoder encoder;
-    private final BoardRepository boardRepository;
+    private final BoardConfigInfoService configInfoService;
     private final BoardDataRepository boardDataRepository;
     private final MemberUtil memberUtil;
     private final FileUploadDoneService doneService;
@@ -41,7 +40,7 @@ public class BoardSaveService {
             data = boardDataRepository.findById(seq).orElseThrow(BoardDataNotFoundException::new);
         } else { // 글 작성
             String bid = form.getBid();
-            Board board = boardRepository.findById(bid).orElseThrow(BoardNotFoundException::new);
+            Board board = configInfoService.get(bid).orElseThrow(BoardNotFoundException::new);
 
             data = BoardData.builder()
                     .gid(gid)
