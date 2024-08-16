@@ -1,10 +1,10 @@
 package com.jmt.board.services;
 
+import com.jmt.board.entities.BoardData;
+import com.jmt.board.repositories.BoardDataRepository;
+import com.jmt.file.services.FileDeleteService;
+import com.jmt.global.constants.DeleteStatus;
 import lombok.RequiredArgsConstructor;
-import org.g9project4.board.entities.BoardData;
-import org.g9project4.board.repositories.BoardDataRepository;
-import org.g9project4.file.services.FileDeleteService;
-import org.g9project4.global.constants.DeleteStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

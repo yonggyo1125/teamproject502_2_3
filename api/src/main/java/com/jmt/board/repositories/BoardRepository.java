@@ -1,6 +1,7 @@
 package com.jmt.board.repositories;
 
-import org.g9project4.board.entities.Board;
+
+import com.jmt.board.entities.Board;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 

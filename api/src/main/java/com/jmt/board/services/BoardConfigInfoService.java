@@ -1,10 +1,10 @@
 package com.jmt.board.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jmt.board.entities.Board;
+import com.jmt.global.Utils;
+import com.jmt.global.rests.JSONData;
 import lombok.RequiredArgsConstructor;
-import org.g9project4.board.entities.Board;
-import org.g9project4.global.Utils;
-import org.g9project4.global.rests.JSONData;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

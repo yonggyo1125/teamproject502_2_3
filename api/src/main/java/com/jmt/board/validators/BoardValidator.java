@@ -1,9 +1,9 @@
 package com.jmt.board.validators;
 
+import com.jmt.board.controllers.RequestBoard;
+import com.jmt.global.validators.PasswordValidator;
+import com.jmt.member.MemberUtil;
 import lombok.RequiredArgsConstructor;
-import org.g9project4.board.controllers.RequestBoard;
-import org.g9project4.global.validators.PasswordValidator;
-import org.g9project4.member.MemberUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;

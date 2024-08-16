@@ -1,5 +1,17 @@
 package com.jmt.board.services;
 
+import com.jmt.board.controllers.BoardDataSearch;
+import com.jmt.board.controllers.RequestBoard;
+import com.jmt.board.entities.Board;
+import com.jmt.board.entities.BoardData;
+import com.jmt.board.entities.QBoardData;
+import com.jmt.board.exceptions.BoardDataNotFoundException;
+import com.jmt.board.exceptions.BoardNotFoundException;
+import com.jmt.board.repositories.BoardDataRepository;
+import com.jmt.global.ListData;
+import com.jmt.global.Pagination;
+import com.jmt.global.Utils;
+import com.jmt.global.constants.DeleteStatus;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -8,18 +20,6 @@ import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.g9project4.board.controllers.BoardDataSearch;
-import org.g9project4.board.controllers.RequestBoard;
-import org.g9project4.board.entities.Board;
-import org.g9project4.board.entities.BoardData;
-import org.g9project4.board.entities.QBoardData;
-import org.g9project4.board.exceptions.BoardDataNotFoundException;
-import org.g9project4.board.exceptions.BoardNotFoundException;
-import org.g9project4.board.repositories.BoardDataRepository;
-import org.g9project4.global.ListData;
-import org.g9project4.global.Pagination;
-import org.g9project4.global.Utils;
-import org.g9project4.global.constants.DeleteStatus;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -181,7 +181,7 @@ public class BoardInfoService {
         long total = repository.count(andBuilder);
 
         // 페이징 처리
-        int ranges = utils.isMobile() ? board.getPageCountMobile() : board.getPageCountPc();
+        int ranges = board.getPageCountPc();
 
         Pagination pagination = new Pagination(page, (int)total, ranges, limit, request);
 
