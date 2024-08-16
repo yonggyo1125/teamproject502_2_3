@@ -8,15 +8,15 @@ import com.jmt.board.services.BoardDeleteService;
 import com.jmt.board.services.BoardInfoService;
 import com.jmt.board.services.BoardSaveService;
 import com.jmt.board.validators.BoardValidator;
-import com.jmt.global.ListData;
 import com.jmt.global.Utils;
+import com.jmt.global.exceptions.BadRequestException;
+import com.jmt.global.rests.JSONData;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.util.StringUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/board")
@@ -29,105 +29,49 @@ public class BoardController {
     private final BoardValidator validator;
     private final Utils utils;
 
+    // 게시판 설정
+    @GetMapping("/config/{bid}")
+    public JSONData getConfig(@PathVariable("bid") String bid) {
 
-    private Board board; // 게시판 설정
-    private BoardData boardData; // 게시글 내용
+        Board board = configInfoService.get(bid).orElseThrow(BoardNotFoundException::new);
 
-    /**
-     * 글 쓰기
-     * @param bid
-     * @return
-     */
-    @GetMapping("/write/{bid}")
-    public String write(@PathVariable("bid") String bid, Model model) {
-        commonProcess(bid, "write", model);
+        return new JSONData(board);
+    }
 
-        return utils.tpl("board/write");
+    // 글쓰기
+    @PostMapping("/write/{bid}")
+    public ResponseEntity<JSONData> write(@PathVariable("bid") String bid, @RequestBody @Valid RequestBoard form, Errors errors) {
+        form.setBid(bid);
+        form.setMode("write");
+
+        return save(form, errors);
     }
 
     // 글 수정
-    @GetMapping("/update/{seq}")
-    public String update(@PathVariable("seq") Long seq, Model model) {
-        commonProcess(seq, "update", model);
+    @PatchMapping("/update/{seq}")
+    public ResponseEntity<JSONData> update(@PathVariable("seq") Long seq, @RequestBody @Valid RequestBoard form, Errors errors) {
+        form.setSeq(seq);
+        form.setMode("update");
 
-        RequestBoard form = infoService.getForm(boardData);
-        model.addAttribute("requestBoard", form);
-
-        return utils.tpl("board/update");
+        return save(form, errors);
     }
 
     // 글 작성, 수정 처리
-    @PostMapping("/save")
-    public String save(@Valid RequestBoard form, Errors errors, Model model) {
-        String mode = form.getMode();
-        mode = mode != null && StringUtils.hasText(mode.trim()) ? mode.trim() : "write";
-        commonProcess(form.getBid(), mode, model);
+    private ResponseEntity<JSONData> save(RequestBoard form, Errors errors) {
 
         validator.validate(form, errors);
 
-        if (errors.hasErrors()) {
-            return utils.tpl("board/" + mode);
+        if (errors.hasErrors()) { // 검증 실패
+            throw new BadRequestException(utils.getErrorMessages(errors));
         }
 
-        // 목록 또는 상세 보기 이동
-        String url = board.getLocationAfterWriting().equals("list") ? "/board/list/" + board.getBid() : "/board/view/" + boardData.getSeq();
+        BoardData data = saveService.save(form);
 
-        return utils.redirectUrl(url);
+        JSONData jsonData = new JSONData(data);
+        HttpStatus status = HttpStatus.CREATED;
+        jsonData.setStatus(status);
+
+        return ResponseEntity.status(status).body(jsonData);
     }
 
-    @GetMapping("/list/{bid}")
-    public String list(@PathVariable("bid") String bid, @ModelAttribute BoardDataSearch search, Model model) {
-        commonProcess(bid, "list", model);
-
-        ListData<BoardData> data = infoService.getList(bid, search);
-
-        model.addAttribute("items", data.getItems());
-        model.addAttribute("pagination", data.getPagination());
-
-        return utils.tpl("board/list");
-    }
-
-    @GetMapping("/view/{seq}")
-    public String view(@PathVariable("seq") Long seq, Model model) {
-        commonProcess(seq, "view", model);
-
-        return utils.tpl("board/view");
-    }
-
-    // 게시글 삭제
-    @GetMapping("/delete/{seq}")
-    public String delete(@PathVariable("seq") Long seq, Model model) {
-        commonProcess(seq, "delete", model);
-
-        deleteService.delete(seq);
-
-        return utils.redirectUrl("/board/list/" + board.getBid());
-    }
-
-
-    /**
-     * 게시판 설정이 필요한 공통 처리(모든 처리)
-     *
-     * @param bid : 게시판 아이디
-     * @param mode
-     */
-    private void commonProcess(String bid, String mode) {
-        board = configInfoService.get(bid).orElseThrow(BoardNotFoundException::new); // 게시판 설정
-
-        mode = mode == null || !StringUtils.hasText(mode.trim()) ? "write" : mode.trim();
-
-    }
-
-    /**
-     * 게시글 번호가 경로 변수로 들어오는 공통 처리
-     *  게시판 설정 + 게시글 내용
-     *
-     * @param seq
-     * @param mode
-     */
-    private void commonProcess(Long seq, String mode) {
-        boardData = infoService.get(seq);
-
-        commonProcess(boardData.getBoard().getBid(), mode);
-    }
 }
