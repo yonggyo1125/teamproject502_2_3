@@ -45,7 +45,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723764511551</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="프로필 이미지 업로드 처리">
+      <option name="closed" value="true" />
+      <created>1723764560341</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1723764560341</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
