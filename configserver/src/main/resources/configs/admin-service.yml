@@ -75,3 +75,5 @@ management:
     web:
       exposure:
         include: health, refresh
+
+secretKey: ${secretKey}
