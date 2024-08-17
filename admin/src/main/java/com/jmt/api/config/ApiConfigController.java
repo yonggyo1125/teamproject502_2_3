@@ -40,7 +40,7 @@ public class ApiConfigController implements RestExceptionProcessor {
         if (config == null) {
             data.setStatus(HttpStatus.NOT_FOUND);
         }
-        data.setData(data);
+        data.setData(config);
 
         return ResponseEntity.status(data.getStatus()).body(data);
     }
