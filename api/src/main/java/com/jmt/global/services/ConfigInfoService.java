@@ -1,13 +1,12 @@
 package com.jmt.global.services;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmt.global.Utils;
 import com.jmt.global.rests.JSONData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -20,6 +19,7 @@ public class ConfigInfoService {
     private final Utils utils;
     private final PasswordEncoder encoder;
     private final RestTemplate restTemplate;
+    private final ObjectMapper om;
 
     @Value("${secretKey}")
     private String secretKey;
@@ -39,8 +39,19 @@ public class ConfigInfoService {
         HttpEntity<Void> request = new HttpEntity<>(headers);
 
         ResponseEntity<JSONData> response = restTemplate.exchange(url, HttpMethod.GET, request, JSONData.class);
+        if (response.getStatusCode().isSameCodeAs(HttpStatus.OK) && response.getBody().isSuccess()) {
+            try {
+                JSONData data = response.getBody();
+                Map<String, String> config = om.readValue(om.writeValueAsString(data.getData()), new TypeReference<>() {
+                });
+                return config;
 
-        System.out.println(response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
         return null;
     }
 }

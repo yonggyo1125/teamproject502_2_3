@@ -1,6 +1,6 @@
 package com.jmt.global.tests;
 
-import com.jmt.global.Utils;
+import com.jmt.global.services.ConfigInfoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,10 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class ApiConfigTest {
     @Autowired
-    private Utils utils;
+    private ConfigInfoService infoService;
 
     @Test
     void test1() {
-        //utils.getApiConfig();
+        infoService.getApiConfig();
     }
 }
