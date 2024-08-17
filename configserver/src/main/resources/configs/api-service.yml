@@ -74,4 +74,4 @@ file:
     url: /upload/
 
 
-secretKey: ${secretKey}
+secretKey: ${secret}

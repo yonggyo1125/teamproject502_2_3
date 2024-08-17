@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController("apiConfigRestController")
 @RequestMapping("/api/config")
 @RequiredArgsConstructor
 public class ApiConfigController implements RestExceptionProcessor {
 
-    @Value("${secretKey}")
+    @Value("${secret}")
     private String secretKey;
 
     private final PasswordEncoder encoder;
