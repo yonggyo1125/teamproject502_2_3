@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="97af08b2-7a4d-4e45-b9d4-7f6b641662b6" name="Changes" comment="프로필 이미지 업로드 처리" />
+    <list default="true" id="97af08b2-7a4d-4e45-b9d4-7f6b641662b6" name="Changes" comment="프로필 이미지 업로드 처리">
+      <change afterPath="$PROJECT_DIR$/email/src/main/java/com/jmt/email/entities/AuthNum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/email/src/main/java/com/jmt/email/repositories/AuthNumRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configserver/src/main/resources/configs/email-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/configserver/src/main/resources/configs/email-service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/email/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/email/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/email/src/main/java/com/jmt/email/controllers/EmailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/email/src/main/java/com/jmt/email/controllers/EmailController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/email/src/main/java/com/jmt/email/services/EmailSendService.java" beforeDir="false" afterPath="$PROJECT_DIR$/email/src/main/java/com/jmt/email/services/EmailSendService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/email/src/main/java/com/jmt/email/services/EmailVerifyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/email/src/main/java/com/jmt/email/services/EmailVerifyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/email/src/main/java/com/jmt/global/configs/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/email/src/main/java/com/jmt/global/configs/SecurityConfig.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
