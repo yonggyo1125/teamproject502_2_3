@@ -1,4 +1,4 @@
-package com.jmt.order.controllers;
+package com.jmt.reservation.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

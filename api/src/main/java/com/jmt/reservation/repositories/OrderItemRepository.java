@@ -1,4 +1,4 @@
-package com.jmt.order.repositories;
+package com.jmt.reservation.repositories;
 
 import org.g9project4.order.entities.OrderItem;
 import org.springframework.data.jpa.repository.JpaRepository;

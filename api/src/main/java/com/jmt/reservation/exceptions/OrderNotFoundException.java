@@ -1,4 +1,4 @@
-package com.jmt.order.exceptions;
+package com.jmt.reservation.exceptions;
 
 import org.g9project4.global.exceptions.script.AlertBackException;
 import org.springframework.http.HttpStatus;

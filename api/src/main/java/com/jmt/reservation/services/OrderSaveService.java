@@ -1,4 +1,4 @@
-package com.jmt.order.services;
+package com.jmt.reservation.services;
 
 import lombok.RequiredArgsConstructor;
 import org.g9project4.board.entities.BoardData;

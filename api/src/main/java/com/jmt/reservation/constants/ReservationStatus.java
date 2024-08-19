@@ -1,8 +1,8 @@
-package com.jmt.order.constants;
+package com.jmt.reservation.constants;
 
 import java.util.List;
 
-public enum OrderStatus {
+public enum ReservationStatus {
     START("접수중"), 
     APPLY("예약접수"),
     CONFIRM("예약확인"),
@@ -11,7 +11,7 @@ public enum OrderStatus {
 
     private final String title;
 
-    OrderStatus(String title) {
+    ReservationStatus(String title) {
         this.title = title;
     }
 
