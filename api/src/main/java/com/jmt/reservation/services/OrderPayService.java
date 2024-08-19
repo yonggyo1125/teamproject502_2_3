@@ -1,19 +1,12 @@
 package com.jmt.reservation.services;
 
 import lombok.RequiredArgsConstructor;
-import org.g9project4.order.constants.OrderStatus;
-import org.g9project4.order.entities.OrderInfo;
-import org.g9project4.order.entities.OrderItem;
-import org.g9project4.order.repositories.OrderInfoRepository;
-import org.g9project4.payment.constants.PayMethod;
-import org.g9project4.payment.controllers.PayConfirmResult;
-import org.g9project4.payment.services.PaymentConfig;
-import org.g9project4.payment.services.PaymentConfigService;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class OrderPayService {
+    /*
     private final OrderInfoService orderInfoService;
     private final OrderStatusService orderStatusService;
     private final PaymentConfigService paymentConfigService;
@@ -54,5 +47,5 @@ public class OrderPayService {
         orderStatusService.change(orderNo, status);
 
         return orderInfo;
-    }
+    } */
 }

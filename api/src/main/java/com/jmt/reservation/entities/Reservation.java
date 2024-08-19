@@ -27,6 +27,7 @@ public class Reservation extends BaseEntity {
     private ReservationStatus status = ReservationStatus.START;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="rstrId")
     private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)
