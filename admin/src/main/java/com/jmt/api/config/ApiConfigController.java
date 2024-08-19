@@ -1,7 +1,5 @@
 package com.jmt.api.config;
 
-import com.jmt.config.controllers.BasicConfig;
-import com.jmt.config.controllers.PaymentConfig;
 import com.jmt.config.service.ConfigInfoService;
 import com.jmt.global.exceptions.RestExceptionProcessor;
 import com.jmt.global.exceptions.UnAuthorizedException;
@@ -30,29 +28,14 @@ public class ApiConfigController implements RestExceptionProcessor {
     private final ConfigInfoService infoService;
     private final HttpServletRequest request;
 
-    @GetMapping
-    public ResponseEntity<JSONData> siteConfig() {
+    @GetMapping({"/{mode}", "/"})
+    public ResponseEntity<JSONData> config(@PathVariable(name="mode", required = false) String mode) {
         checkToken();
-
-        BasicConfig config = infoService.get("basic", BasicConfig.class).orElse(null);
-
-        JSONData data = new JSONData();
-        data.setSuccess(config != null);
-        if (config == null) {
-            data.setStatus(HttpStatus.NOT_FOUND);
-        }
-        data.setData(config);
-
-        return ResponseEntity.status(data.getStatus()).body(data);
-    }
-
-    @GetMapping("/{mode}")
-    public ResponseEntity<JSONData> config(@PathVariable("mode") String mode) {
-        checkToken();
+        mode = StringUtils.hasText(mode) ? mode : "basic";
 
         if (mode.equals("apikeys")) mode = "apiConfig";
 
-        PaymentConfig config = infoService.get(mode, PaymentConfig.class).orElse(null);
+        Object config = infoService.get(mode, Object.class).orElse(null);
 
         JSONData data = new JSONData();
         data.setSuccess(config != null);
