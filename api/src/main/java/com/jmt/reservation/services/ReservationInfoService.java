@@ -15,8 +15,16 @@ public class ReservationInfoService {
         Reservation item = reservationRepository.findById(orderNo).orElseThrow(ReservationNotFoundException::new);
 
         // 추가 데이터 처리
+        addInfo(item);
 
         return item;
     }
 
+    private void addInfo(Reservation item) {
+        int persons = Math.max(item.getPersons(), 1);
+        int price = item.getPrice();
+
+        int totalPayPrice = price * persons;
+        item.setTotalPayPrice(totalPayPrice);
+    }
 }
