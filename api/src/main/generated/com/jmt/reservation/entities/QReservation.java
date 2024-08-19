@@ -53,6 +53,10 @@ public class QReservation extends EntityPathBase<Reservation> {
 
     public final StringPath payTid = createString("payTid");
 
+    public final NumberPath<Integer> persons = createNumber("persons", Integer.class);
+
+    public final NumberPath<Integer> price = createNumber("price", Integer.class);
+
     public final StringPath rAddress = createString("rAddress");
 
     public final DateTimePath<java.time.LocalDateTime> rDateTime = createDateTime("rDateTime", java.time.LocalDateTime.class);
