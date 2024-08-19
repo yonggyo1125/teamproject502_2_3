@@ -1,19 +1,20 @@
 package com.jmt.order.entities;
 
+import com.jmt.global.entities.BaseEntity;
+import com.jmt.member.entities.Member;
+import com.jmt.order.constants.OrderStatus;
+import com.jmt.payment.constants.PayMethod;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.g9project4.global.entities.BaseEntity;
-import org.g9project4.member.entities.Member;
-import org.g9project4.order.constants.OrderStatus;
-import org.g9project4.payment.constants.PayMethod;
 
 @Data
 @Entity
 @Builder
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderInfo extends BaseEntity {
     @Id
     private Long orderNo = System.currentTimeMillis();
