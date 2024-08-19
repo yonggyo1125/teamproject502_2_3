@@ -1,7 +1,7 @@
 package com.jmt.api.config;
 
-import com.jmt.config.controllers.ApiConfig;
 import com.jmt.config.controllers.BasicConfig;
+import com.jmt.config.controllers.PaymentConfig;
 import com.jmt.config.service.ConfigInfoService;
 import com.jmt.global.exceptions.RestExceptionProcessor;
 import com.jmt.global.exceptions.UnAuthorizedException;
@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,12 +46,13 @@ public class ApiConfigController implements RestExceptionProcessor {
         return ResponseEntity.status(data.getStatus()).body(data);
     }
 
-    @GetMapping("/apikeys")
-    public ResponseEntity<JSONData> apiKeys() {
-
+    @GetMapping("/{mode}")
+    public ResponseEntity<JSONData> config(@PathVariable("mode") String mode) {
         checkToken();
 
-        ApiConfig config = infoService.get("apiConfig", ApiConfig.class).orElse(null);
+        if (mode.equals("apikeys")) mode = "apiConfig";
+
+        PaymentConfig config = infoService.get(mode, PaymentConfig.class).orElse(null);
 
         JSONData data = new JSONData();
         data.setSuccess(config != null);
@@ -61,6 +63,7 @@ public class ApiConfigController implements RestExceptionProcessor {
 
         return ResponseEntity.status(data.getStatus()).body(data);
     }
+
 
     private void checkToken() {
         /**
