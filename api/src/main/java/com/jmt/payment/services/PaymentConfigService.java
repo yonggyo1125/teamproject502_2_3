@@ -1,5 +1,6 @@
 package com.jmt.payment.services;
 
+import com.jmt.global.SHA256;
 import com.jmt.global.services.ConfigInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,9 @@ public class PaymentConfigService {
             config.setMKey(mKey);
 
             config.setTimestamp(timestamp);
+            config.setOid(oid);
+            config.setPrice(price);
+
             return config;
 
         } catch (Exception e) {

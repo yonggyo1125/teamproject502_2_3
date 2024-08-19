@@ -1,28 +1,24 @@
 package com.jmt.payment.controllers;
 
+import com.jmt.global.Utils;
+import com.jmt.payment.services.PaymentProcessService;
 import lombok.RequiredArgsConstructor;
-import org.g9project4.global.Utils;
-import org.g9project4.global.exceptions.ExceptionProcessor;
-import org.g9project4.order.entities.OrderInfo;
-import org.g9project4.order.services.OrderPayService;
-import org.g9project4.payment.services.PaymentProcessService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/payment")
 @RequiredArgsConstructor
-public class PaymentController implements ExceptionProcessor {
+public class PaymentController {
 
     private final PaymentProcessService processService;
-    private final OrderPayService orderPayService;
+    //private final OrderPayService orderPayService;
     private final Utils utils;
 
     @PostMapping("/process")
     public String process(PayAuthResult result) {
-
+        /*
         PayConfirmResult confirmResult = processService.process(result);
         if (confirmResult == null) { // 결제 실패시에는 주문 실패 페이지로 이동
             return "redirect:" + utils.redirectUrl("/order/fail");
@@ -32,8 +28,11 @@ public class PaymentController implements ExceptionProcessor {
 
         // 주문 성공시에는 주문 상세 페이지로 이동
         return "redirect:" + utils.redirectUrl("/order/detail/" + orderInfo.getOrderNo());
-    }
 
+         */
+        return null;
+    }
+    /*
     @RequestMapping("/close")
     public String close(Model model) {
 
@@ -46,4 +45,5 @@ public class PaymentController implements ExceptionProcessor {
 
         return "common/_execute_script";
     }
+     */
 }

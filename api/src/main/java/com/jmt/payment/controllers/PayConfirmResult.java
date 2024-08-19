@@ -1,8 +1,8 @@
 package com.jmt.payment.controllers;
 
+import com.jmt.payment.constants.PayMethod;
 import lombok.Builder;
 import lombok.Data;
-import org.g9project4.payment.constants.PayMethod;
 
 @Data
 @Builder

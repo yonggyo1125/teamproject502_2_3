@@ -1,15 +1,14 @@
 package com.jmt.payment.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jmt.global.SHA256;
+import com.jmt.global.Utils;
+import com.jmt.payment.constants.PayMethod;
+import com.jmt.payment.controllers.PayAuthResult;
+import com.jmt.payment.controllers.PayConfirmResult;
+import com.jmt.payment.exceptions.PaymentAuthException;
 import lombok.RequiredArgsConstructor;
-import org.g9project4.global.SHA256;
-import org.g9project4.global.Utils;
-import org.g9project4.payment.constants.PayMethod;
-import org.g9project4.payment.controllers.PayAuthResult;
-import org.g9project4.payment.controllers.PayConfirmResult;
-import org.g9project4.payment.exceptions.PaymentAuthException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -50,14 +49,11 @@ public class PaymentProcessService {
         long timestamp = new Date().getTime();
 
         // 인증 실패, 승인 실패시 이동할 주소
-        String orderNumber = result.getOrderNumber();
-        String redirectUrl = utils.redirectUrl("/order/order_fail?orderNo=" + orderNumber);
-
         if (!result.getResultCode().equals("0000")) { // 인증 실패시
 
             // 결제 승인 취초
 
-            throw new PaymentAuthException(result.getResultMsg(), redirectUrl);
+            throw new PaymentAuthException(result.getResultMsg());
         }
 
 
@@ -112,7 +108,7 @@ public class PaymentProcessService {
                         .payLog(payLog)
                         .build();
 
-            } catch (JsonProcessingException e) {
+            } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
 
