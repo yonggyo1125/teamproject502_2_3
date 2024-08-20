@@ -59,6 +59,8 @@ public class QReservation extends EntityPathBase<Reservation> {
 
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
+    public final EnumPath<com.jmt.activity.constants.Status> status = createEnum("status", com.jmt.activity.constants.Status.class);
+
     public final StringPath townName = createString("townName");
 
     public QReservation(String variable) {
