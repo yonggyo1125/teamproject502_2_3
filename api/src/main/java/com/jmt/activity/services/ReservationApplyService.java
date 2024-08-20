@@ -1,6 +1,7 @@
 package com.jmt.activity.services;
 
 import com.jmt.activity.constants.AM_PM;
+import com.jmt.activity.constants.Status;
 import com.jmt.activity.controllers.RequestReservation;
 import com.jmt.activity.entities.Activity;
 import com.jmt.activity.entities.Reservation;
@@ -17,6 +18,7 @@ import org.springframework.util.StringUtils;
 public class ReservationApplyService {
     private final ReservationRepository reservationRepository;
     private final ActivityRepository activityRepository;
+    private final ReservationStatusService statusService;
     private final MemberUtil memberUtil;
 
     public Reservation apply(RequestReservation form) {
@@ -45,6 +47,10 @@ public class ReservationApplyService {
                 .build();
 
         reservationRepository.saveAndFlush(reservation);
+
+
+        // 예약 접수 상태로 변경
+        statusService.change(reservation.getSeq(), Status.APPLY);
 
         return reservation;
     }

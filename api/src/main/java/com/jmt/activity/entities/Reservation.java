@@ -26,9 +26,9 @@ public class Reservation extends BaseEntity {
     @ManyToOne(fetch=FetchType.LAZY)
     private Activity activity;
 
-    @Column(length=10, nullable = false)
+    @Column(length=10)
     @Enumerated(EnumType.STRING)
-    private Status status = Status.APPLY;
+    private Status status;
 
     @Column(length=40, nullable = false)
     private String name; // 예약자명
