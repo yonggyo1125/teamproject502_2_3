@@ -1,14 +1,20 @@
 package com.jmt.activity.services;
 
 import com.jmt.activity.controllers.ReservationSearch;
+import com.jmt.activity.entities.QReservation;
 import com.jmt.activity.entities.Reservation;
 import com.jmt.activity.exceptions.ReservationNotFoundException;
 import com.jmt.activity.repositories.ReservationRepository;
 import com.jmt.global.ListData;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import java.time.LocalDate;
 
 @Service
 @Transactional
@@ -33,6 +39,64 @@ public class ReservationInfoService {
     }
 
     public ListData<Reservation> getList(ReservationSearch search) {
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit < 1 ? 20 : limit;
+
+        String sopt = search.getSopt();
+        String skey = search.getSkey();
+
+        LocalDate sDate = search.getSDate();
+        LocalDate eDate = search.getEDate();
+
+        /* 검색 처리 S */
+        QReservation reservation = QReservation.reservation;
+        BooleanBuilder andBuilder = new BooleanBuilder();
+
+        sopt = sopt != null && StringUtils.hasText(sopt.trim()) ? sopt.trim() : "ALL";
+        if (skey != null && StringUtils.hasText(skey.trim())) {
+            /**
+             * sopt
+             *      ALL - 통합 검색
+             *            name(예약자명), email(예약자 이메일), mobile(예약자 휴대전화번호)
+             *            townName(체험 마을명), activityName (체험프로그램명)
+             *            doroAddress(주소), ownerName(대표자명), ownerTel(대표자 전화번호)
+             *      NAME - 예약자명, 대표자명
+             *      EMAIL
+             *      MOBILE - 예약자 전화번호 + 대표자 전화번호
+             *      ADDRESS
+             *      ACTIVITY - 체험 마을명 + 체험프로그램명
+             */
+
+            skey = skey.trim();
+            StringExpression expression = null;
+            if (sopt.equals("ALL")) { // 통합 검색
+                expression = reservation.name.concat(reservation.email)
+                        .concat(reservation.mobile)
+                        .concat(reservation.townName)
+                        .concat(reservation.activityName)
+                        .concat(reservation.doroAddress)
+                        .concat(reservation.ownerName)
+                        .concat(reservation.ownerTel);
+            } else if (sopt.equals("NAME")) {
+                expression = reservation.name.concat(reservation.ownerName);
+            } else if (sopt.equals("EMAIL")) {
+                expression = reservation.email;
+            } else if (sopt.equals("MOBILE")) {
+                expression = reservation.mobile.concat(reservation.ownerTel);
+
+            } else if (sopt.equals("ADDRESS")) {
+                expression = reservation.doroAddress;
+            } else if (sopt.equals("ACTIVITY")) {
+                expression = reservation.activityName.concat(reservation.townName);
+            }
+
+            if (expression != null) {
+                andBuilder.and(expression.contains(skey));
+            }
+        }
+
+        /* 검색 처리 E */
 
 
         return null;
