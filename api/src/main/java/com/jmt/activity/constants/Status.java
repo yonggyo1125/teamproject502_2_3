@@ -2,14 +2,14 @@ package com.jmt.activity.constants;
 
 import java.util.List;
 
-public enum RStatus {
+public enum Status {
     APPLY("예약접수"),
     CONFIRM("예약확정"),
     CANCEL("예약취소");
 
     private final String title;
 
-    RStatus(String title) {
+    Status(String title) {
         this.title = title;
     }
 
