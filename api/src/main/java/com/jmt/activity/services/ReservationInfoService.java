@@ -7,6 +7,9 @@ import com.jmt.activity.exceptions.ReservationNotFoundException;
 import com.jmt.activity.repositories.ReservationRepository;
 import com.jmt.global.ListData;
 import com.jmt.global.Pagination;
+import com.jmt.global.exceptions.UnAuthorizedException;
+import com.jmt.member.MemberUtil;
+import com.jmt.member.entities.Member;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -26,6 +29,7 @@ public class ReservationInfoService {
     private final JPAQueryFactory queryFactory;
     private final ReservationRepository reservationRepository;
     private final HttpServletRequest request;
+    private final MemberUtil memberUtil;
 
     /**
      * 예약 상세 정보
@@ -38,6 +42,17 @@ public class ReservationInfoService {
 
         // 추가 정보 처리
         addInfo(reservation);
+
+        return reservation;
+    }
+
+    public Reservation get(Long seq, boolean isMine) {
+        Reservation reservation = get(seq);
+
+        Member member = memberUtil.getMember();
+        if (isMine && (!memberUtil.isLogin() || !member.getSeq().equals(reservation.getMember().getSeq()))) {
+            throw new UnAuthorizedException();
+        }
 
         return reservation;
     }

@@ -61,5 +61,10 @@ public class ReservationController {
         return new JSONData(data);
     }
 
+    @GetMapping("/info/{seq}")
+    public JSONData info(@PathVariable("seq") Long seq) {
+        Reservation reservation = infoService.get(seq, true);
 
+        return new JSONData(reservation);
+    }
 }
