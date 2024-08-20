@@ -2,6 +2,7 @@ package com.jmt.tour.services;
 
 import com.jmt.global.ListData;
 import com.jmt.global.Pagination;
+import com.jmt.global.Utils;
 import com.jmt.tour.controllers.TourPlaceSearch;
 import com.jmt.tour.entities.QTourPlace;
 import com.jmt.tour.entities.TourPlace;
@@ -28,6 +29,7 @@ public class TourPlaceInfoService {
 
     private final TourPlaceRepository repository;
     private final HttpServletRequest request;
+    private final Utils utils;
 
     public ListData<TourPlace> getList(TourPlaceSearch search) {
         int page = Math.max(search.getPage(), 1);
@@ -79,21 +81,9 @@ public class TourPlaceInfoService {
 
         // 시도 검색
         if (sido != null && StringUtils.hasText(sido.trim())) {
-            String sido2 = "";
-            if (sido.equals("서울특별시")) sido2 = "서울";
-            else if (sido.equals("인천광역시")) sido2 = "인천";
-            else if (sido.equals("경기도")) sido2 = "경기";
-            else if (sido.equals("강원도") || sido.equals("강원특별자치도")) sido2 = "강원";
-            else if (sido.equals("충청북도")) sido2 = "충북";
-            else if (sido.equals("충청남도")) sido2 = "충남";
-            else if (sido.equals("경상북도")) sido2 = "경북";
-            else if (sido.equals("경상남도")) sido2 = "경남";
-            else if (sido.equals("전라북도")) sido2 = "전북";
-            else if (sido.equals("전라남도")) sido2 = "전남";
-            else if (sido.equals("대전광역시")) sido2 = "대전";
-            else if (sido.equals("세종특별자치시")) sido2 = "세종";
-            else if (sido.equals("제주특별자치도")) sido2 = "제주";
-                
+            String sido2 = utils.getShortSido(sido);
+            sido = utils.getLongSido(sido2);
+
             BooleanBuilder orBuilder = new BooleanBuilder();
             andBuilder.and(orBuilder.or(tourPlace.address.contains(sido.trim())
                     .or(tourPlace.address.contains(sido2.trim()))));
