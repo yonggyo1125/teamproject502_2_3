@@ -6,15 +6,18 @@ import com.jmt.activity.entities.Reservation;
 import com.jmt.activity.exceptions.ReservationNotFoundException;
 import com.jmt.activity.repositories.ReservationRepository;
 import com.jmt.global.ListData;
+import com.jmt.global.Pagination;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Transactional
@@ -22,6 +25,7 @@ import java.time.LocalDate;
 public class ReservationInfoService {
     private final JPAQueryFactory queryFactory;
     private final ReservationRepository reservationRepository;
+    private final HttpServletRequest request;
 
     /**
      * 예약 상세 정보
@@ -42,6 +46,8 @@ public class ReservationInfoService {
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
         limit = limit < 1 ? 20 : limit;
+
+        int offset = (page - 1) * limit;
 
         String sopt = search.getSopt();
         String skey = search.getSkey();
@@ -96,10 +102,32 @@ public class ReservationInfoService {
             }
         }
 
+        // 예약일 검색
+        if (sDate != null) { // 예약 시작일 검색
+            andBuilder.and(reservation.rDate.goe(sDate));
+        }
+
+        if (eDate != null) { // 예약 종료일 검색
+            andBuilder.and(reservation.rDate.loe(eDate));
+        }
         /* 검색 처리 E */
 
+        List<Reservation> items = queryFactory.selectFrom(reservation)
+                .leftJoin(reservation.member)
+                .fetchJoin()
+                .where(andBuilder)
+                .offset(offset)
+                .limit(limit)
+                .orderBy(reservation.createdAt.desc())
+                .fetch();
 
-        return null;
+
+        long total = reservationRepository.count(andBuilder);
+
+        // int page, int total, int ranges, int limit, HttpServletRequest request
+        Pagination pagination = new Pagination(page, (int)total, 10, limit, request);
+
+        return new ListData<>(items, pagination);
     }
 
     private void addInfo(Reservation reservation) {
