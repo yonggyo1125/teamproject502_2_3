@@ -21,10 +21,10 @@ public class EmailController {
      * @return
      */
     @GetMapping("/verify")
-    public JSONData sendVerifyEmail(@RequestParam("email") String email) {
+    public JSONData sendVerifyEmail(@RequestParam("email") String email, @RequestParam("uid") String uid) {
         JSONData data = new JSONData();
 
-        boolean result = verifyService.sendCode(email);
+        boolean result = verifyService.sendCode(email, uid);
         data.setSuccess(result);
 
         return data;
@@ -37,10 +37,10 @@ public class EmailController {
      * @return
      */
     @GetMapping("/auth_check")
-    public JSONData checkVerifiedEmail(@RequestParam("authNum") int authNum) {
+    public JSONData checkVerifiedEmail(@RequestParam("authNum") int authNum, @RequestParam("uid") String uid) {
         JSONData data = new JSONData();
 
-        boolean result = verifyService.check(authNum);
+        boolean result = verifyService.check(authNum, uid);
         data.setSuccess(result);
 
         return data;
