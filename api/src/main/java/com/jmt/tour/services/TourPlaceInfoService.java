@@ -42,7 +42,7 @@ public class TourPlaceInfoService {
         String skey = search.getSkey();
         String sido = search.getSido();
         String sigungu = search.getSigungu();
-
+        System.out.printf("sido=%s, sigungu=%s%n", sido, sigungu);
         sopt = StringUtils.hasText(sopt) ? sopt : "ALL"; // 통합검색이 기본
         // 키워드가 있을때 조건별 검색
         if (StringUtils.hasText(skey) && StringUtils.hasText(skey.trim())) {
@@ -79,11 +79,28 @@ public class TourPlaceInfoService {
 
         // 시도 검색
         if (sido != null && StringUtils.hasText(sido.trim())) {
-            andBuilder.and(tourPlace.sido.eq(sido.trim()));
+            String sido2 = "";
+            if (sido.equals("서울특별시")) sido2 = "서울";
+            else if (sido.equals("인천광역시")) sido2 = "인천";
+            else if (sido.equals("경기도")) sido2 = "경기";
+            else if (sido.equals("강원도") || sido.equals("강원특별자치도")) sido2 = "강원";
+            else if (sido.equals("충청북도")) sido2 = "충북";
+            else if (sido.equals("충청남도")) sido2 = "충남";
+            else if (sido.equals("경상북도")) sido2 = "경북";
+            else if (sido.equals("경상남도")) sido2 = "경남";
+            else if (sido.equals("전라북도")) sido2 = "전북";
+            else if (sido.equals("전라남도")) sido2 = "전남";
+            else if (sido.equals("대전광역시")) sido2 = "대전";
+            else if (sido.equals("세종특별자치시")) sido2 = "세종";
+            else if (sido.equals("제주특별자치도")) sido2 = "제주";
+                
+            BooleanBuilder orBuilder = new BooleanBuilder();
+            andBuilder.and(orBuilder.or(tourPlace.address.contains(sido.trim())
+                    .or(tourPlace.address.contains(sido2.trim()))));
 
             // 시군구 검색
             if (sigungu != null && StringUtils.hasText(sigungu.trim())) {
-                andBuilder.and(tourPlace.sigungu.eq(sigungu.trim()));
+                andBuilder.and(tourPlace.address.contains(sigungu.trim()));
             }
         } // endif - sido
 
