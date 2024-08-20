@@ -30,6 +30,7 @@ public class Activity extends BaseEntity {
 
     private String division; //체험프로그램 구분
 
+    @Column(length=1200)
     private String activityName; //체험프로그램명
 
     private String facilityInfo; //보유시설정보
