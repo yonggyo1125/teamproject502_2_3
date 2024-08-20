@@ -27,4 +27,6 @@ public class RequestReservation {
 
     @NotBlank
     private String ampm; // 오전 오후
+
+    private int persons = 1; // 예약인원수
 }

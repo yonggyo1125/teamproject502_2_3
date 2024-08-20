@@ -41,6 +41,7 @@ public class ReservationApplyService {
                 .ownerTel(activity.getOwnerTel())
                 .rDate(form.getRDate())
                 .ampm(AM_PM.valueOf(form.getAmpm()))
+                .persons(Math.max(form.getPersons(), 1))
                 .build();
 
         reservationRepository.saveAndFlush(reservation);
