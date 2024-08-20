@@ -55,6 +55,8 @@ public class ReservationInfoService {
         LocalDate sDate = search.getSDate();
         LocalDate eDate = search.getEDate();
 
+        List<Long> memberSeqs = search.getMemberSeqs(); // 회원번호로 조회
+
         /* 검색 처리 S */
         QReservation reservation = QReservation.reservation;
         BooleanBuilder andBuilder = new BooleanBuilder();
@@ -110,6 +112,12 @@ public class ReservationInfoService {
         if (eDate != null) { // 예약 종료일 검색
             andBuilder.and(reservation.rDate.loe(eDate));
         }
+
+        // 회원번호 검색 처리
+        if (memberSeqs != null && !memberSeqs.isEmpty()) {
+            andBuilder.and(reservation.member.seq.in(memberSeqs));
+        }
+
         /* 검색 처리 E */
 
         List<Reservation> items = queryFactory.selectFrom(reservation)
