@@ -1,8 +1,10 @@
 package com.jmt.activity.services;
 
+import com.jmt.activity.controllers.ReservationSearch;
 import com.jmt.activity.entities.Reservation;
 import com.jmt.activity.exceptions.ReservationNotFoundException;
 import com.jmt.activity.repositories.ReservationRepository;
+import com.jmt.global.ListData;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,12 @@ public class ReservationInfoService {
         addInfo(reservation);
 
         return reservation;
+    }
+
+    public ListData<Reservation> getList(ReservationSearch search) {
+
+
+        return null;
     }
 
     private void addInfo(Reservation reservation) {
