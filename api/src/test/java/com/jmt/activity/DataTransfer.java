@@ -66,11 +66,17 @@ public class DataTransfer {
         /* 태그 처리 S */
 
         for (Activity item : items) {
-            String activityName = item.getActivityName();
-            if (!StringUtils.hasText(activityName)) continue;
+            String tagNames = item.getActivityName();
+            String facilityInfo = item.getFacilityInfo();
+            if (StringUtils.hasText(facilityInfo)) tagNames += "+" + facilityInfo;
+            String division = item.getDivision();
+            if (StringUtils.hasText(division)) tagNames += "+" + division;
 
-            List<ActivityTag> tags = Arrays.stream(activityName.split("\\+"))
+            if (!StringUtils.hasText(tagNames)) continue;
+
+            List<ActivityTag> tags = Arrays.stream(tagNames.split("\\+"))
                     .filter(s -> !s.isBlank())
+                    .distinct()
                     .map(tag -> ActivityTag.builder().tag(tag).build()).toList();
             if (tags == null || tags.isEmpty()) continue;
 
