@@ -6,7 +6,7 @@ import com.jmt.activity.repositories.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("ReservationStatusService2")
 @RequiredArgsConstructor
 public class ReservationStatusService {
 

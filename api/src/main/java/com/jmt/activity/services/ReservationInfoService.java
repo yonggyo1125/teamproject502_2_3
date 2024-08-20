@@ -22,7 +22,7 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDate;
 import java.util.List;
 
-@Service
+@Service("ReservationInfoService2")
 @Transactional
 @RequiredArgsConstructor
 public class ReservationInfoService {

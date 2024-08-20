@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-@Service
+@Service("ReservationApplyService2")
 @RequiredArgsConstructor
 public class ReservationApplyService {
     private final ReservationRepository reservationRepository;
