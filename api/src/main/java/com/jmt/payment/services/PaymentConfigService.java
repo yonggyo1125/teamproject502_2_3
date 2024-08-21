@@ -33,7 +33,6 @@ public class PaymentConfigService {
             long timestamp = new Date().getTime();
              String signKey = config.getSignKey();
 
-
             // signature S
             String data = String.format("oid=%d&price=%d&timestamp=%d", oid, price, timestamp);
             String signature = SHA256.encrypt(data);
