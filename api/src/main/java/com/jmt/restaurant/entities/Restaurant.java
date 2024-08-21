@@ -87,7 +87,7 @@ public class Restaurant extends BaseEntity {
     private List<LocalDate> availableDates; // 예약가능한 일자
 
     @Transient
-    private List<Integer> availableWeeks; // 예약가능한 요일, 0(일)~6(토)
+    private boolean[] availableWeeks; // 예약가능한 요일, 0(일)~6(토), true - 가능, false - 불가
 
     @Transient
     @JsonFormat(pattern="HH:mm")

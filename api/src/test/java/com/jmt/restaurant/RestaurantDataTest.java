@@ -15,6 +15,6 @@ public class RestaurantDataTest {
     void test1() {
         Long rstrId = 1943L;
         Restaurant item = infoService.get(rstrId);
-        System.out.println(item);
+      //  System.out.println(item);
     }
 }
