@@ -141,7 +141,7 @@ public class RestaurantInfoService {
             }
 
             // 예약 가능 시간대
-
+            item.setAvailableTimes(availableTimes);
 
             item.setAvailableWeeks(yoils); // 예약 가능 요일
 
