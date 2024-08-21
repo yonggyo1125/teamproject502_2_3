@@ -55,7 +55,7 @@ public class ConfigInfoService {
         return null;
     }
 
-    public Map<String, String> getConfig(String mode) {
+    public Map<String, Object> getConfig(String mode) {
         String url = utils.adminUrl("/api/config/" + mode);
         String token = encoder.encode(secretKey);
 
@@ -65,11 +65,11 @@ public class ConfigInfoService {
         HttpEntity<Void> request = new HttpEntity<>(headers);
 
         ResponseEntity<JSONData> response = restTemplate.exchange(url, HttpMethod.GET, request, JSONData.class);
+        System.out.println("response:" + response);
         if (response.getStatusCode().isSameCodeAs(HttpStatus.OK) && response.getBody().isSuccess()) {
             try {
                 JSONData data = response.getBody();
-                Map<String, String> config = om.readValue(om.writeValueAsString(data.getData()), new TypeReference<>() {
-                });
+                Map<String, Object> config = om.readValue(om.writeValueAsString(data.getData()), new TypeReference<>() {});
                 return config;
 
             } catch (Exception e) {
