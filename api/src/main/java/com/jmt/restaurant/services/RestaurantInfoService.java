@@ -21,7 +21,9 @@ import java.time.LocalTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -91,8 +93,8 @@ public class RestaurantInfoService {
         String operInfo = item.getBsnsTmCn();
         if (operInfo != null && StringUtils.hasText(operInfo.trim())) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-            List<LocalTime> availableTimes = new ArrayList<>();
 
+            Map<String, List<LocalTime>> availableTimes = new HashMap<>();
             boolean[] yoils = new boolean[7]; // 0~6 true, false
             for (String oper : operInfo.split(",\\s*")) {
                 String[] _oper = oper.split("\\s+");
@@ -124,18 +126,22 @@ public class RestaurantInfoService {
                 Duration du = Duration.between(sTime, eTime);
                 int hours = (int)du.getSeconds() / (60 * 60);
 
+                List<LocalTime> _availableTimes = new ArrayList<>();
                 for (int i = 0; i <= hours; i++) {
                     LocalTime t = sTime.plusHours(i);
                     // 예약시간 가능 시간에 + 1시간이 종료 시간를 지난 경우는 X
                     if (t.plusHours(1L).isAfter(eTime)) {
                         continue;
                     }
-                    availableTimes.add(t);
+                    _availableTimes.add(t);
                 }
 
-                //item.setAvailableTimes(availableTimes);
+                availableTimes.put(yoil, _availableTimes);
                 // 예약 가능 시간대 E
             }
+
+            // 예약 가능 시간대
+
 
             item.setAvailableWeeks(yoils); // 예약 가능 요일
 
