@@ -43,8 +43,11 @@ public class ReservationValidator implements Validator {
             Map<String, List<LocalTime>> availableTimes = restaurant.getAvailableTimes();
             int _yoil = rDate.getDayOfWeek().getValue(); // 1(월) ~ 7(일)
             boolean possible = true;
+            List<LocalTime> _availableTimes = null;
             for (Map.Entry<String, List<LocalTime>> entry : availableTimes.entrySet()) {
                 String yoil = entry.getKey();
+                _availableTimes = entry.getValue();
+
                 if (yoil.equals("평일") && _yoil > 5) {
                     possible = false;
                 } else if (yoil.equals("토요일") && _yoil != 6) {
@@ -57,7 +60,8 @@ public class ReservationValidator implements Validator {
                 if (!possible) break;
             }
 
-            if (!possible) {
+
+            if (!possible || (possible && _availableTimes.stream().anyMatch(t -> t.equals(rTime)))) {
                 errors.rejectValue("rTime", "NotAvailable.restaurant");
             }
         }
