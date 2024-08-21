@@ -30,6 +30,8 @@ public class ReservationController {
             throw new BadRequestException(utils.getErrorMessages(errors));
         }
 
+        saveService.save(form);
+
         // 결제시 필요한 데이터 반환
 
     }
