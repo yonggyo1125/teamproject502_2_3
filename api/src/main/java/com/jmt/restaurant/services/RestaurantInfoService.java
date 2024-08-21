@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -48,6 +49,7 @@ public class RestaurantInfoService {
                 .orderBy(restaurant.createdAt.desc())
                 .fetch();
 
+        items.forEach(this::addInfo);
 
         long total = repository.count(andBuilder); // 조회된 전체 갯수
 
@@ -66,7 +68,27 @@ public class RestaurantInfoService {
         Restaurant item = repository.findById(rstrId).orElseThrow(RestaurantNotFoundException::new);
 
         // 추가 데이터 처리
+        addInfo(item);
 
         return item;
+    }
+
+    /**
+     * 추가 데이터 처리 
+     *  1. 예약가능 일자
+     *  2. 예약가능 요일 
+     *  3. 예약가능 시간대
+     * @param item
+     */
+    private void addInfo(Restaurant item) {
+        // 운영 정보로 예약 가능 데이터 처리 S
+        String operInfo = item.getBsnsTmCn();
+        if (operInfo != null && StringUtils.hasText(operInfo.trim())) {
+            for (String oper : operInfo.split(",\\s*")) {
+                System.out.println(oper);
+            }
+        } // endif
+
+        // 운영 정보로 예약 가능 데이터 처리 E
     }
 }
