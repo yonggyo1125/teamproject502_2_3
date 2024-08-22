@@ -91,6 +91,10 @@ public class RestaurantInfoService {
     private void addInfo(Restaurant item) {
         // 운영 정보로 예약 가능 데이터 처리 S
         String operInfo = item.getBsnsTmCn();
+        if (operInfo == null || !StringUtils.hasText(operInfo.trim())) {
+            operInfo = "매일 12:00~22:00";
+        }
+
         if (operInfo != null && StringUtils.hasText(operInfo.trim())) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 

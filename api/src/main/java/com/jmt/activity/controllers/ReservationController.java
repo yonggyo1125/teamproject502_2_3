@@ -40,6 +40,9 @@ public class ReservationController {
         validator.validate(form, errors);
 
         if (errors.hasErrors()) {
+            System.out.println("---------------------------------------");
+            errors.getAllErrors().forEach(System.out::println);
+
             throw new BadRequestException(utils.getErrorMessages(errors));
         }
 

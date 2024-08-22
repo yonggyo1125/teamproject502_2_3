@@ -33,7 +33,7 @@ public class ReservationValidator implements Validator {
         LocalDate rDate = form.getRDate();
         String amPm = form.getAmpm();
 
-        String errorCode = "NotAvailable.reservation";
+        String errorCode = "NotAvailable.activity";
         if (!availableDates.containsKey(rDate)) { // 예약 가능하지 않은 일정
             errors.rejectValue("rDate", errorCode);
         } else { // 예약 가능 일정, 오전 오후 체크 - 선택한 날짜가 당일인 경우

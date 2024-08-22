@@ -1,5 +1,6 @@
 package com.jmt.activity.controllers;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -8,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RequestReservation {
     @NotNull
     private Long activitySeq; // 액티비티 등록 번호
