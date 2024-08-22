@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Entity
@@ -65,4 +66,7 @@ public class Activity extends BaseEntity {
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<ActivityTag> acTags;
+
+    @Transient
+    private Map<LocalDate, boolean[]> availableDates;
 }

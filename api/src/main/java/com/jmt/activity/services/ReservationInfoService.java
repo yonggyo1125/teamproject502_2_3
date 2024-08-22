@@ -20,7 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Period;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("ReservationInfoService2")
 @Transactional
@@ -154,6 +158,8 @@ public class ReservationInfoService {
     }
 
     private void addInfo(Reservation reservation) {
+
+
 
     }
 }
