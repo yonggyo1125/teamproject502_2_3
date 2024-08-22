@@ -58,8 +58,6 @@ public class ActivityInfoService {
         int limit = search.getLimit();
         limit = limit < 1 ? 20 : limit;
 
-        int offset = (page - 1) * limit;
-
         String sopt = search.getSopt();
         String skey = search.getSkey();
 
