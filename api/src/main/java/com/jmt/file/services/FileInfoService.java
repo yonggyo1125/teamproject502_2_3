@@ -95,9 +95,12 @@ public class FileInfoService {
     public void addFileInfo(FileInfo item) {
         String fileUrl = getFileUrl(item);
         String filePath = getFilePath(item);
+        String fileDownloadUrl = getFileDownloadUrl(item);
 
         item.setFileUrl(fileUrl);
         item.setFilePath(filePath);
+        item.setFileDownloadUrl(fileDownloadUrl);
+
     }
 
     // 브라우저 접근 주소
@@ -105,6 +108,11 @@ public class FileInfoService {
         String url =  properties.getUrl() + getFolder(item.getSeq()) + "/" + getFileName(item);
 
         return utils.url(url);
+    }
+
+    // 파일 다운로드 주소
+    public String getFileDownloadUrl(FileInfo item) {
+        return utils.url("/file/download/" + item.getSeq());
     }
 
     // 서버 업로드 경로
