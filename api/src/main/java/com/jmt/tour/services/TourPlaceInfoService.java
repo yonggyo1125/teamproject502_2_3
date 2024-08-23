@@ -1,5 +1,6 @@
 package com.jmt.tour.services;
 
+import com.jmt.global.CommonSearch;
 import com.jmt.global.ListData;
 import com.jmt.global.Pagination;
 import com.jmt.global.Utils;
@@ -122,5 +123,13 @@ public class TourPlaceInfoService {
         // 추가 데이터 처리
 
         return item;
+    }
+
+    public ListData getWishList(CommonSearch search) {
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit < 1 ? 10 : limit;
+
+
     }
 }

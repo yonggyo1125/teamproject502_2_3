@@ -1,10 +1,12 @@
 package com.jmt.restaurant.controllers;
 
+import com.jmt.global.CommonSearch;
 import com.jmt.global.ListData;
 import com.jmt.global.rests.JSONData;
 import com.jmt.restaurant.entities.Restaurant;
 import com.jmt.restaurant.services.RestaurantInfoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,6 +37,14 @@ public class RestaurantController {
     public JSONData info(@PathVariable("rstrId") Long rstrId) {
 
         Restaurant data = infoService.get(rstrId);
+
+        return new JSONData(data);
+    }
+
+    @GetMapping("/wish")
+    @PreAuthorize("isAuthenticated()")
+    public JSONData wishList(@ModelAttribute CommonSearch search) {
+        ListData data = infoService.getWishList(search);
 
         return new JSONData(data);
     }
