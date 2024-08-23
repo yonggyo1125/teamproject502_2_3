@@ -57,6 +57,8 @@ public class Reservation extends BaseEntity {
 
     private LocalDate rDate; // 예약일
 
+    @Column(length=2)
+    @Enumerated(EnumType.STRING)
     private AM_PM ampm; // 오전/오후 구분
 
     private int persons = 1; // 예약인원수

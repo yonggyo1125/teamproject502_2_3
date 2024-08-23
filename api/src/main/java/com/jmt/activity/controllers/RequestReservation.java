@@ -1,5 +1,6 @@
 package com.jmt.activity.controllers;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -24,6 +25,7 @@ public class RequestReservation {
     private String mobile; // 예약자 휴대전화번호
 
     @NotNull
+    @JsonFormat(pattern="yyyy-MM-dd")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate rDate; // 예약일
 

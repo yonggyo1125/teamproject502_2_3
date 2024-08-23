@@ -5,10 +5,7 @@ import com.jmt.activity.services.ActivityInfoService;
 import com.jmt.global.ListData;
 import com.jmt.global.rests.JSONData;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/activity")
@@ -24,7 +21,7 @@ public class ActivityController {
     }
 
     @GetMapping("/info/{seq}")
-    public JSONData get(Long seq) {
+    public JSONData get(@PathVariable("seq") Long seq) {
         Activity item = infoService.get(seq);
 
         return new JSONData(item);
