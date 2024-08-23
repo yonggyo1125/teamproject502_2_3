@@ -44,7 +44,7 @@ public class RestaurantController {
     @GetMapping("/wish")
     @PreAuthorize("isAuthenticated()")
     public JSONData wishList(@ModelAttribute CommonSearch search) {
-        ListData data = infoService.getWishList(search);
+        ListData<Restaurant> data = infoService.getWishList(search);
 
         return new JSONData(data);
     }

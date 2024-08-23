@@ -3,6 +3,7 @@ package com.jmt.member;
 import com.jmt.member.constants.Authority;
 import com.jmt.member.entities.Authorities;
 import com.jmt.member.entities.Member;
+import com.jmt.member.repositories.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +14,8 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class MemberUtil {
+
+    private final MemberRepository repository;
 
     public boolean isLogin() {
         return getMember() != null;
@@ -32,7 +35,10 @@ public class MemberUtil {
 
         if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo) {
 
-            return memberInfo.getMember();
+            Member member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
+            memberInfo.setMember(member);
+
+            return member;
         }
 
         return null;
