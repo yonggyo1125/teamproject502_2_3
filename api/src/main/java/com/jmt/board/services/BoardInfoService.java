@@ -8,10 +8,13 @@ import com.jmt.board.entities.QBoardData;
 import com.jmt.board.exceptions.BoardDataNotFoundException;
 import com.jmt.board.exceptions.BoardNotFoundException;
 import com.jmt.board.repositories.BoardDataRepository;
+import com.jmt.global.CommonSearch;
 import com.jmt.global.ListData;
 import com.jmt.global.Pagination;
 import com.jmt.global.Utils;
 import com.jmt.global.constants.DeleteStatus;
+import com.jmt.wishlist.constants.WishType;
+import com.jmt.wishlist.services.WishListService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -37,6 +40,7 @@ public class BoardInfoService {
     private final JPAQueryFactory queryFactory;
     private final BoardDataRepository repository;
     private final BoardConfigInfoService configInfoService;
+    private final WishListService wishListService;
     private final HttpServletRequest request;
     private final Utils utils;
 
@@ -270,7 +274,50 @@ public class BoardInfoService {
     public RequestBoard getForm(BoardData item) {
         return getForm(item, DeleteStatus.UNDELETED);
     }
+
     /**
+     * 내가 찜한 게시글 목록
+     *
+     * @param search
+     * @return
+     */
+    public ListData<BoardData> getWishList(CommonSearch search) {
+
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit < 1 ? 10 : limit;
+        int offset = (page - 1) * limit;
+
+
+        List<Long> seqs = wishListService.getList(WishType.BOARD);
+        if (seqs == null || seqs.isEmpty()) {
+            return new ListData<>();
+        }
+
+        QBoardData boardData = QBoardData.boardData;
+        BooleanBuilder andBuilder = new BooleanBuilder();
+        andBuilder.and(boardData.seq.in(seqs));
+
+        List<BoardData> items = queryFactory.selectFrom(boardData)
+                .where(andBuilder)
+                .leftJoin(boardData.board)
+                .fetchJoin()
+                .offset(offset)
+                .limit(limit)
+                .orderBy(boardData.createdAt.desc())
+                .fetch();
+
+        items.forEach(this::addInfo);
+
+        long total = repository.count(andBuilder);
+        Pagination pagination = new Pagination(page, (int)total, 10, limit, request);
+
+        return new ListData<>(items, pagination);
+    }
+
+    /**
+     *
+     *
      *  추가 데이터 처리
      *      - 업로드한 파일 목록
      *          에디터 이미지 목록, 첨부 파일 이미지 목록
