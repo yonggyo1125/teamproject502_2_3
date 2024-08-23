@@ -9,6 +9,8 @@ import com.jmt.tour.entities.QTourPlace;
 import com.jmt.tour.entities.TourPlace;
 import com.jmt.tour.exceptions.TourPlaceNotFoundException;
 import com.jmt.tour.repositories.TourPlaceRepository;
+import com.jmt.wishlist.constants.WishType;
+import com.jmt.wishlist.services.WishListService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +31,7 @@ import static org.springframework.data.domain.Sort.Order.desc;
 public class TourPlaceInfoService {
 
     private final TourPlaceRepository repository;
+    private final WishListService wishListService;
     private final HttpServletRequest request;
     private final Utils utils;
 
@@ -125,11 +128,30 @@ public class TourPlaceInfoService {
         return item;
     }
 
-    public ListData getWishList(CommonSearch search) {
+    public ListData<TourPlace> getWishList(CommonSearch search) {
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
         limit = limit < 1 ? 10 : limit;
 
+        List<Long> seqs = wishListService.getList(WishType.TOUR);
+        if (seqs == null || seqs.isEmpty()) {
+            return new ListData<>();
+        }
 
+        QTourPlace tourPlace = QTourPlace.tourPlace;
+        BooleanBuilder andBuilder = new BooleanBuilder();
+        andBuilder.and(tourPlace.seq.in(seqs));
+
+        // 페이징 및 정렬 처리
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
+
+        // 데이터 조회
+        Page<TourPlace> data = repository.findAll(andBuilder, pageable);
+
+        Pagination pagination = new Pagination(page, (int)data.getTotalElements(), 10, limit, request);
+
+        List<TourPlace> items = data.getContent();
+
+        return new ListData<>(items, pagination);
     }
 }
