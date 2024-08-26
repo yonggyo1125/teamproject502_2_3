@@ -36,7 +36,7 @@ public class SecurityConfig {
                    h.accessDeniedHandler((req, res, e) -> res.sendError(HttpStatus.UNAUTHORIZED.value()));
                 })
                 .authorizeHttpRequests(c -> {
-                    c.requestMatchers(
+                        c.requestMatchers(
                             "/account",
                             "/account/token",
                             "/file/**",
@@ -47,6 +47,7 @@ public class SecurityConfig {
                             "/activity/**",
                             "/ai"
                             ).permitAll() // 회원가입, 로그인(토큰)은 모든 접근 가능
+                            .requestMatchers("/board/admin/**").hasAnyAuthority("ADMIN")
                             .anyRequest().authenticated(); // 그외에는 인증 필요
                 });
 

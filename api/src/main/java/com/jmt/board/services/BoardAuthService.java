@@ -6,6 +6,7 @@ import com.jmt.board.entities.CommentData;
 import com.jmt.board.exceptions.BoardNotFoundException;
 import com.jmt.board.exceptions.GuestPasswordCheckException;
 import com.jmt.board.exceptions.GuestPasswordMismatchException;
+import com.jmt.board.services.comment.CommentInfoService;
 import com.jmt.global.Utils;
 import com.jmt.global.exceptions.CommonException;
 import com.jmt.global.exceptions.UnAuthorizedException;

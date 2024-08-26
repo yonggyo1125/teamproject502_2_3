@@ -4,10 +4,12 @@ import com.jmt.board.controllers.BoardDataSearch;
 import com.jmt.board.controllers.RequestBoard;
 import com.jmt.board.entities.Board;
 import com.jmt.board.entities.BoardData;
+import com.jmt.board.entities.CommentData;
 import com.jmt.board.entities.QBoardData;
 import com.jmt.board.exceptions.BoardDataNotFoundException;
 import com.jmt.board.exceptions.BoardNotFoundException;
 import com.jmt.board.repositories.BoardDataRepository;
+import com.jmt.board.services.comment.CommentInfoService;
 import com.jmt.file.entities.FileInfo;
 import com.jmt.file.services.FileInfoService;
 import com.jmt.global.CommonSearch;
@@ -48,6 +50,8 @@ public class BoardInfoService {
     private final BoardConfigInfoService configInfoService;
     private final FileInfoService fileInfoService;
     private final WishListService wishListService;
+    private final CommentInfoService commentInfoService;
+
     private final HttpServletRequest request;
     private final MemberUtil memberUtil;
     private final Utils utils;
@@ -251,6 +255,10 @@ public class BoardInfoService {
 
         // 추가 데이터 처리
         addInfo(item);
+
+        // 댓글목록 추가 처리
+        List<CommentData> comments = commentInfoService.getList(seq);
+        item.setComments(comments);
 
         return item;
     }

@@ -3,10 +3,8 @@ package com.jmt.board.controllers;
 import com.jmt.board.entities.Board;
 import com.jmt.board.entities.BoardData;
 import com.jmt.board.exceptions.BoardNotFoundException;
-import com.jmt.board.services.BoardConfigInfoService;
-import com.jmt.board.services.BoardDeleteService;
-import com.jmt.board.services.BoardInfoService;
-import com.jmt.board.services.BoardSaveService;
+import com.jmt.board.services.*;
+import com.jmt.board.services.comment.CommentInfoService;
 import com.jmt.board.validators.BoardValidator;
 import com.jmt.global.CommonSearch;
 import com.jmt.global.ListData;
@@ -29,6 +27,8 @@ public class BoardController {
     private final BoardInfoService infoService;
     private final BoardSaveService saveService;
     private final BoardDeleteService deleteService;
+    private final BoardViewCountService viewCountService;
+    private final CommentInfoService commentInfoService;
     private final BoardValidator validator;
     private final Utils utils;
 
@@ -80,6 +80,8 @@ public class BoardController {
     @GetMapping("/info/{seq}")
     public JSONData info(@PathVariable("seq") Long seq) {
         BoardData item = infoService.get(seq);
+
+        viewCountService.update(seq); // 조회수 카운트
 
         return new JSONData(item);
     }
