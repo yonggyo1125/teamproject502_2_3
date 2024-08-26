@@ -68,6 +68,11 @@ public class BoardAdminService {
             dataRepository.saveAllAndFlush(updateItems);
             return updateItems;
         }
+    }
 
+    public BoardData update(String mode, BoardData item) {
+        List<BoardData> items = update(mode, List.of(item));
+
+        return items.get(0);
     }
 }
