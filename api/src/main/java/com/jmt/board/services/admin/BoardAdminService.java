@@ -20,7 +20,7 @@ public class BoardAdminService {
     private final PasswordEncoder encoder;
     private final ModelMapper modelMapper;
 
-    public List<BoardData> update(String mode, List<BoardData> items) {
+    public void update(String mode, List<BoardData> items) {
 
         if (items == null || items.isEmpty()) {
             String modeStr = mode.equals("delete") ? "삭제" : "수정";
@@ -65,23 +65,19 @@ public class BoardAdminService {
 
         if (mode.equals("delete")) {
             dataRepository.flush();
-
-            return items;
         } else { // 수정
             dataRepository.saveAllAndFlush(updateItems);
-            return updateItems;
+
         }
     }
 
-    public BoardData update(String mode, BoardData item) {
-        List<BoardData> items = update(mode, List.of(item));
-
-        return items.get(0);
+    public void update(String mode, BoardData item) {
+        update(mode, List.of(item));
     }
 
-    public BoardData update(String mode, RequestBoard form) {
+    public void update(String mode, RequestBoard form) {
         BoardData data = modelMapper.map(form, BoardData.class);
 
-        return update(mode, data);
+        update(mode, data);
     }
 }
