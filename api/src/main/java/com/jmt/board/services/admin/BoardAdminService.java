@@ -1,9 +1,11 @@
 package com.jmt.board.services.admin;
 
+import com.jmt.board.controllers.RequestBoard;
 import com.jmt.board.entities.BoardData;
 import com.jmt.board.repositories.BoardDataRepository;
 import com.jmt.global.exceptions.BadRequestException;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -16,6 +18,7 @@ import java.util.List;
 public class BoardAdminService {
     private final BoardDataRepository dataRepository;
     private final PasswordEncoder encoder;
+    private final ModelMapper modelMapper;
 
     public List<BoardData> update(String mode, List<BoardData> items) {
 
@@ -74,5 +77,11 @@ public class BoardAdminService {
         List<BoardData> items = update(mode, List.of(item));
 
         return items.get(0);
+    }
+
+    public BoardData update(String mode, RequestBoard form) {
+        BoardData data = modelMapper.map(form, BoardData.class);
+
+        return update(mode, data);
     }
 }
