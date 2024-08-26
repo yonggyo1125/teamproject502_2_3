@@ -1,5 +1,6 @@
 package com.jmt.global;
 
+import com.jmt.global.exceptions.UnAuthorizedException;
 import com.jmt.member.entities.JwtToken;
 import com.jmt.member.repositories.JwtTokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,10 +34,11 @@ public class Utils {
 
     public HttpHeaders getCommonHeaders(String method) {
 
-        //JwtToken jwtToken =  jwtTokenRepository.findById(session.getId()).orElseThrow(UnAuthorizedException::new);
+        JwtToken jwtToken =  jwtTokenRepository.findById(session.getId()).orElseThrow(UnAuthorizedException::new);
+        /*
         JwtToken jwtToken = new JwtToken();
-        jwtToken.setToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDFAdGVzdC5vcmciLCJleHAiOjE3MjQ2NjE4ODV9.1Phrlw-l3oepCwFtMihrmn_5WrlL8VcbZF9Ui403jwYYaQIeC23Ut958_yBUde7BMTTZ5IrPm9f0hktzbjSSWg");
-
+        jwtToken.setToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDFAdGVzdC5vcmciLCJleHAiOjE3MjQ2NjQ5NjN9.5OfEnHQhoh7FL6ZTNUjPvRsf5UbaZl4d1W9eO0NfQ_FM1rWq-MJuCx8KWOmilwIhzDeDkTGvobHcTj9aivlbKw");
+        */
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(jwtToken.getToken());
 

@@ -26,7 +26,7 @@ public class BoardUpdateService {
     private final ObjectMapper om;
     private final Utils utils;
 
-    public List<BoardData> update(String mode, List<BoardData> items) {
+    public void update(String mode, List<BoardData> items) {
         mode = StringUtils.hasText(mode) ? mode : "update";
 
         String url = utils.url("/board/admin/" + mode, "api-service");
@@ -45,13 +45,10 @@ public class BoardUpdateService {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-
-        return null;
     }
 
-    public BoardData update(String mode, RequestBoard form) {
+    public void update(String mode, RequestBoard form) {
         mode = StringUtils.hasText(mode) ? mode : mode;
 
-        return null;
     }
 }

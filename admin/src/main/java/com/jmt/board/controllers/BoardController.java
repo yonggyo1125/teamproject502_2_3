@@ -2,9 +2,11 @@ package com.jmt.board.controllers;
 
 
 import com.jmt.board.entities.Board;
+import com.jmt.board.entities.BoardData;
 import com.jmt.board.services.BoardConfigDeleteService;
 import com.jmt.board.services.BoardConfigInfoService;
 import com.jmt.board.services.BoardConfigSaveService;
+import com.jmt.board.services.BoardInfoService;
 import com.jmt.board.validators.BoardConfigValidator;
 import com.jmt.global.ListData;
 import com.jmt.global.Pagination;
@@ -31,8 +33,10 @@ public class BoardController implements ExceptionProcessor {
     private final BoardConfigSaveService configSaveService;
     private final BoardConfigInfoService configInfoService;
     private final BoardConfigDeleteService configDeleteService;
-
     private final BoardConfigValidator configValidator;
+
+    private final BoardInfoService boardInfoService;
+
     private final Utils utils;
 
     @ModelAttribute("menuCode")
@@ -144,8 +148,12 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @GetMapping("/posts")
-    public String posts(Model model) {
+    public String posts(@ModelAttribute BoardDataSearch search, Model model) {
         commonProcess("posts", model);
+
+        ListData<BoardData> data = boardInfoService.getList(search);
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
 
         return "board/posts";
     }
