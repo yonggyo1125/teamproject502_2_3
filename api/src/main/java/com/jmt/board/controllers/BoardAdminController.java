@@ -38,6 +38,8 @@ public class BoardAdminController {
         form.setSeq(seq);
 
         BoardData item = boardAdminService.update(mode, form);
+
+        return new JSONData(item);
     }
 
     @GetMapping("/info/{seq}")
