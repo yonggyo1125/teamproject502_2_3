@@ -6,11 +6,14 @@ import com.jmt.board.entities.BoardData;
 import com.jmt.global.ListData;
 import com.jmt.global.Utils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -39,7 +42,10 @@ public class BoardInfoService {
 
         url += String.format("?page=%d&limit=%d&sopt=%s&skey=%s&bid=%s&sort=%s&%s", page, limit, sopt, skey, bid, sort, bids);
 
-        ResponseEntity<String> response =
+        HttpEntity<Void> request = new HttpEntity<>(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(URI.create(url), HttpMethod.GET, request, String.class);
+
 
         return null;
     }
