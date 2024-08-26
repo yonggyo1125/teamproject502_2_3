@@ -1,10 +1,12 @@
 package com.jmt.board.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmt.board.controllers.BoardDataSearch;
 import com.jmt.board.entities.BoardData;
 import com.jmt.global.ListData;
 import com.jmt.global.Utils;
+import com.jmt.global.rests.JSONData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -44,9 +46,20 @@ public class BoardInfoService {
 
         HttpEntity<Void> request = new HttpEntity<>(headers);
 
-        ResponseEntity<String> response = restTemplate.exchange(URI.create(url), HttpMethod.GET, request, String.class);
+        ResponseEntity<JSONData> response = restTemplate.exchange(URI.create(url), HttpMethod.GET, request, JSONData.class);
 
+        if (!response.getStatusCode().is2xxSuccessful() || !response.getBody().isSuccess()) {
+            return new ListData<>();
+        }
 
-        return null;
+        Object data = response.getBody().getData();
+        try {
+            return om.readValue(om.writeValueAsString(data), ListData.class);
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return new ListData<>();
     }
 }

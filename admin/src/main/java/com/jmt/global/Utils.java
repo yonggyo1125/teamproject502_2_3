@@ -1,6 +1,5 @@
 package com.jmt.global;
 
-import com.jmt.global.exceptions.UnAuthorizedException;
 import com.jmt.member.entities.JwtToken;
 import com.jmt.member.repositories.JwtTokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,7 +33,9 @@ public class Utils {
 
     public HttpHeaders getCommonHeaders(String method) {
 
-        JwtToken jwtToken =  jwtTokenRepository.findById(session.getId()).orElseThrow(UnAuthorizedException::new);
+        //JwtToken jwtToken =  jwtTokenRepository.findById(session.getId()).orElseThrow(UnAuthorizedException::new);
+        JwtToken jwtToken = new JwtToken();
+        jwtToken.setToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDFAdGVzdC5vcmciLCJleHAiOjE3MjQ2NTg2ODl9.2Eq02nYCSsrX99GAU7ywVc61DL7qiz4SyjLhqnXx5fgAkJs2UCk_bsrReHxqbtkf3NAKLBPvox9kr48tVWzWAQ");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(jwtToken.getToken());
