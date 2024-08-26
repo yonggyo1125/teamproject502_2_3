@@ -25,7 +25,11 @@ public class Utils {
     private final DiscoveryClient discoveryClient;
 
     public String url(String url) {
-        List<ServiceInstance> instances = discoveryClient.getInstances("admin-service");
+        return url(url, "admin-service");
+    }
+
+    public String url(String url, String serviceId) {
+        List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
 
         try {
             return String.format("%s%s", instances.get(0).getUri().toString(), url);
