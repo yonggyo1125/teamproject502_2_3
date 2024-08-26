@@ -1,11 +1,17 @@
 package com.jmt.global;
 
+import com.jmt.global.exceptions.UnAuthorizedException;
+import com.jmt.member.entities.JwtToken;
+import com.jmt.member.repositories.JwtTokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
@@ -23,6 +29,22 @@ public class Utils {
     private final MessageSource messageSource;
     private final HttpServletRequest request;
     private final DiscoveryClient discoveryClient;
+    private final HttpSession session;
+    private final JwtTokenRepository jwtTokenRepository;
+
+    public HttpHeaders getCommonHeaders(String method) {
+
+        JwtToken jwtToken =  jwtTokenRepository.findById(session.getId()).orElseThrow(UnAuthorizedException::new);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(jwtToken.getToken());
+
+        if (!List.of("GET", "DELETE").contains(method)) { // GET, DELETE 이외 방식은 모두 Body 데이터 있다.
+            headers.setContentType(MediaType.APPLICATION_JSON);
+        }
+
+        return headers;
+    }
 
     public String url(String url) {
         return url(url, "admin-service");
