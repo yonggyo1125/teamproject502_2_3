@@ -1,6 +1,5 @@
 package com.jmt.board.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jmt.file.entities.FileInfo;
 import com.jmt.global.entities.BaseEntity;
 import com.jmt.member.entities.Member;
@@ -104,6 +103,5 @@ public class BoardData extends BaseEntity {
     private boolean mine; // 게시글 소유자
 
     @Transient
-    @JsonIgnore
     private List<CommentData> comments; // 댓글 목록
 }
