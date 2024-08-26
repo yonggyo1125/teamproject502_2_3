@@ -1,0 +1,73 @@
+package com.jmt.board.services.admin;
+
+import com.jmt.board.entities.BoardData;
+import com.jmt.board.repositories.BoardDataRepository;
+import com.jmt.global.exceptions.BadRequestException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class BoardAdminService {
+    private final BoardDataRepository dataRepository;
+    private final PasswordEncoder encoder;
+
+    public List<BoardData> update(String mode, List<BoardData> items) {
+
+        if (items == null || items.isEmpty()) {
+            String modeStr = mode.equals("delete") ? "삭제" : "수정";
+            throw new BadRequestException(String.format("%s할 게시글을 선택하세요.", modeStr));
+        }
+
+        List<BoardData> updateItems = new ArrayList<>();
+        for (BoardData item : items) {
+            BoardData original = dataRepository.findById(item.getSeq()).orElse(null);
+            if (original == null) continue;
+
+            if (mode.equals("delete")) { // 삭제
+                dataRepository.delete(original);
+            } else { // 수정
+                original.setPoster(item.getPoster());
+                original.setSubject(item.getSubject());
+                original.setContent(item.getContent());
+                original.setCategory(item.getCategory());
+                original.setEditorView(item.getBoard().isUseEditor());
+
+                original.setNum1(item.getNum1());
+                original.setNum2(item.getNum2());
+                original.setNum3(item.getNum3());
+
+                original.setText1(item.getText1());
+                original.setText2(item.getText2());
+                original.setText3(item.getText3());
+
+                original.setLongText1(item.getLongText1());
+                original.setLongText2(item.getLongText2());
+
+                // 비회원 비밀번호 처리
+                String guestPw = item.getGuestPw();
+                if (StringUtils.hasText(guestPw)) {
+                    original.setGuestPw(encoder.encode(guestPw));
+                }
+
+                original.setNotice(item.isNotice());
+                updateItems.add(original);
+            }
+        }
+
+        if (mode.equals("delete")) {
+            dataRepository.flush();
+
+            return items;
+        } else { // 수정
+            dataRepository.saveAllAndFlush(updateItems);
+            return updateItems;
+        }
+
+    }
+}
