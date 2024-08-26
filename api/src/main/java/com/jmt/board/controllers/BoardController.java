@@ -69,6 +69,7 @@ public class BoardController {
         }
 
         BoardData data = saveService.save(form);
+        data.setComments(null);
 
         JSONData jsonData = new JSONData(data);
         HttpStatus status = HttpStatus.CREATED;

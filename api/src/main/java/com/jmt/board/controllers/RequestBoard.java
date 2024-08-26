@@ -1,5 +1,6 @@
 package com.jmt.board.controllers;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jmt.file.entities.FileInfo;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RequestBoard {
     private Long seq; // 글 번호 - 글 수정시 필요
     private String mode = "write"; // write : 글 작성, update - 글 수정
