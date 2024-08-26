@@ -3,6 +3,45 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <section layout:fragment="content">
+    <h1>게시글 관리</h1>
 
+
+    <h2>게시글 목록</h2>
+    <form name="frmList" method="POST" th:action="${@utils.redirectUrl('/board/posts')}" autocomplete="off">
+        <table class="table_rows">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" class="checkall" data-target-name="chk">
+                    </th>
+                    <th>게시글번호</th>
+                    <th>작성자</th>
+                    <th>제목</th>
+                    <th>작성일시</th>
+                    <th>관리</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${items == null || items.empty}">
+                    <td class="no-data" colspan="6">조회된 게시글이 없습니다.</td>
+                </tr>
+                <tr th:unless="${items == null || items.empty}" th:each="item, status : ${items}" th:object="${item}">
+                    <td>
+                        <input type="checkbox" name="chk" th:value="${status.index}">
+                    </td>
+                    <td th:text="*{seq}"></td>
+                    <td>
+                        <th:block th:text="*{poster}"></th:block>
+                        <th:block th:if="*{member != null}" th:text="*{#strings.concat('(', member.email + ')')}"></th:block>
+                    </td>
+                    <td th:text="*{subject}"></td>
+                    <td th:text="*{createdAt}"></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </section>
 </html>
