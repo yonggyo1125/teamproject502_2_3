@@ -26,15 +26,15 @@ public class BoardAdminController {
         return new JSONData(data);
     }
 
-    @PatchMapping("/{mode}") // 목록 수정, 삭제
+    @PostMapping("/{mode}") // 목록 수정, 삭제
     public JSONData updatelist(@PathVariable("mode") String mode, @RequestBody RequestAdminList form) {
         List<BoardData> items = boardAdminService.update(mode, form.getItems());
 
         return new JSONData(items);
     }
 
-    @PatchMapping("/{mode}/{seq}") // 게시글 하나 수정, 삭제
-    public JSONData update(@PathVariable("mode") String mode, @PathVariable("seq") Long seq, RequestBoard form) {
+    @PostMapping("/{mode}/{seq}") // 게시글 하나 수정, 삭제
+    public JSONData update(@PathVariable("mode") String mode, @PathVariable("seq") Long seq, @RequestBody RequestBoard form) {
         form.setSeq(seq);
 
         BoardData item = boardAdminService.update(mode, form);

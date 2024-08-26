@@ -35,10 +35,10 @@ public class BoardUpdateService {
 
         try {
             String jsonBody = om.writeValueAsString(params);
-            HttpHeaders headers = utils.getCommonHeaders("PATCH");
+            HttpHeaders headers = utils.getCommonHeaders("POST");
             HttpEntity<String> request = new HttpEntity<>(jsonBody, headers);
 
-            ResponseEntity<String> response = restTemplate.exchange(URI.create(url), HttpMethod.PATCH, request, String.class);
+            ResponseEntity<String> response = restTemplate.exchange(URI.create(url), HttpMethod.POST, request, String.class);
 
             System.out.println(response);
 

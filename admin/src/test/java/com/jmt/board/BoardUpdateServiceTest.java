@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-
 @SpringBootTest
 public class BoardUpdateServiceTest {
 
@@ -23,13 +21,13 @@ public class BoardUpdateServiceTest {
     @Test
     void test1() {
         ListData<BoardData> data = infoService.getList(new BoardDataSearch());
-
+        /*
         List<BoardData> items = data.getItems().stream()
                 .map(item -> {
                     item.setSubject("(수정)" + item.getSubject());
                     return item;
                 }).toList();
-
-        updateService.update("update", items);
+           */
+        updateService.update("update", data.getItems());
     }
 }
