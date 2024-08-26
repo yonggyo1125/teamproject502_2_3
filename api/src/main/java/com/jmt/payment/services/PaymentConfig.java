@@ -21,4 +21,5 @@ public class PaymentConfig {
     private String buyername;
     private String buyertel;
     private String buyeremail;
+    private String returnUrl;
 }

@@ -1,6 +1,7 @@
 package com.jmt.payment.services;
 
 import com.jmt.global.SHA256;
+import com.jmt.global.Utils;
 import com.jmt.global.services.ConfigInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class PaymentConfigService {
     private final ConfigInfoService infoService;
+    private final Utils utils;
 
     public PaymentConfig get(Long oid, Integer price) {
         try {
@@ -53,6 +55,7 @@ public class PaymentConfigService {
             config.setOid(oid);
             config.setPrice(price);
 
+            config.setReturnUrl(utils.url("/payment/process"));
             return config;
 
         } catch (Exception e) {
