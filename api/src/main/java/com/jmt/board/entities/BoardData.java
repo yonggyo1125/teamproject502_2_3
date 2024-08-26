@@ -1,6 +1,7 @@
 package com.jmt.board.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jmt.file.entities.FileInfo;
 import com.jmt.global.entities.BaseEntity;
 import com.jmt.member.entities.Member;
 import jakarta.persistence.*;
@@ -77,6 +78,12 @@ public class BoardData extends BaseEntity {
 
     @Lob
     private String longText2; // 여러줄 텍스트 추가 필드2
+
+    @Transient
+    private List<FileInfo> editorImages;
+
+    @Transient
+    private List<FileInfo> attachFiles;
 
     @Transient
     private boolean editable; // 수정, 삭제 가능 여부
