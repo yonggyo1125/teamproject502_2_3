@@ -35,7 +35,7 @@ public class Utils {
 
         //JwtToken jwtToken =  jwtTokenRepository.findById(session.getId()).orElseThrow(UnAuthorizedException::new);
         JwtToken jwtToken = new JwtToken();
-        jwtToken.setToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDFAdGVzdC5vcmciLCJleHAiOjE3MjQ2NTg2ODl9.2Eq02nYCSsrX99GAU7ywVc61DL7qiz4SyjLhqnXx5fgAkJs2UCk_bsrReHxqbtkf3NAKLBPvox9kr48tVWzWAQ");
+        jwtToken.setToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDFAdGVzdC5vcmciLCJleHAiOjE3MjQ2NjE4ODV9.1Phrlw-l3oepCwFtMihrmn_5WrlL8VcbZF9Ui403jwYYaQIeC23Ut958_yBUde7BMTTZ5IrPm9f0hktzbjSSWg");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(jwtToken.getToken());
