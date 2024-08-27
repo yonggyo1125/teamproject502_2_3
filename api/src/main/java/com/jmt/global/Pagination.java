@@ -1,6 +1,5 @@
 package com.jmt.global;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Data;
 import org.springframework.util.StringUtils;
@@ -101,7 +100,10 @@ public class Pagination {
         this(page, total, ranges, limit, null);
     }
 
-    @JsonIgnore
+    public void setPages(List<String[]> pages) {
+
+    }
+
     public List<String[]> getPages() {
         // 0 : 페이지 번호, 1 : 페이지 URL - ?page=페이지번호
 
