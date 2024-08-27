@@ -59,7 +59,7 @@ public class DataTransfer {
 
     @Test
     @DisplayName("이미지가 없는 식당 이미지 업데이트")
-    void update5() {
+    void update5() throws Exception {
         for (int i = 1; i <= 10; i++) {
             RestaurantSearch search = new RestaurantSearch();
             search.setPage(i);
@@ -69,6 +69,7 @@ public class DataTransfer {
             if (items == null || items.isEmpty()) continue;
 
             items.forEach(item -> imageService.update(item.getRstrId()));
+            Thread.sleep(3000);
         }
     }
 }
