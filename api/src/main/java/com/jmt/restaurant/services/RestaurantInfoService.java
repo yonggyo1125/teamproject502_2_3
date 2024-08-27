@@ -133,84 +133,87 @@ public class RestaurantInfoService {
     private void addInfo(Restaurant item) {
         // 운영 정보로 예약 가능 데이터 처리 S
         String operInfo = item.getBsnsTmCn();
-        if (operInfo == null || !StringUtils.hasText(operInfo.trim())) {
-            operInfo = "매일 12:00~22:00";
+        try {
+            if (operInfo == null || !StringUtils.hasText(operInfo.trim())) {
+                operInfo = "매일 12:00~22:00";
+            }
+
+            if (operInfo != null && StringUtils.hasText(operInfo.trim())) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+                Map<String, List<LocalTime>> availableTimes = new HashMap<>();
+                boolean[] yoils = new boolean[7]; // 0~6 true, false
+                for (String oper : operInfo.split(",\\s*")) {
+                    String[] _oper = oper.split("\\s+");
+                    String yoil = _oper[0];
+                    String time = _oper[1];
+
+                    if (yoil.equals("평일")) {
+                        for (int i = 1; i < 6; i++) {
+                            yoils[i] = true;
+                        }
+                    } else if (yoil.equals("매일")) {
+                        for (int i = 0; i < yoils.length; i++) {
+                            yoils[i] = true;
+                        }
+                    } else if (yoil.equals("토요일")) {
+                        yoils[6] = true;
+                    } else if (yoil.equals("일요일")) {
+                        yoils[0] = true;
+                    } else if (yoil.equals("주말")) {
+                        yoils[0] = yoils[6] = true;
+                    }
+
+                    // 예약 가능 시간대 S
+                    String[] _time = time.split("~");
+                    LocalTime sTime = LocalTime.parse(_time[0], formatter);
+                    LocalTime eTime = LocalTime.parse(_time[1], formatter);
+
+                    Duration du = Duration.between(sTime, eTime);
+                    int hours = (int) du.getSeconds() / (60 * 60);
+
+                    List<LocalTime> _availableTimes = new ArrayList<>();
+                    for (int i = 0; i <= hours; i++) {
+                        LocalTime t = sTime.plusHours(i);
+                        // 예약시간 가능 시간에 + 1시간이 종료 시간를 지난 경우는 X
+                        if (t.plusHours(1L).isAfter(eTime)) {
+                            continue;
+                        }
+                        _availableTimes.add(t);
+                    }
+
+                    availableTimes.put(yoil, _availableTimes);
+                    // 예약 가능 시간대 E
+                }
+
+                // 예약 가능 시간대
+                item.setAvailableTimes(availableTimes);
+
+                item.setAvailableWeeks(yoils); // 예약 가능 요일
+
+                List<LocalDate> availableDates = new ArrayList<>();
+                LocalDate startDate = LocalDate.now().plusDays(1L);
+                LocalDate endDate = startDate.plusMonths(1L).minusDays(1L);
+
+                Period period = Period.between(startDate, endDate);
+                int days = period.getDays() + 1;
+
+                for (int i = 0; i <= days; i++) {
+                    LocalDate date = startDate.plusDays(i);
+                    int yoil = date.getDayOfWeek().getValue() % 7;
+                    if (yoils[yoil]) { // 영업 가능 요일인 경우
+                        availableDates.add(date);
+                    }
+                }
+
+                item.setAvailableDates(availableDates);
+
+
+            } // endif
+
+            // 운영 정보로 예약 가능 데이터 처리 E
+        } catch (Exception e) {
+            System.out.println(operInfo);
         }
-
-        if (operInfo != null && StringUtils.hasText(operInfo.trim())) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-
-            Map<String, List<LocalTime>> availableTimes = new HashMap<>();
-            boolean[] yoils = new boolean[7]; // 0~6 true, false
-            for (String oper : operInfo.split(",\\s*")) {
-                String[] _oper = oper.split("\\s+");
-                String yoil = _oper[0];
-                String time = _oper[1];
-                System.out.printf("yoil=%s, time=%s%n", yoil, time);
-
-                if (yoil.equals("평일")) {
-                    for (int i = 1; i < 6; i++) {
-                        yoils[i] = true;
-                    }
-                } else if (yoil.equals("매일")) {
-                    for (int i = 0; i < yoils.length; i++) {
-                        yoils[i] = true;
-                    }
-                } else if (yoil.equals("토요일")) {
-                    yoils[6] = true;
-                } else if (yoil.equals("일요일")) {
-                    yoils[0] = true;
-                } else if (yoil.equals("주말")) {
-                    yoils[0] = yoils[6] = true;
-                }
-
-                // 예약 가능 시간대 S
-                String[] _time = time.split("~");
-                LocalTime sTime = LocalTime.parse(_time[0], formatter);
-                LocalTime eTime = LocalTime.parse(_time[1], formatter);
-
-                Duration du = Duration.between(sTime, eTime);
-                int hours = (int)du.getSeconds() / (60 * 60);
-
-                List<LocalTime> _availableTimes = new ArrayList<>();
-                for (int i = 0; i <= hours; i++) {
-                    LocalTime t = sTime.plusHours(i);
-                    // 예약시간 가능 시간에 + 1시간이 종료 시간를 지난 경우는 X
-                    if (t.plusHours(1L).isAfter(eTime)) {
-                        continue;
-                    }
-                    _availableTimes.add(t);
-                }
-
-                availableTimes.put(yoil, _availableTimes);
-                // 예약 가능 시간대 E
-            }
-
-            // 예약 가능 시간대
-            item.setAvailableTimes(availableTimes);
-
-            item.setAvailableWeeks(yoils); // 예약 가능 요일
-
-            List<LocalDate> availableDates = new ArrayList<>();
-            LocalDate startDate = LocalDate.now().plusDays(1L);
-            LocalDate endDate = startDate.plusMonths(1L).minusDays(1L);
-
-            Period period = Period.between(startDate, endDate);
-            int days = period.getDays() + 1;
-
-            for (int i = 0; i <= days; i++) {
-                LocalDate date = startDate.plusDays(i);
-                int yoil = date.getDayOfWeek().getValue() % 7;
-                if (yoils[yoil]) { // 영업 가능 요일인 경우
-                    availableDates.add(date);
-                }
-            }
-
-            item.setAvailableDates(availableDates);
-
-
-        } // endif
-
-        // 운영 정보로 예약 가능 데이터 처리 E
     }
 }

@@ -1,6 +1,6 @@
 package com.jmt.restaurant;
 
-import com.jmt.reservation.services.RestaurantImageService;
+import com.jmt.restaurant.services.RestaurantImageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

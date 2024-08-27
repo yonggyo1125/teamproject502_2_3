@@ -1,10 +1,9 @@
-package com.jmt.reservation.services;
+package com.jmt.restaurant.services;
 
 import com.jmt.restaurant.entities.QRestaurantImage;
 import com.jmt.restaurant.entities.Restaurant;
 import com.jmt.restaurant.entities.RestaurantImage;
 import com.jmt.restaurant.repositories.RestaurantImageRepository;
-import com.jmt.restaurant.services.RestaurantInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
