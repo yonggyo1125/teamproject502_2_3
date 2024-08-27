@@ -48,4 +48,27 @@ public class CommentController {
 
         return new JSONData(items);
     }
+
+    @GetMapping("/info/{seq}")
+    public JSONData getInfo(@PathVariable("seq") Long seq) {
+        CommentData item = infoService.get(seq);
+
+        return new JSONData(item);
+    }
+
+    @GetMapping("/list/{bSeq}")
+    public JSONData getList(@PathVariable("bSeq") Long bSeq) {
+        List<CommentData> items = infoService.getList(bSeq);
+
+        return new JSONData(items);
+    }
+
+    @DeleteMapping("/{seq}")
+    public JSONData delete(@PathVariable("seq") Long seq) {
+        Long bSeq = deleteService.delete(seq);
+
+        List<CommentData> items = infoService.getList(bSeq);
+
+        return new JSONData(items);
+    }
 }
