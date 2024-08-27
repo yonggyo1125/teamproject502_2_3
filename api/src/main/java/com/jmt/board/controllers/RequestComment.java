@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class RequestComment {
-    private String mode = "add";
+    private String mode = "write";
 
     private Long seq; // 댓글 등록번호
 

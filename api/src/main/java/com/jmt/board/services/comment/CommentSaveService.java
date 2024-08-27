@@ -32,10 +32,10 @@ public class CommentSaveService {
         String mode = form.getMode();
         Long seq = form.getSeq(); // 댓글 번호
 
-        mode = StringUtils.hasText(mode) ? mode : "add";
+        mode = StringUtils.hasText(mode) ? mode : "write";
 
         CommentData data = null;
-        if (mode.equals("edit") && seq != null) { // 댓글 수정
+        if (mode.equals("update") && seq != null) { // 댓글 수정
             data = commentDataRepository.findById(seq).orElseThrow(CommentNotFoundException::new);
 
         } else { // 댓글 추가
