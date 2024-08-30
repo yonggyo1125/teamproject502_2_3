@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<aside th:fragment="menus">
+    <div class="sidebar-content">
+        <a th:href="${@utils.redirectUrl('/config')}" th:classappend="${menuCode} == 'config' ? 'on'">
+            <i class="xi-cog"></i> 기본설정
+        </a>
+        <a th:href="${@utils.redirectUrl('/member')}" th:classappend="${menuCode} == 'member' ? 'on'">
+            <i class="xi-users"></i> 회원 관리
+        </a>
+        <a th:href="${@utils.redirectUrl('/board')}" th:classappend="${menuCode} == 'board' ? 'on'">
+            <i class="xi-pen"></i> 게시판 관리
+        </a>
+    </div>
+    <div class="sidebar-footer">
+<!--        <a th:href="${@utils.redirectUrl('/dashboard')}" th:classappend="${menuCode} == 'main' ? 'on'">-->
+<!--            <i class="xi-dashboard-o"></i> 대시보드-->
+<!--        </a>-->
+        <a href="http://localhost:4000" th:classappend="${menuCode} == 'site' ? 'on'" target="_blank">
+            <i class="xi-external-link"></i> 사이트 이동
+        </a>
+        <a href="https://analytics.google.com/analytics/web/#/p454957260/reports/intelligenthome?params=_u..nav%3Dmaui" th:classappend="${menuCode} == 'site' ? 'on'" target="_blank">
+            <i class="xi-eye-o"></i> 사이트 관리
+        </a>
+    </div>
+</aside>
+</html>

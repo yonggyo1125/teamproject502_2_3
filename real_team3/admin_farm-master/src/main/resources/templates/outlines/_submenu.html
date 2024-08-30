@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--네비게이션 바 , subMenus가 null이 아니고 비어있지 않을때만 메뉴 표시-->
+<nav class="submenus" th:fragment="submenus" th:if="${subMenus != null && !subMenus.isEmpty()}">
+    <!-- subMenus 리스트 각 항목에 대해 a 태그 반복적으로 생성 -->
+    <a th:each="menu : ${subMenus}" th:object="${menu}"
+       th:href="*{@utils.redirectUrl(url)}" th:text="*{name}"
+       th:classappend="${subMenuCode == menu.code} ? 'on'"></a>
+    <!-- redirectUrl 메서드를 호출해서 url변수를 입력받아 알맞은 URL을 반환해줌
+    classappend : css클래스를 조건부로 추가, 현재 서브 메뉴의 코드와 비교해서 활성화 된 메뉴 항목 강조
+    -->
+</nav>
+</html>

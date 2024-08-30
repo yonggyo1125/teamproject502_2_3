@@ -1,0 +1,101 @@
+/* 기본적인 스타일 리셋 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+form {
+    justify-content: center;
+    background-color: #fff;
+    padding: 20px;
+    max-width: 70%;
+    margin: 40px auto;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.mb30 {
+    margin-bottom: 30px;
+}
+
+
+dt {
+    width: 100px;
+    font-weight: bold;
+    padding-right: 20px;
+}
+
+dd {
+    flex: 1;
+    margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 30%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+label {
+    font-size: 16px;
+    color: #555;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.error.global {
+    background-color: #ffdddd;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid red;
+    border-radius: 4px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+    form {
+        padding: 15px;
+    }
+
+    dt {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    dd {
+        width: 100%;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: calc(100% - 10px);
+    }
+}

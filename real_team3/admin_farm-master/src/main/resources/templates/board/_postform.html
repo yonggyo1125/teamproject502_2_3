@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="form" th:object="${requestBoard}">
+    <!-- Global Error Display -->
+    <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+
+    <!-- Hidden Inputs -->
+    <input type="hidden" name="gid" th:field="*{gid}">
+    <input type="hidden" name="bid" th:field="*{bid}">
+    <input type="hidden" name="seq" th:field="*{seq}">
+    <h2>게시글 상세</h2>
+    <table class="table_cols mb30">
+        <tr>
+            <td>
+                <!-- 작성자 -->
+                <div class="form-group">
+                    <label>작성자</label>
+                    <input type="text" name="poster" th:field="*{poster}"
+                           th:value="${requestBoard.mode == 'update' ? requestBoard.poster : (isLogin ? loggedMember.userName : '')}">
+
+                    <div th:if="${isAdmin}">
+                        <input type="checkbox" name="notice" value="true" id="notice" th:field="*{notice}"
+                               th:checked="${requestBoard.notice}">
+                        <label for="notice">공지글</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>제목</label>
+                    <input type="text" name="subject" th:field="*{subject}" th:value="${requestBoard.subject}">
+                </div>
+
+                <div class="form-group">
+                    <label>내용</label>
+                    <textarea name="content" id="content" th:field="*{content}" th:utext="${requestBoard.content}" th:classappend="${!boardData.editorView} ? 'no-editor'"></textarea>
+                </div>
+            <!--이미지, 파일 업로드 추가해야함-->
+        </tr>
+    </table>
+
+    <script th:replace="~{common/_file_tpl::attach_tpl}"></script>
+    <script th:replace="~{common/_file_tpl::editor_tpl}"></script>
+</th:block>
+</html>

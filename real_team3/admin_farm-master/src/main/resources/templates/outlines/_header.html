@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<header th:fragment="common">
+    <section class="logo_area">
+        <img th:src="${@utils.url('/images/logo.png')}" alt="Logo" onclick="window.location.href='/admin'">
+    </section>
+    <section class="btn_area">
+        <th:block sec:authorize="isAuthenticated()">
+            <a th:href="${@utils.redirectUrl('/logout')}">로그아웃</a>
+        </th:block>
+    </section>
+</header>
+</html>

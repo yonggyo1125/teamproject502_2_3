@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <meta charset="UTF-8">
+    <title>Google Analytics Data Chart</title>
+
+    <!-- Google Charts 라이브러리 로드 -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        #analyticsChart {
+            width: 1000px !important;
+            height: 800px !important;
+            max-width: 100%;
+            max-height: 100%;
+            border: 1px solid #ddd;
+        }
+        .data-summary {
+            margin-bottom: 20px;
+        }
+        .chart-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<section layout:fragment="content">
+    <h1>Google Analytics Data Chart</h1>
+
+    <div class="data">
+        <div class="data-summary">
+            <dl>
+                <dt>오늘 작성글</dt>
+                ...
+            </dl>
+            <dl>
+                <dt>어제 작성글</dt>
+                ...
+            </dl>
+            <dl>
+                <dt>누적 작성글</dt>
+                ...
+            </dl>
+        </div>
+
+        <div class="data-summary">
+            <dl>
+                <dt style="color: red;">자유 게시판</dt>
+                <dd>...</dd>
+            </dl>
+            <dl>
+                <dt style="color: orange;">비밀 게시판</dt>
+                <dd>...</dd>
+            </dl>
+            <dl>
+                <dt style="color: green;">스크린샷 게시판</dt>
+                <dd>...</dd>
+            </dl>
+            <dl>
+                <dt style="color: purple;">질문과 답변</dt>
+                <dd>...</dd>
+            </dl>
+        </div>
+
+        <div class="chart-title">최근 7일 통계</div>
+        <div id="Line_Controls_Chart">
+            <div id="lineChartArea" class="chart"></div>
+            <div id="controlsArea" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        // Google Charts 초기화
+        google.charts.load('current', {'packages':['corechart', 'controls']});
+        google.charts.setOnLoadCallback(loadDataAndDrawChart);
+
+        function loadDataAndDrawChart() {
+            $.ajax({
+                url: '/analytics/visitorInfo',
+                method: 'GET',
+                success: function (response) {
+                    const weeklyRows = response.weeklyData.rows.map(row => {
+                        return [new Date(row.dimensionValues[0].value), parseInt(row.metricValues[0].value)];
+                    });
+                    const monthlyRows = response.monthlyData.rows.map(row => {
+                        return [new Date(row.dimensionValues[0].value), parseInt(row.metricValues[0].value)];
+                    });
+
+                    const mergedData = weeklyRows.map((weeklyRow, index) => {
+                        const monthlyValue = monthlyRows[index] ? monthlyRows[index][1] : null;
+                        return [weeklyRow[0], weeklyRow[1], monthlyValue];
+                    });
+
+                    drawChart(mergedData);
+                },
+                error: function () {
+                    alert('Failed to load data');
+                }
+            });
+        }
+
+        function drawChart(dataArray) {
+            const data = new google.visualization.DataTable();
+            data.addColumn('date', '날짜');
+            data.addColumn('number', '일주일간 사용자');
+            data.addColumn('number', '월간 사용자');
+
+            data.addRows(dataArray);
+
+            const options = {
+                title: '사용자 통계',
+                curveType: 'function',
+                legend: { position: 'top' },
+                hAxis: {
+                    title: '날짜',
+                    format: 'MMM dd'
+                },
+                vAxis: {
+                    title: '사용자 수'
+                },
+                series: {
+                    0: {targetAxisIndex: 0}, // 주간 사용자
+                    1: {targetAxisIndex: 1}  // 월간 사용자
+                },
+                vAxes: {
+                    0: {title: '일주일간 사용자'},
+                    1: {title: '월간 사용자'}
+                },
+                pointSize: 5,
+                height: 500
+            };
+
+            const chart = new google.visualization.LineChart(document.getElementById('lineChartArea'));
+            chart.draw(data, options);
+        }
+    </script>
+</section>
+</body>
+</html>

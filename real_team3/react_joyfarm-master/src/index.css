@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+
+@font-face {
+  font-family: 'MICEGothic Bold';
+  src: url(./font/MICEGothic\ Bold.woff2);
+}
+
+@font-face {
+  font-family: 'MICEGothic';
+  src: url(./font/MICEGothic.woff2);
+}
+
+* { 
+  box-sizing: border-box; 
+  outline: none; 
+  font-family: 'MICEGothic', sans-serif;
+}
+
+/* @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Nanum+Gothic:wght@400;700;800&display=swap');
+* {
+  font-family: "Do Hyeon", sans-serif;
+  outline: none;
+  box-sizing: border-box; 
+} */
+
+html {
+  font-size: 13px;
+}
+
+body { 
+  margin: 0;
+  color: #000;
+}
+
+ul, ol, li {
+  list-style: none;
+}
+
+ul, ol, dl, dt, dd {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+img {
+  border: 0;
+}
+
+.layout-width {
+  max-width: 1200px;
+  min-width: 1000px;
+  margin: 0 auto;
+}
+
+/*강제 적용*/
+.ReactModal__Overlay {
+  background: rgba(0, 0, 0, 0.7) !important;
+}
