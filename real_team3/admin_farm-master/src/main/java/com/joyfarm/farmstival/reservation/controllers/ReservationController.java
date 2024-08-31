@@ -16,10 +16,15 @@ public class ReservationController implements ExceptionProcessor {
     public String menuCode() {
         return "reservation";
     }
-
+    
+    @ModelAttribute("pageTitle")
+    public String pageTitle() {
+        return "예약관리";
+    }
+    
     @GetMapping
-    public String list() {
-
+    public String list(@ModelAttribute ReservationSearch search) {
+        
         return "reservation/list";
     }
 
