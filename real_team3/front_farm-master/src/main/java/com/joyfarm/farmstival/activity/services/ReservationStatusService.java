@@ -7,6 +7,8 @@ import com.joyfarm.farmstival.activity.repositories.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ReservationStatusService {
@@ -29,5 +31,9 @@ public class ReservationStatusService {
         // 예약 접수, 예약 취소 메일 전송
         String email = reservation.getEmail();
         // 이메일 전송 로직 추가 필요
+    }
+
+    public void change(List<Long> seqs, Status status) {
+        seqs.forEach(seq -> change(seq, status));
     }
 }
