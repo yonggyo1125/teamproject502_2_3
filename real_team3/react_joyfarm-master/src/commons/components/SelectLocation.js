@@ -6,14 +6,25 @@ const { sido, sigungu } = areas;
 
 const Wrapper = styled.div``;
 
-const SelectLocation = () => {
+const SelectLocation = ({ selected }) => {
   const { t } = useTranslation();
   const [sigunguArea, setSigunguArea] = useState([]);
+  const [_selected, setSelected] = useState({
+    sido: selected?.sido ?? '',
+    sigungu: selected?.sigungu ?? '',
+  });
 
-  const onChange = useCallback((e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-  }, []);
+  const onChange = useCallback(
+    (e) => {
+      const name = e.target.name;
+      const value = e.target.value;
+      setSelected((selected) => ({ ...selected, [name]: value }));
+      if (name === 'sido') {
+        setSigunguArea(sigungu[name]);
+      }
+    },
+    [sigungu],
+  );
   return (
     <Wrapper>
       <select name="sido" onChange={onChange}>
