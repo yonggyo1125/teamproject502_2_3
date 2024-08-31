@@ -1,6 +1,8 @@
 package com.joyfarm.farmstival.reservation.controllers;
 
 import com.joyfarm.farmstival.global.exceptions.ExceptionProcessor;
+import com.joyfarm.farmstival.menus.Menu;
+import com.joyfarm.farmstival.menus.MenuDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +18,12 @@ public class ReservationController implements ExceptionProcessor {
     public String menuCode() {
         return "reservation";
     }
-    
+
+    @ModelAttribute("subMenus")
+    public List<MenuDetail> subMenus() {
+        return Menu.getMenus(menuCode());
+    }
+
     @ModelAttribute("pageTitle")
     public String pageTitle() {
         return "예약관리";
