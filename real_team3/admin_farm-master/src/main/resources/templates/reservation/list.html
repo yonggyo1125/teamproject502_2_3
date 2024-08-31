@@ -44,6 +44,7 @@
     </form>
 
     <form name="frmList" method="POST" th:action="${@utils.redirectUrl('/reservation')}" target="ifrmHidden">
+        <input type="hidden" name="_method" value="PATCH">
         <table class="table_rows">
             <thead>
                 <tr>
@@ -109,6 +110,14 @@
                 </tr>
             </tbody>
         </table>
+        <div class="table_actions">
+            선택한 예약을
+            <select name="status">
+                <option value="APPLY">예약확인</option>
+                <option value="CANCEL">예약취소</option>
+            </select>로
+            <button type="submit" class="sbtn" onclick="return confirm('정말 변경하겠습니까?');">변경하기</button>
+        </div>
     </form>
 
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>

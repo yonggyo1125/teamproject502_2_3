@@ -38,7 +38,6 @@ public class ReservationController implements ExceptionProcessor {
     @GetMapping
     public String list(@ModelAttribute ReservationSearch search, Model model) {
         ListData<Reservation> data = infoService.getList(search);
-        System.out.println(data);
 
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
@@ -47,7 +46,7 @@ public class ReservationController implements ExceptionProcessor {
     }
 
     @PatchMapping
-    public String change(@RequestParam("seq") List<Long> seq, @RequestParam("status") String status, Model model) {
+    public String change(@RequestParam(name="seq", required = false) List<Long> seq, @RequestParam(name="status", required = false) String status, Model model) {
 
         model.addAttribute("script", "parent.location.reload()");
         return "common/_execute_script";
