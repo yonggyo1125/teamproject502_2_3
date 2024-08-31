@@ -14,20 +14,17 @@ const SelectLocation = ({ selected }) => {
     sigungu: selected?.sigungu ?? '',
   });
 
-  const onChange = useCallback(
-    (e) => {
-      const name = e.target.name;
-      const value = e.target.value;
-      setSelected((selected) => ({ ...selected, [name]: value }));
-      if (name === 'sido') {
-        setSigunguArea(sigungu[name]);
-      }
-    },
-    [sigungu],
-  );
+  const onChange = useCallback((e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setSelected((selected) => ({ ...selected, [name]: value }));
+    if (name === 'sido') {
+      setSigunguArea(sigungu[name]);
+    }
+  }, []);
   return (
     <Wrapper>
-      <select name="sido" onChange={onChange}>
+      <select name="sido" value={_selected?.sido} onChange={onChange}>
         <option value="">{t('시도_선택')}</option>
         {sido.map((s) => (
           <option key={s} value={s}>
@@ -35,7 +32,7 @@ const SelectLocation = ({ selected }) => {
           </option>
         ))}
       </select>
-      <select name="sigungu" onChange={onChange}>
+      <select name="sigungu" value={_selected?.sigungu} onChange={onChange}>
         <option value="">{t('시군구_선택')}</option>
         {sigunguArea &&
           sigunguArea.length > 0 &&
