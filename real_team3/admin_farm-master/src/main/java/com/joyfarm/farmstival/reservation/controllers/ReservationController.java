@@ -1,8 +1,10 @@
 package com.joyfarm.farmstival.reservation.controllers;
 
+import com.joyfarm.farmstival.global.ListData;
 import com.joyfarm.farmstival.global.exceptions.ExceptionProcessor;
 import com.joyfarm.farmstival.menus.Menu;
 import com.joyfarm.farmstival.menus.MenuDetail;
+import com.joyfarm.farmstival.reservation.services.ReservationInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,9 @@ import java.util.List;
 @RequestMapping("/reservation")
 @RequiredArgsConstructor
 public class ReservationController implements ExceptionProcessor {
+
+    private final ReservationInfoService infoService;
+
     @ModelAttribute("menuCode")
     public String menuCode() {
         return "reservation";
@@ -31,7 +36,8 @@ public class ReservationController implements ExceptionProcessor {
     
     @GetMapping
     public String list(@ModelAttribute ReservationSearch search) {
-        
+        ListData data = infoService.getList(search);
+
         return "reservation/list";
     }
 
