@@ -187,7 +187,9 @@ public class ActivityInfoService {
                 if (time[0]) time[0] = newTime[0];
                 if (time[1]) time[1] = newTime[1];
             }
-            availableDates.put(startDate, time);
+            if (time[0] || time[1]) {
+                availableDates.put(startDate, time);
+            }
         }
 
         LocalDate endDate = startDate.plusMonths(1L).minusDays(1L);
