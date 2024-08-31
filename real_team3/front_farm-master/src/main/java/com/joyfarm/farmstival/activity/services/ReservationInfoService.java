@@ -176,6 +176,8 @@ public class ReservationInfoService {
 
             if (!amPm[0] && !amPm[1]) { // 오전, 오후 모두 불가한 경우, 예약가능일 제거
                 availableDates.remove(rDate);
+            } else {
+                availableDates.put(rDate, amPm);
             }
         }
     }
