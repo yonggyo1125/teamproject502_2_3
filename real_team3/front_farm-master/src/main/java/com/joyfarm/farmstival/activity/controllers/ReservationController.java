@@ -1,8 +1,10 @@
 package com.joyfarm.farmstival.activity.controllers;
 
+import com.joyfarm.farmstival.activity.constants.Status;
 import com.joyfarm.farmstival.activity.entities.Reservation;
 import com.joyfarm.farmstival.activity.services.ReservationCancelService;
 import com.joyfarm.farmstival.activity.services.ReservationInfoService;
+import com.joyfarm.farmstival.activity.services.ReservationStatusService;
 import com.joyfarm.farmstival.global.ListData;
 import com.joyfarm.farmstival.global.Utils;
 import com.joyfarm.farmstival.global.exceptions.BadRequestException;
@@ -25,6 +27,7 @@ public class ReservationController {
 
     private final ReservationInfoService infoService;
     private final ReservationCancelService cancelService;
+    private final ReservationStatusService statusService;
     private final MemberUtil memberUtil;
     private final Utils utils;
 
@@ -81,6 +84,6 @@ public class ReservationController {
             throw new BadRequestException(utils.getErrorMessages(errors));
         }
 
-
+        statusService.change(form.getSeq(), Status.valueOf(form.getStatus()));
     }
 }
