@@ -13,4 +13,6 @@ public class ReservationSearch extends CommonSearch {
     private LocalDate eDate; //예약일 검색 종료일
 
     private List<Long> memberSeqs; //회원번호 목록
+
+    private String status; // 예약 상태
 }

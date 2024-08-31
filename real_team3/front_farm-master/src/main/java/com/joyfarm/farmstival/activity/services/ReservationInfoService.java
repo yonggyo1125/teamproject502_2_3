@@ -75,11 +75,20 @@ public class ReservationInfoService {
         LocalDate eDate = search.getEDate();
 
         List<Long> memberSeqs = search.getMemberSeqs(); //회원번호로 조회(본인의 예약 정보만 조회)
-        
+
+        String status = search.getStatus();
+        status = StringUtils.hasText(status) ? status : "ALL";
+
+
+
         //검색 처리 S
         QReservation reservation = QReservation.reservation;
         BooleanBuilder andBuilder = new BooleanBuilder();
-        
+
+        if (!status.equals("ALL")) {
+            andBuilder.and(reservation.status.eq(Status.valueOf(status)));
+        }
+
         sopt = sopt != null && StringUtils.hasText(sopt.trim()) ? sopt.trim() : "ALL"; //통합 검색
         if (skey != null && StringUtils.hasText(skey.trim())) {
             /**

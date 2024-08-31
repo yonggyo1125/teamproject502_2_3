@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { ImSearch } from 'react-icons/im';
 import { color } from '../../styles/color';
+import SelectLocation from '../../commons/components/SelectLocation';
 
 const { gray } = color;
 
@@ -63,45 +64,17 @@ const Button = styled.button`
 
 const SearchBox = ({ form, onChange, onSubmit }) => {
   const { t } = useTranslation();
-
-  const [sidoOptions, setSidoOptions] = useState([]);
-
-  useEffect(() => {
-    const fetchSidoOptions = async () => {
-      const fetchedSidoOptions = [
-        { value: '전라북도', label: '전라북도' },
-        { value: '대전광역시', label: '대전광역시' },
-        { value: '강원특별자치도', label: '강원특별자치도' },
-        { value: '전라남도', label: '전라남도' },
-        { value: '제주특별자치도', label: '제주특별자치도' },
-        { value: '충청북도', label: '충청북도' },
-        { value: '인천광역시', label: '인천광역시' },
-        { value: '충청남도', label: '충청남도' },
-        { value: '경상북도', label: '경상북도' },
-        { value: '경상남도', label: '경상남도' },
-        { value: '경기도', label: '경기도' },
-        { value: '울산광역시', label: '울산광역시' },
-      ];
-      setSidoOptions(fetchedSidoOptions);
-    };
-
-    fetchSidoOptions();
-  }, []);
-
+  const onSelectedLocation = useCallback(
+    ({ sido, sigungu }) => {
+      onChange({ target: { name: 'sido', value: sido } });
+      onChange({ target: { name: 'sigungu', value: sigungu } });
+    },
+    [onChange],
+  );
   return (
     <FormBox onSubmit={onSubmit} autoComplete="off">
       <div className="input_part">
-        <select name="sido" onChange={onChange} value={form.sido}>
-          <option value="ALL">{t('시도_선택')}</option>
-          {sidoOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <select name="sigungu" onChange={onChange}>
-          <option>- {t('시군구_선택')} -</option>
-        </select>
+        <SelectLocation selected={form} callback={onSelectedLocation} />
         <select name="sopt" onChange={onChange} defaultValue={form.sopt}>
           <option value="ALL">{t('통합검색')}</option>
           <option value="DIVISION">{t('프로그램구분')}</option>

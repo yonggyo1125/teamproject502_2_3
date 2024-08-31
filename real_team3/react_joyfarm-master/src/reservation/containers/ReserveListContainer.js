@@ -37,7 +37,7 @@ const ReserveListContainer = () => {
 
   /* 검색 관련 함수 */
   const onChangeSearch = useCallback((e) => {
-    setForm((form) => ({ ...form, [e.target.name]: [e.target.value] }));
+    setForm((form) => ({ ...form, [e.target.name]: e.target.value }));
   }, []);
 
   const onSubmitSearch = useCallback(

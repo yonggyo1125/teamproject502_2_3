@@ -192,7 +192,12 @@ const SearchBox = ({ form, onChange, onSubmit }) => {
             placeholderText={t('예약종료일')}
           />
         </div>
-        <select name="sopt" onChange={onChange} defaultValue={form.sopt}>
+        <select name="status" onChange={onChange} value={form?.status ?? 'ALL'}>
+          <option value="ALL">{t('전체')}</option>
+          <option value="APPLY">{t('예약확정')}</option>
+          <option value="CANCEL">{t('예약취소')}</option>
+        </select>
+        <select name="sopt" onChange={onChange} value={form?.sopt}>
           <option value="ALL">{t('통합검색')}</option>
           <option value="ACTIVITY">{t('체험프로그램명')}</option>
           <option value="ADDRESS">{t('체험_마을_주소')}</option>
