@@ -4,20 +4,22 @@ const CommonContext = createContext({
   states: {
     linkText: '',
     linkHref: '',
+    subTitle: '',
   },
   actions: {
     setLinkText: null,
     setLinkHref: null,
+    setSubTitle: null,
   },
 });
 
 const CommonProvider = ({ children }) => {
   const [linkText, setLinkText] = useState('');
   const [linkHref, setLinkHref] = useState('');
-
+  const [subTitle, setSubTitle] = useState('');
   const value = {
-    states: { linkText, linkHref },
-    actions: { setLinkText, setLinkHref },
+    states: { linkText, linkHref, subTitle },
+    actions: { setLinkText, setLinkHref, setSubTitle },
   };
 
   return (

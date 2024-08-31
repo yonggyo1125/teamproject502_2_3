@@ -34,7 +34,7 @@ const ReserveViewContainer = ({ setPageTitle }) => {
     apiGet(seq).then((item) => {
       setPageTitle(item.title);
       setItem(item);
-
+      console.log('item', item);
       const position = { lat: item.latitude, lng: item.longitude };
       setMapOptions((opt) => {
         const options = item.latitude

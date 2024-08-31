@@ -27,15 +27,15 @@ const ViewContainer = () => {
   const { seq } = useParams();
 
   const {
-    actions: { setLinkText, setLinkHref },
+    actions: { setLinkText, setLinkHref, setSubTitle },
   } = useContext(CommonContext);
 
   useEffect(() => {
     setLoading(true);
     apiGet(seq).then((item) => {
-      console.log('item', item);
-      setLinkText(item.title);
+      setLinkText(t('추천여행지'));
       setLinkHref('/recommend/tour');
+      setSubTitle(item.title);
       setItem(item);
       const position = { lat: item.latitude, lng: item.longitude };
       setMapOptions((opt) => {

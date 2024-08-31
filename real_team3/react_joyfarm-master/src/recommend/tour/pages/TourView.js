@@ -13,7 +13,7 @@ import CommonContext from '../../../commons/modules/CommonContext';
 
 const TourView = () => {
   const {
-    states: { linkText, linkHref },
+    states: { linkText, linkHref, subTitle },
   } = useContext(CommonContext);
   return (
     <>
@@ -27,7 +27,7 @@ const TourView = () => {
             <DetailTitle>
               <h1>
                 <IoMdPricetags className="icon" />
-                <Link to={linkHref}>{linkText}</Link>
+                {subTitle}
               </h1>
             </DetailTitle>
             <ViewContainer />

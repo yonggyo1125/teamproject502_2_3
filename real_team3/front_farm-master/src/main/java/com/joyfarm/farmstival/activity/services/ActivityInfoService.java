@@ -39,6 +39,7 @@ public class ActivityInfoService {
     private final ActivityRepository activityRepository;
     //private final JPAQueryFactory queryFactory; //infoService 쓰게 되면 순환 참조 발생
     private final WishListService wishListService;
+    private final ReservationInfoService reservationInfoService;
 
     /**
      * 액티비티 상세 조회
@@ -188,6 +189,9 @@ public class ActivityInfoService {
         for (int i = 1 ; i <= days; i++) {
             availableDates.put(startDate.plusDays(i), new boolean[] {true, true});
         }
+
+        /* 이미 예약이 되어 있느 경우 예약 가능일, 시간 블록 제외 처리 */
+        reservationInfoService.check(availableDates);
 
         item.setAvailableDates(availableDates);
 
