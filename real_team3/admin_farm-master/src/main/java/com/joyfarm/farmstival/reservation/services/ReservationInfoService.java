@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joyfarm.farmstival.global.ListData;
 import com.joyfarm.farmstival.global.Utils;
 import com.joyfarm.farmstival.global.rests.ApiRequest;
+import com.joyfarm.farmstival.global.rests.JSONData;
 import com.joyfarm.farmstival.reservation.controllers.ReservationSearch;
 import com.joyfarm.farmstival.reservation.entities.Reservation;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +22,13 @@ public class ReservationInfoService {
 
     public ListData<Reservation> getList(ReservationSearch search) {
         String url = utils.url("/myreservation/admin/list", "api-service");
-        ResponseEntity<String> response = apiRequest.request(url, String.class);
+        ResponseEntity<JSONData> response = apiRequest.request(url, JSONData.class);
 
-        if (response.getStatusCode().is2xxSuccessful()) {
+        if (response.getStatusCode().is2xxSuccessful() && response.getBody().isSuccess()) {
             try {
-                ListData<Reservation> data = om.readValue(response.getBody(), new TypeReference<>() {
-                });
+                Object _data = response.getBody().getData();
+                ListData<Reservation> data = om.readValue(om.writeValueAsString(_data), new TypeReference<>(){});
+
                 return data;
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
