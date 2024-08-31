@@ -22,7 +22,6 @@ public class ApiRequest {
 
         HttpHeaders headers = new HttpHeaders();
         JwtToken token = repository.findById(session.getId()).orElse(null);
-        System.out.println("token: " + token);
         if (token != null) {
             headers.setBearerAuth(token.getToken());
         }
@@ -34,8 +33,6 @@ public class ApiRequest {
         } else {
             entity = new HttpEntity<>(headers);
         }
-
-
 
         ResponseEntity<R> response = restTemplate.exchange(URI.create(url), method, entity, clazz);
 
