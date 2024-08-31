@@ -5,6 +5,40 @@
 <section layout:fragment="content">
     <h1>예약관리</h1>
 
+    <form name="frmSearch" method="GET" autocomplete="off" th:object="${reservationSearch}">
+        <table class="table_cols">
+            <tr>
+                <th width="120">예약일</th>
+                <td width="350">
+                    <input type="date" name="sDate" th:field="*{sDate}"> ~
+                    <input type="date" name="eDate" th:field="*{eDate}">
+                </td>
+                <th width="120">예약상태</th>
+                <td>
+                    <select name="status" th:field="*{status}">
+                        <option value="ALL">전체</option>
+                        <option value="APPLY">예약확정</option>
+                        <option value="CANCEL">예약취소</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>키워드검색</th>
+                <td colspan="3">
+                    <div class="input_grp">
+                        <select name="sopt" th:field="*{sopt}">
+                            <option value="ALL">통합검색</option>
+                        </select>
+                        <input type="text" name="skey" th:field="*{skey}">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="submit_btn">
+            <button type="submit" class="btn">검색하기</button>
+        </div>
+    </form>
+
     <form name="frmList" method="POST" th:action="${@utils.redirectUrl('/reservation')}" target="ifrmHidden">
         <table class="table_rows">
             <thead>
@@ -12,8 +46,8 @@
                     <th width="40">
                         <input type="checkbox" class="checkall" data-target-name="seq">
                     </th>
-                    <th>예약상태</th>
-                    <th>예약정보</th>
+                    <th width="100">예약상태</th>
+                    <th width="350">예약정보</th>
                     <th>체험마을정보</th>
                 </tr>
             </thead>
@@ -57,7 +91,7 @@
                         </dl>
                         <dl>
                             <dt>체험프로그램명</dt>
-                            <dd th:text="*{activityName}"></dd>
+                            <dd style="word-break: break-all; width: 400px;" th:text="*{activityName}"></dd>
                         </dl>
                         <dl>
                             <dt>주소</dt>
