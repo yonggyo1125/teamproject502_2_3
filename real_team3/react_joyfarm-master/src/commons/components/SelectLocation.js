@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import areas from '../libs/areas';
@@ -6,13 +6,15 @@ const { sido, sigungu } = areas;
 
 const SelectLocation = ({ selected, callback }) => {
   const { t } = useTranslation();
-  const [sigunguArea, setSigunguArea] = useState(
-    selected?.sido ? sigungu[sido] : [],
-  );
+  const [sigunguArea, setSigunguArea] = useState([]);
   const [_selected, setSelected] = useState({
     sido: selected?.sido ?? '',
     sigungu: selected?.sigungu ?? '',
   });
+
+  useEffect(() => {
+    setSigunguArea(() => (selected?.sido ? sigungu[selected?.sido] : []));
+  }, [selected]);
 
   const onChange = useCallback(
     (e) => {
