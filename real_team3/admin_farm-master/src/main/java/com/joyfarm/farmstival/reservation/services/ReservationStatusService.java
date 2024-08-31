@@ -40,7 +40,7 @@ public class ReservationStatusService {
             String url = utils.url("/myreservation/admin/status", "api-service");
             String jsonParams = om.writeValueAsString(params);
 
-            ResponseEntity<Void> response = apiRequest.request(url, HttpMethod.PATCH, jsonParams, Void.class);
+            ResponseEntity<Void> response = apiRequest.request(url, HttpMethod.POST, jsonParams, Void.class);
             if (!response.getStatusCode().is2xxSuccessful()) {
                 throw new AlertException("변경에 실패하였습니다.", HttpStatus.BAD_REQUEST);
             }

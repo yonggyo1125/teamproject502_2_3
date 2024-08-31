@@ -77,7 +77,7 @@ public class ReservationController {
         return new JSONData(reservation);
     }
 
-    @PatchMapping("/admin/status")
+    @PostMapping("/admin/status")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public void adminChangeStatus(@Valid @RequestBody RequestReservationChange form, Errors errors) {
         if (errors.hasErrors()) {

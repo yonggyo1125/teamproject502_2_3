@@ -48,9 +48,9 @@ public class ReservationController implements ExceptionProcessor {
     }
 
     @PatchMapping
-    public String change(@RequestParam(name="seq", required = false) List<Long> seq, @RequestParam(name="status", required = false) String status, Model model) {
+    public String change(RequestReservationChange form, Model model) {
 
-        statusService.change(seq, status);
+        statusService.change(form.getSeq(), form.getStatus());
 
         model.addAttribute("script", "parent.location.reload()");
         return "common/_execute_script";
