@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 @RequiredArgsConstructor
 public class ReservationInfoService {
@@ -22,6 +24,23 @@ public class ReservationInfoService {
 
     public ListData<Reservation> getList(ReservationSearch search) {
         String url = utils.url("/myreservation/admin/list", "api-service");
+        url += String.format("?page=%d&limit=%d", search.getPage(), search.getLimit());
+        String sopt = search.getSopt();
+        String skey = search.getSkey();
+        if (sopt != null && skey != null) {
+            url += String.format("&sopt=%s&skey=%s", sopt, skey);
+        }
+
+        LocalDate sDate = search.getSDate();
+        LocalDate eDate = search.getEDate();
+
+        if (sDate != null) {
+            url += String.format("&sDate=%s", sDate);
+        }
+
+        if (eDate != null) {
+            url += String.format("&eDate=%s", eDate);
+        }
         ResponseEntity<JSONData> response = apiRequest.request(url, JSONData.class);
 
         if (response.getStatusCode().is2xxSuccessful() && response.getBody().isSuccess()) {
