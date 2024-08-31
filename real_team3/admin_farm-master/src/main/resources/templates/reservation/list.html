@@ -28,13 +28,17 @@
                     <div class="input_grp">
                         <select name="sopt" th:field="*{sopt}">
                             <option value="ALL">통합검색</option>
+                            <option value="NAME">이름</option>
+                            <option value="EMAIL">이메일</option>
+                            <option value="MOBILE">휴대전화번호</option>
+                            <option value="ACTIVITY">체험활동</option>
                         </select>
                         <input type="text" name="skey" th:field="*{skey}">
                     </div>
                 </td>
             </tr>
         </table>
-        <div class="submit_btn">
+        <div class="search_btn">
             <button type="submit" class="btn">검색하기</button>
         </div>
     </form>
