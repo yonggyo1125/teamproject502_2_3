@@ -1,6 +1,7 @@
 package com.joyfarm.farmstival.activity.services;
 
 import com.joyfarm.farmstival.activity.constants.AM_PM;
+import com.joyfarm.farmstival.activity.constants.Status;
 import com.joyfarm.farmstival.activity.controllers.ReservationSearch;
 import com.joyfarm.farmstival.activity.entities.QReservation;
 import com.joyfarm.farmstival.activity.entities.Reservation;
@@ -154,7 +155,8 @@ public class ReservationInfoService {
 
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(reservation.member.seq.eq(member.getSeq()))
-                .and(reservation.rDate.eq(rDate));
+                .and(reservation.rDate.eq(rDate))
+                .and(reservation.status.eq(Status.APPLY));
 
         List<Reservation> items = (List<Reservation>)reservationRepository.findAll(builder);
         if (items == null || items.isEmpty()) {

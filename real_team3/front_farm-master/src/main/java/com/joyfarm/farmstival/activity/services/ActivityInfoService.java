@@ -176,9 +176,17 @@ public class ActivityInfoService {
         int hours = LocalTime.now().getHour();
         if (hours > 12) { //오후 시간이면 익일 예약 가능
             startDate = startDate.plusDays(1L);
-            availableDates.put(startDate, new boolean[]{true, true});
+            boolean[] amPm = reservationInfoService.check(startDate);
+            if (amPm != null) {
+                availableDates.put(startDate, amPm);
+            }
         } else { //당일 예약
             boolean[] time = hours > 8 ? new boolean[] {false, true} : new boolean[]{true, true};
+            boolean[] newTime = reservationInfoService.check(startDate);
+            if (newTime != null) {
+                if (time[0]) time[0] = newTime[0];
+                if (time[1]) time[1] = newTime[1];
+            }
             availableDates.put(startDate, time);
         }
 
