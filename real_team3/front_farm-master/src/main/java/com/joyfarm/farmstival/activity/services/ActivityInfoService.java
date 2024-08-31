@@ -197,9 +197,6 @@ public class ActivityInfoService {
             availableDates.put(rDate, amPm);
         }
 
-
-
-
         item.setAvailableDates(availableDates);
 
     }

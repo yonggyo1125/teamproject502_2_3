@@ -148,6 +148,7 @@ public class ReservationInfoService {
             return null;
         }
 
+        boolean[] amPm = { true, true };
         Member member = memberUtil.getMember();
         QReservation reservation = QReservation.reservation;
 
@@ -157,10 +158,10 @@ public class ReservationInfoService {
 
         List<Reservation> items = (List<Reservation>)reservationRepository.findAll(builder);
         if (items == null || items.isEmpty()) {
-            return null;
+            return amPm;
         }
 
-        boolean[] amPm = { true, true };
+
         for (Reservation item : items) {
             AM_PM ap = item.getAmpm();
             if (ap == AM_PM.AM) { // 오전이 예약된 경우
