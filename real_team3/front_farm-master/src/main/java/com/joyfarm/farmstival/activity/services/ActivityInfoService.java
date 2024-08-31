@@ -203,10 +203,9 @@ public class ActivityInfoService {
             if (amPm == null) {
                 continue;
             }
-
             availableDates.put(rDate, amPm);
         }
-
+        
         item.setAvailableDates(availableDates);
 
     }
