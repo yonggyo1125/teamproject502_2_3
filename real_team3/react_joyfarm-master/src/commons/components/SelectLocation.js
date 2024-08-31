@@ -6,7 +6,7 @@ const { sido, sigungu } = areas;
 
 const Wrapper = styled.div``;
 
-const SelectLocation = ({ selected }) => {
+const SelectLocation = ({ selected, callback }) => {
   const { t } = useTranslation();
   const [sigunguArea, setSigunguArea] = useState([]);
   const [_selected, setSelected] = useState({
@@ -17,7 +17,13 @@ const SelectLocation = ({ selected }) => {
   const onChange = useCallback((e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setSelected((selected) => ({ ...selected, [name]: value }));
+    setSelected((selected) => {
+        const data = { ...selected, [name]: value };
+        if (typeof callback === 'function') {
+            callback(data); // 지역 선택 후속 처리 
+        }
+        return data;
+    });
     if (name === 'sido') {
       setSigunguArea(sigungu[name]);
     }
