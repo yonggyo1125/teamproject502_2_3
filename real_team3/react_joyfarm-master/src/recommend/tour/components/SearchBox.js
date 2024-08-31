@@ -54,8 +54,8 @@ const SearchBox = ({ form, onChange, onSubmit }) => {
 
   const onSelectedLocation = useCallback(
     ({ sido, sigungu }) => {
-      onChange({ name: 'sido', value: sido });
-      onChange({ name: 'sigungu', value: sigungu });
+      onChange({ target: { name: 'sido', value: sido } });
+      onChange({ target: { name: 'sigungu', value: sigungu } });
     },
     [onChange],
   );

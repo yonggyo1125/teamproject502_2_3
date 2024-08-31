@@ -4,29 +4,34 @@ import { useTranslation } from 'react-i18next';
 import areas from '../libs/areas';
 const { sido, sigungu } = areas;
 
-
 const SelectLocation = ({ selected, callback }) => {
   const { t } = useTranslation();
-  const [sigunguArea, setSigunguArea] = useState([]);
+  const [sigunguArea, setSigunguArea] = useState(
+    selected?.sido ? sigungu[sido] : [],
+  );
   const [_selected, setSelected] = useState({
     sido: selected?.sido ?? '',
     sigungu: selected?.sigungu ?? '',
   });
 
-  const onChange = useCallback((e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setSelected((selected) => {
+  const onChange = useCallback(
+    (e) => {
+      const name = e.target.name;
+      const value = e.target.value;
+      setSelected((selected) => {
         const data = { ...selected, [name]: value };
         if (typeof callback === 'function') {
-            callback(data); // 지역 선택 후속 처리 
+          callback(data); // 지역 선택 후속 처리
         }
         return data;
-    });
-    if (name === 'sido') {
-      setSigunguArea(sigungu[name]);
-    }
-  }, [callback]);
+      });
+
+      if (name === 'sido') {
+        setSigunguArea(sigungu[value]);
+      }
+    },
+    [callback],
+  );
   return (
     <>
       <select name="sido" value={_selected?.sido} onChange={onChange}>
