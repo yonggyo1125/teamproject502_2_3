@@ -1,10 +1,9 @@
 import React, { useState, useCallback } from 'react';
-import styled from 'styled-components';
+
 import { useTranslation } from 'react-i18next';
 import areas from '../libs/areas';
 const { sido, sigungu } = areas;
 
-const Wrapper = styled.div``;
 
 const SelectLocation = ({ selected, callback }) => {
   const { t } = useTranslation();
@@ -27,9 +26,9 @@ const SelectLocation = ({ selected, callback }) => {
     if (name === 'sido') {
       setSigunguArea(sigungu[name]);
     }
-  }, []);
+  }, [callback]);
   return (
-    <Wrapper>
+    <>
       <select name="sido" value={_selected?.sido} onChange={onChange}>
         <option value="">{t('시도_선택')}</option>
         {sido.map((s) => (
@@ -48,7 +47,7 @@ const SelectLocation = ({ selected, callback }) => {
             </option>
           ))}
       </select>
-    </Wrapper>
+    </>
   );
 };
 
