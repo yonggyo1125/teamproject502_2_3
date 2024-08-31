@@ -176,13 +176,13 @@ public class ActivityInfoService {
         int hours = LocalTime.now().getHour();
         if (hours > 12) { //오후 시간이면 익일 예약 가능
             startDate = startDate.plusDays(1L);
-            boolean[] amPm = reservationInfoService.check(startDate);
+            boolean[] amPm = reservationInfoService.check(startDate, item);
             if (amPm != null) {
                 availableDates.put(startDate, amPm);
             }
         } else { //당일 예약
             boolean[] time = hours > 8 ? new boolean[] {false, true} : new boolean[]{true, true};
-            boolean[] newTime = reservationInfoService.check(startDate);
+            boolean[] newTime = reservationInfoService.check(startDate, item);
             if (newTime != null) {
                 if (time[0]) time[0] = newTime[0];
                 if (time[1]) time[1] = newTime[1];
@@ -199,7 +199,7 @@ public class ActivityInfoService {
         for (int i = 1 ; i <= days; i++) {
             /* 이미 예약이 되어 있느 경우 예약 가능일, 시간 블록 제외 처리 */
             LocalDate rDate = startDate.plusDays(i);
-            boolean[] amPm = reservationInfoService.check(rDate);
+            boolean[] amPm = reservationInfoService.check(rDate, item);
             if (amPm == null) {
                 continue;
             }

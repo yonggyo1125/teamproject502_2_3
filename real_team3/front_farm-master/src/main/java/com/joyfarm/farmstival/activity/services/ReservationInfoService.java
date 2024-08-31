@@ -3,6 +3,7 @@ package com.joyfarm.farmstival.activity.services;
 import com.joyfarm.farmstival.activity.constants.AM_PM;
 import com.joyfarm.farmstival.activity.constants.Status;
 import com.joyfarm.farmstival.activity.controllers.ReservationSearch;
+import com.joyfarm.farmstival.activity.entities.Activity;
 import com.joyfarm.farmstival.activity.entities.QReservation;
 import com.joyfarm.farmstival.activity.entities.Reservation;
 import com.joyfarm.farmstival.activity.exceptions.ReservationNotFoundException;
@@ -144,7 +145,7 @@ public class ReservationInfoService {
         return new ListData<>(items, pagination);
     }
 
-    public boolean[] check(LocalDate rDate) {
+    public boolean[] check(LocalDate rDate, Activity activity) {
         if (!memberUtil.isLogin() || rDate == null) {
             return null;
         }
@@ -155,6 +156,7 @@ public class ReservationInfoService {
 
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(reservation.member.seq.eq(member.getSeq()))
+                .and(reservation.activity.seq.eq(activity.getSeq()))
                 .and(reservation.rDate.eq(rDate))
                 .and(reservation.status.eq(Status.APPLY));
 
