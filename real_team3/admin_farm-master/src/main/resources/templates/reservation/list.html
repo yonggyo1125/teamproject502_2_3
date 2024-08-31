@@ -38,7 +38,7 @@
                             <dt>예약자명</dt>
                             <dd>
                                 <th:block th:text="*{name}"></th:block>
-                                <th:block th:if="*{member != null}" th:text="*{'(' + member.email ')'}"></th:block>
+                                <th:block th:if="*{member != null}" th:text="*{'(' + member.email + ')'}"></th:block>
                             </dd>
                         </dl>
                         <dl>
@@ -50,7 +50,24 @@
                             <dd th:text="*{mobile}"></dd>
                         </dl>
                     </td>
-                    <td></td>
+                    <td>
+                        <dl>
+                            <dt>체험마을명</dt>
+                            <dd th:text="*{townName}"></dd>
+                        </dl>
+                        <dl>
+                            <dt>체험프로그램명</dt>
+                            <dd th:text="*{activityName}"></dd>
+                        </dl>
+                        <dl>
+                            <dt>주소</dt>
+                            <dd th:text="*{doroAddress}"></dd>
+                        </dl>
+                        <dl>
+                            <dt>대표자명</dt>
+                            <dd th:text="*{ownerName}"></dd>
+                        </dl>
+                    </td>
                 </tr>
             </tbody>
         </table>
