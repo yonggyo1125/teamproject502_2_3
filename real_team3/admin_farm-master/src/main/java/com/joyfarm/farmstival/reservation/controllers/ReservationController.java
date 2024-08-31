@@ -6,6 +6,7 @@ import com.joyfarm.farmstival.menus.Menu;
 import com.joyfarm.farmstival.menus.MenuDetail;
 import com.joyfarm.farmstival.reservation.entities.Reservation;
 import com.joyfarm.farmstival.reservation.services.ReservationInfoService;
+import com.joyfarm.farmstival.reservation.services.ReservationStatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import java.util.List;
 public class ReservationController implements ExceptionProcessor {
 
     private final ReservationInfoService infoService;
+    private final ReservationStatusService statusService;
 
     @ModelAttribute("menuCode")
     public String menuCode() {
@@ -47,6 +49,8 @@ public class ReservationController implements ExceptionProcessor {
 
     @PatchMapping
     public String change(@RequestParam(name="seq", required = false) List<Long> seq, @RequestParam(name="status", required = false) String status, Model model) {
+
+        statusService.change(seq, status);
 
         model.addAttribute("script", "parent.location.reload()");
         return "common/_execute_script";
