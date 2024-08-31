@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { apiGet } from '../apis/apiInfo';
@@ -8,6 +8,7 @@ import ItemImage from '../components/ItemImage';
 import ItemDescription from '../components/ItemDescription';
 import styled from 'styled-components';
 import ListButton from '../../../commons/components/ListButton';
+import CommonContext from '../../../commons/modules/CommonContext';
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,7 +18,7 @@ const Wrapper = styled.div`
   border-bottom: solid 1px #e6e6eb;
 `;
 
-const ViewContainer = ({ setSubPageTitle }) => {
+const ViewContainer = () => {
   const { t } = useTranslation();
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -25,10 +26,16 @@ const ViewContainer = ({ setSubPageTitle }) => {
 
   const { seq } = useParams();
 
+  const {
+    actions: { setLinkText, setLinkHref },
+  } = useContext(CommonContext);
+
   useEffect(() => {
     setLoading(true);
     apiGet(seq).then((item) => {
-      setSubPageTitle(item.title);
+      console.log('item', item);
+      setLinkText(item.title);
+      setLinkHref('/recommend/tour');
       setItem(item);
       const position = { lat: item.latitude, lng: item.longitude };
       setMapOptions((opt) => {
@@ -41,7 +48,7 @@ const ViewContainer = ({ setSubPageTitle }) => {
     });
 
     setLoading(false);
-  }, [seq, setSubPageTitle]);
+  }, [seq, setLinkHref, setLinkText]);
 
   const onShowImage = useCallback((imageUrl) => {
     console.log('이미지 주소', imageUrl);

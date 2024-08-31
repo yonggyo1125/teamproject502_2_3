@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { OuterBox, ContentBox } from '../../../commons/components/LayoutBox';
 import Header from '../../../layouts/Header';
 import {
@@ -8,13 +9,16 @@ import {
 } from '../../../commons/components/DetailBox';
 import ViewContainer from '../containers/ViewContainer';
 import { IoMdPricetags } from 'react-icons/io';
+import CommonContext from '../../../commons/modules/CommonContext';
 
 const TourView = () => {
-  const [SubPageTitle, setSubPageTitle] = useState('');
+  const {
+    states: { linkText, linkHref },
+  } = useContext(CommonContext);
   return (
     <>
       <Helmet>
-        <title>{SubPageTitle}</title>
+        <title>{linkText}</title>
       </Helmet>
       <OuterBox>
         <Header />
@@ -22,10 +26,11 @@ const TourView = () => {
           <DetailImgBox>
             <DetailTitle>
               <h1>
-                <IoMdPricetags className="icon" /> {SubPageTitle}
+                <IoMdPricetags className="icon" />
+                <Link to={linkHref}>{linkText}</Link>
               </h1>
             </DetailTitle>
-            <ViewContainer setSubPageTitle={setSubPageTitle} />
+            <ViewContainer />
           </DetailImgBox>
         </ContentBox>
       </OuterBox>
