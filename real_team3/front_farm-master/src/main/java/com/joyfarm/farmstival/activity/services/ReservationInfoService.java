@@ -22,7 +22,6 @@ import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -144,42 +143,34 @@ public class ReservationInfoService {
         return new ListData<>(items, pagination);
     }
 
-    public void check(Map<LocalDate, boolean[]> availableDates) {
-        if (!memberUtil.isLogin() || availableDates == null) {
-            return;
+    public boolean[] check(LocalDate rDate) {
+        if (!memberUtil.isLogin() || rDate == null) {
+            return null;
         }
 
         Member member = memberUtil.getMember();
         QReservation reservation = QReservation.reservation;
 
-        for (Map.Entry<LocalDate, boolean[]> entry : availableDates.entrySet()) {
-            LocalDate rDate = entry.getKey();
-            boolean[] amPm = entry.getValue();
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(reservation.member.seq.eq(member.getSeq()))
+                .and(reservation.rDate.eq(rDate));
 
-            BooleanBuilder builder = new BooleanBuilder();
-            builder.and(reservation.member.seq.eq(member.getSeq()))
-                    .and(reservation.rDate.eq(rDate));
+        List<Reservation> items = (List<Reservation>)reservationRepository.findAll(builder);
+        if (items == null || items.isEmpty()) {
+            return null;
+        }
 
-            List<Reservation> items = (List<Reservation>)reservationRepository.findAll(builder);
-            if (items == null || items.isEmpty()) {
-                continue;
-            }
-
-            for (Reservation item : items) {
-                AM_PM ap = item.getAmpm();
-                if (ap == AM_PM.AM) { // 오전이 예약된 경우
-                    amPm[0] = false;
-                } else { // 오후가 예약된 경우
-                    amPm[1] = false;
-                }
-            }
-
-            if (!amPm[0] && !amPm[1]) { // 오전, 오후 모두 불가한 경우, 예약가능일 제거
-                availableDates.remove(rDate);
-            } else {
-                availableDates.put(rDate, amPm);
+        boolean[] amPm = { true, true };
+        for (Reservation item : items) {
+            AM_PM ap = item.getAmpm();
+            if (ap == AM_PM.AM) { // 오전이 예약된 경우
+                amPm[0] = false;
+            } else { // 오후가 예약된 경우
+                amPm[1] = false;
             }
         }
+
+        return amPm;
     }
 
     private void addInfo(Reservation reservation) {
