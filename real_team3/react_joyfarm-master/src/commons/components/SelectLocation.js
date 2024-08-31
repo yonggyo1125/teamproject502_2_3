@@ -6,19 +6,17 @@ const { sido, sigungu } = areas;
 
 const Wrapper = styled.div``;
 
-const SelectLocation = ({ fields }) => {
+const SelectLocation = () => {
   const { t } = useTranslation();
-  const sidoName = fields?.sido ?? 'sido';
-  const sigunguName = fields?.sigungu ?? 'sigungu';
-
   const [sigunguArea, setSigunguArea] = useState([]);
 
   const onChange = useCallback((e) => {
-
+    const name = e.target.name;
+    const value = e.target.value;
   }, []);
   return (
     <Wrapper>
-      <select name={sidoName} onChange={onChange}>
+      <select name="sido" onChange={onChange}>
         <option value="">{t('시도_선택')}</option>
         {sido.map((s) => (
           <option key={s} value={s}>
@@ -26,7 +24,7 @@ const SelectLocation = ({ fields }) => {
           </option>
         ))}
       </select>
-      <select name={sigunguName} onChange={onChange}>
+      <select name="sigungu" onChange={onChange}>
         <option value="">{t('시군구_선택')}</option>
         {sigunguArea &&
           sigunguArea.length > 0 &&
