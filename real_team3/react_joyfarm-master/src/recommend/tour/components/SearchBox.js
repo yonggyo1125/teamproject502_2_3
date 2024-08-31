@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { useState, useEffect } from 'react';
 import { color } from '../../../styles/color';
 import { ImSearch } from 'react-icons/im';
+import SelectLocation from '../../../commons/components/SelectLocation';
 
 const { white } = color;
 
@@ -52,12 +52,18 @@ const Button = styled.button`
 const SearchBox = ({ form, onChange, onSubmit }) => {
   const { t } = useTranslation();
 
-  
+  const onSelectedLocation = useCallback(
+    ({ sido, sigungu }) => {
+      onChange({ name: 'sido', value: sido });
+      onChange({ name: 'sigungu', value: sigungu });
+    },
+    [onChange],
+  );
 
   return (
     <FormBox onSubmit={onSubmit} autoComplete="off">
       <div className="tour-search">
-        
+        <SelectLocation selected={form} callback={onSelectedLocation} />
         <select name="sopt" onChange={onChange} defaultValue={form.sopt}>
           <option value="ALL">{t('통합검색')}</option>
           <option value="TITLE">{t('여행지_명')}</option>
