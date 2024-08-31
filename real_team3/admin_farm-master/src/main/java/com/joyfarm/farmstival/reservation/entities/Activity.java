@@ -1,10 +1,13 @@
 package com.joyfarm.farmstival.reservation.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Activity {
 
     private Long seq;
@@ -31,6 +34,7 @@ public class Activity {
 
     private String ownerTel; //대표전화번호
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate createdDate; //지정일자
     
     private String wwwAddress; //홈페이지 주소

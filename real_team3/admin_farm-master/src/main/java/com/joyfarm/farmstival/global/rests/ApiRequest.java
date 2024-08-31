@@ -19,6 +19,12 @@ public class ApiRequest {
     private final JwtTokenRepository repository;
 
     public <T, R> ResponseEntity<R> request(String url, HttpMethod method, HttpEntity<T> entity, Class<R> clazz) {
+
+        if (entity == null) {
+            HttpHeaders headers = new HttpHeaders();
+            entity = new HttpEntity<>(headers);
+        }
+
         HttpHeaders headers = entity.getHeaders();
         JwtToken token = repository.findById("token").orElse(null);
         if (token != null) {
@@ -28,5 +34,10 @@ public class ApiRequest {
         ResponseEntity<R> response = restTemplate.exchange(URI.create(url), method, entity, clazz);
 
         return response;
+    }
+
+    public <R> ResponseEntity<R> request(String url, Class<R> clazz) {
+
+        return request(url, HttpMethod.GET, null, clazz);
     }
 }
