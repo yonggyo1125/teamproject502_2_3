@@ -187,11 +187,18 @@ public class ActivityInfoService {
         int days = period.getDays() + 1;
 
         for (int i = 1 ; i <= days; i++) {
-            availableDates.put(startDate.plusDays(i), new boolean[] {true, true});
+            /* 이미 예약이 되어 있느 경우 예약 가능일, 시간 블록 제외 처리 */
+            LocalDate rDate = startDate.plusDays(i);
+            boolean[] amPm = reservationInfoService.check(rDate);
+            if (amPm == null) {
+                continue;
+            }
+
+            availableDates.put(rDate, amPm);
         }
 
-        /* 이미 예약이 되어 있느 경우 예약 가능일, 시간 블록 제외 처리 */
-        reservationInfoService.check(availableDates);
+
+
 
         item.setAvailableDates(availableDates);
 

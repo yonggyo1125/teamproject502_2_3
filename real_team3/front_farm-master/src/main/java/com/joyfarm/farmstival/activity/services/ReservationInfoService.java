@@ -170,6 +170,10 @@ public class ReservationInfoService {
             }
         }
 
+        if (!amPm[0] && !amPm[1]) {
+            return null;
+        }
+
         return amPm;
     }
 
