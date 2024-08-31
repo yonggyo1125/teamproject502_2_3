@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import { produce } from 'immer';
+import _useConfirm from '../../commons/hooks/useConfirm';
 import { apiGet } from '../apis/apiInfo';
 import ReservationForm from '../components/ReservationForm';
 import Loading from '../../commons/components/Loading';
@@ -117,16 +118,18 @@ const ReservationApplyContainer = ({ setPageTitle }) => {
       }
 
       /* 예약 접수 처리 S */
-      (async () => {
-        try {
-          const res = await apiApply(form);
-          // 예약 접수 성공시 예약 완료 페이지 이동
-          navigate(`/reservation/complete/${res.seq}`, { replace: true });
-        } catch (err) {
-          console.error(err);
-          setErrors({ global: [err.message] });
-        }
-      })();
+      _useConfirm(t('정말_접수_하겠습니까?'), () => {
+        (async () => {
+          try {
+            const res = await apiApply(form);
+            // 예약 접수 성공시 예약 완료 페이지 이동
+            navigate(`/reservation/complete/${res.seq}`, { replace: true });
+          } catch (err) {
+            console.error(err);
+            setErrors({ global: [err.message] });
+          }
+        })();
+      });
       /* 예약 접수 처리 E */
     },
     [t, form, navigate],
