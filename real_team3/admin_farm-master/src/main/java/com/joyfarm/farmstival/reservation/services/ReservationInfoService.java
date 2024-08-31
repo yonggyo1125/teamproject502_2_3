@@ -15,7 +15,7 @@ public class ReservationInfoService {
     private final Utils utils;
 
     public ListData getList(ReservationSearch search) {
-        String url = utils.url("/reservation/admin/list");
+        String url = utils.url("/reservation/admin/list", "api-service");
         ResponseEntity<String> response = apiRequest.request(url, String.class);
         System.out.println(response);
         return null;

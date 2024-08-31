@@ -62,7 +62,7 @@ public class ReservationController {
     //관리자가 조회할 때
     @GetMapping("/admin/list")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public JSONData adminlist(@ModelAttribute ReservationSearch search) {
+    public JSONData adminlist(ReservationSearch search) {
 
         ListData<Reservation> data = infoService.getList(search);
 

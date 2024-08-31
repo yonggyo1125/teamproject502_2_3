@@ -61,6 +61,7 @@ public interface ExceptionProcessor {
         mv.setStatus(status);
         mv.setViewName(tpl);
 
+        e.printStackTrace();
 
         return mv;
     }
